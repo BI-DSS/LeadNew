@@ -1,0 +1,36 @@
+﻿@model LeadNew.Models.tbVendedores
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+<h3>¿Esta seguro que desea borrar este registro?</h3>
+<div>
+    <h4>tbVendedores</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.venNombre)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.venNombre)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.venTuId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.venTuId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.venEstado)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.venEstado)
+        </dd>
+    </dl>
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="venId" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Regresar</a>
+    </form>
+</div>

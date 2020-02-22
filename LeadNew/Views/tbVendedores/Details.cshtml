@@ -1,0 +1,41 @@
+﻿@model LeadNew.Models.tbVendedores
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+    <div style="padding-top: 5em;">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "tbVendedores")">Listado de Vendedores</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Detalles</li>
+            </ol>
+        </nav>
+        <h2>Detalles</h2>
+
+        <div>
+
+            <dl class="dl-horizontal">
+                <dt>
+                    Nombre
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.venNombre)
+                </dd>
+                <dt>
+                    Vendedor Id
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.venTuId)
+                </dd>
+                <dt>
+                    Estado
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.venEstado)
+                </dd>
+            </dl>
+        </div>
+    </div>
+

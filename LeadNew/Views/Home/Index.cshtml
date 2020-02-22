@@ -1,0 +1,302 @@
+﻿@{
+    ViewData["Title"] = "";
+}
+
+<style>
+    #chartdiv {
+        width: 70%;
+        height: 500px;
+    }
+
+    #chartdiv2 {
+        width: 70%;
+        height: 500px;
+    }
+</style>
+
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
+<br />
+
+<div class="row" style="padding-top: 5em;">
+    <div class="col-sm-2">
+        <div class="card" style="background-color: #f5f5f5; padding: 1em;">
+            <div class="card-body" align="left">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><img src="~/images/shopping_cart-24px.svg" class="img-fluid" alt="Responsive image">Facturación</li>
+                    <li class="list-group-item"><img src="~/images/account_box-24px.svg" class="img-fluid" alt="Responsive image"><a href="@Url.Action("Index", "tbClientes")">Clientes</a></li>
+                    <li class="list-group-item"><img src="~/images/list-24px.svg" class="img-fluid" alt="Responsive image">Inventarios</li>
+                    <li class="list-group-item"><img src="~/images/shopping_basket-24px.svg" class="img-fluid" alt="Responsive image">Productos</li>
+                    <li class="list-group-item"><img src="~/images/euro_symbol-24px.svg" class="img-fluid" alt="Responsive image"><a href="@Url.Action("Index", "tbTasaCambios")">Tasa de Cambios</a></li>
+                    <li class="list-group-item"><img src="~/images/font_download-24px.svg" class="img-fluid" alt="Responsive image"><a href="@Url.Action("Index", "tbLenguajes")">Lenguajes</a></li>
+                    <li class="list-group-item"><img src="~/images/euro_symbol-24px.svg" class="img-fluid" alt="Responsive image"><a href="@Url.Action("Index", "tbMonedas")">Monedas</a></li>
+                    <li class="list-group-item"><img src="~/images/vpn_lock-24px.svg" class="img-fluid" alt="Responsive image"><a href="@Url.Action("Index", "tbPaises")">Paises</a></li>
+                    <li class="list-group-item"><img src="~/images/business-24px.svg" class="img-fluid" alt="Responsive image"><a href="@Url.Action("Index", "tbEmpresa")">Empresas</a></li>
+                    <li class="list-group-item"><img src="~/images/store-24px.svg" class="img-fluid" alt="Responsive image"><a href="@Url.Action("Index", "tbSucursales")">Sucursales</a></li>
+                    <li class="list-group-item"><img src="~/images/trending_up-24px.svg" class="img-fluid" alt="Responsive image">Reportes</li>
+                    <li class="list-group-item"><img src="~/images/person-24px.svg" class="img-fluid" alt="Responsive image">Usuarios</li>
+                    <li class="list-group-item"><img src="~/images/build-24px.svg" class="img-fluid" alt="Responsive image">Opciones</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-10">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">Inicio</li>
+            </ol>
+        </nav>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card" style="background-color: #f5f5f5; padding: 1.2em;">
+                    <div class="card-body">
+                        <h1>Panel de Información</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card" style="background-color: #f5f5f5; padding: 1em;">
+                    <div class="card-body" align="center">
+                        <h3>Ventas por Productos</h3>
+                        <div id="chartdiv"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card" style="background-color: #f5f5f5; padding: 1em;">
+                    <div class="card-body" align="center">
+                        <h3>Panel de Información</h3>
+                        <div id="chartdiv2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    am4core.ready(function () {
+
+        // Themes begin
+        am4core.useTheme(am4themes_animated);
+        // Themes end
+
+        // Create chart instance
+        var chart = am4core.create("chartdiv", am4charts.PieChart);
+
+        // Set data
+        var selected;
+        var types = [{
+            type: "Fossil Energy",
+            percent: 70,
+            color: chart.colors.getIndex(0),
+            subs: [{
+                type: "Oil",
+                percent: 15
+            }, {
+                type: "Coal",
+                percent: 35
+            }, {
+                type: "Nuclear",
+                percent: 20
+            }]
+        }, {
+            type: "Green Energy",
+            percent: 30,
+            color: chart.colors.getIndex(1),
+            subs: [{
+                type: "Hydro",
+                percent: 15
+            }, {
+                type: "Wind",
+                percent: 10
+            }, {
+                type: "Other",
+                percent: 5
+            }]
+        }];
+
+        // Add data
+        chart.data = generateChartData();
+
+        // Add and configure Series
+        var pieSeries = chart.series.push(new am4charts.PieSeries());
+        pieSeries.dataFields.value = "percent";
+        pieSeries.dataFields.category = "type";
+        pieSeries.slices.template.propertyFields.fill = "color";
+        pieSeries.slices.template.propertyFields.isActive = "pulled";
+        pieSeries.slices.template.strokeWidth = 0;
+
+        function generateChartData() {
+            var chartData = [];
+            for (var i = 0; i < types.length; i++) {
+                if (i == selected) {
+                    for (var x = 0; x < types[i].subs.length; x++) {
+                        chartData.push({
+                            type: types[i].subs[x].type,
+                            percent: types[i].subs[x].percent,
+                            color: types[i].color,
+                            pulled: true
+                        });
+                    }
+                } else {
+                    chartData.push({
+                        type: types[i].type,
+                        percent: types[i].percent,
+                        color: types[i].color,
+                        id: i
+                    });
+                }
+            }
+            return chartData;
+        }
+
+        pieSeries.slices.template.events.on("hit", function (event) {
+            if (event.target.dataItem.dataContext.id != undefined) {
+                selected = event.target.dataItem.dataContext.id;
+            } else {
+                selected = undefined;
+            }
+            chart.data = generateChartData();
+        });
+
+    }); // end am4core.ready()
+</script>
+
+<script>
+    am4core.ready(function () {
+
+        // Themes begin
+        am4core.useTheme(am4themes_animated);
+        // Themes end
+
+        /**
+         * Chart design taken from Samsung health app
+         */
+
+        var chart = am4core.create("chartdiv2", am4charts.XYChart);
+        chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+
+        chart.paddingBottom = 30;
+
+        chart.data = [{
+            "name": "Monica",
+            "steps": 45688,
+            "href": "https://www.amcharts.com/wp-content/uploads/2019/04/monica.jpg"
+        }, {
+            "name": "Joey",
+            "steps": 35781,
+            "href": "https://www.amcharts.com/wp-content/uploads/2019/04/joey.jpg"
+        }, {
+            "name": "Ross",
+            "steps": 25464,
+            "href": "https://www.amcharts.com/wp-content/uploads/2019/04/ross.jpg"
+        }, {
+            "name": "Phoebe",
+            "steps": 18788,
+            "href": "https://www.amcharts.com/wp-content/uploads/2019/04/phoebe.jpg"
+        }, {
+            "name": "Rachel",
+            "steps": 15465,
+            "href": "https://www.amcharts.com/wp-content/uploads/2019/04/rachel.jpg"
+        }, {
+            "name": "Chandler",
+            "steps": 11561,
+            "href": "https://www.amcharts.com/wp-content/uploads/2019/04/chandler.jpg"
+        }];
+
+        var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+        categoryAxis.dataFields.category = "name";
+        categoryAxis.renderer.grid.template.strokeOpacity = 0;
+        categoryAxis.renderer.minGridDistance = 10;
+        categoryAxis.renderer.labels.template.dy = 35;
+        categoryAxis.renderer.tooltip.dy = 35;
+
+        var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+        valueAxis.renderer.inside = true;
+        valueAxis.renderer.labels.template.fillOpacity = 0.3;
+        valueAxis.renderer.grid.template.strokeOpacity = 0;
+        valueAxis.min = 0;
+        valueAxis.cursorTooltipEnabled = false;
+        valueAxis.renderer.baseGrid.strokeOpacity = 0;
+
+        var series = chart.series.push(new am4charts.ColumnSeries);
+        series.dataFields.valueY = "steps";
+        series.dataFields.categoryX = "name";
+        series.tooltipText = "{valueY.value}";
+        series.tooltip.pointerOrientation = "vertical";
+        series.tooltip.dy = - 6;
+        series.columnsContainer.zIndex = 100;
+
+        var columnTemplate = series.columns.template;
+        columnTemplate.width = am4core.percent(50);
+        columnTemplate.maxWidth = 66;
+        columnTemplate.column.cornerRadius(60, 60, 10, 10);
+        columnTemplate.strokeOpacity = 0;
+
+        series.heatRules.push({ target: columnTemplate, property: "fill", dataField: "valueY", min: am4core.color("#e5dc36"), max: am4core.color("#5faa46") });
+        series.mainContainer.mask = undefined;
+
+        var cursor = new am4charts.XYCursor();
+        chart.cursor = cursor;
+        cursor.lineX.disabled = true;
+        cursor.lineY.disabled = true;
+        cursor.behavior = "none";
+
+        var bullet = columnTemplate.createChild(am4charts.CircleBullet);
+        bullet.circle.radius = 30;
+        bullet.valign = "bottom";
+        bullet.align = "center";
+        bullet.isMeasured = true;
+        bullet.mouseEnabled = false;
+        bullet.verticalCenter = "bottom";
+        bullet.interactionsEnabled = false;
+
+        var hoverState = bullet.states.create("hover");
+        var outlineCircle = bullet.createChild(am4core.Circle);
+        outlineCircle.adapter.add("radius", function (radius, target) {
+            var circleBullet = target.parent;
+            return circleBullet.circle.pixelRadius + 10;
+        })
+
+        var image = bullet.createChild(am4core.Image);
+        image.width = 60;
+        image.height = 60;
+        image.horizontalCenter = "middle";
+        image.verticalCenter = "middle";
+        image.propertyFields.href = "href";
+
+        image.adapter.add("mask", function (mask, target) {
+            var circleBullet = target.parent;
+            return circleBullet.circle;
+        })
+
+        var previousBullet;
+        chart.cursor.events.on("cursorpositionchanged", function (event) {
+            var dataItem = series.tooltipDataItem;
+
+            if (dataItem.column) {
+                var bullet = dataItem.column.children.getIndex(1);
+
+                if (previousBullet && previousBullet != bullet) {
+                    previousBullet.isHover = false;
+                }
+
+                if (previousBullet != bullet) {
+
+                    var hs = bullet.states.getKey("hover");
+                    hs.properties.dy = -bullet.parent.pixelHeight + 30;
+                    bullet.isHover = true;
+
+                    previousBullet = bullet;
+                }
+            }
+        })
+
+    }); // end am4core.ready()
+</script>

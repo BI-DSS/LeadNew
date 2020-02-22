@@ -1,0 +1,125 @@
+﻿@model LeadNew.Models.tbEmpresa
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Crear Empresa</h2>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label for="formGroupExampleInput">*Nombre de la Empresa:</label>
+            <input type="text" class="form-control" id="empNombre" placeholder="Nombre Empresa">
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput">*Direccion Empresa:</label>
+            <input type="text" class="form-control" id="empDireccion" placeholder="Direccion Empresa">
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput">*Telefono Empresa:</label>
+            <input type="text" class="form-control" id="empTelefono" placeholder="Telefono Empresa">
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput">Subir Logo Empresa:</label>
+            <input type="file" />
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput">*Seleccionar Pais:</label>
+            <select id="pais">
+                <option value="select">Seleccionar el Pais</option>
+                <option value="Honduras">Honduras</option>
+                <option value="Guatemala">Guatemala</option>
+                <option value="El Salavador">El Salavador</option>
+                <option value="Nicaragua">Nicaragua</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput">*Seleccionar Lenguaje:</label>
+            <select id="lenguaje">
+                <option value="select">Selecciona Lenguaje</option>
+                <option value="Español">Español</option>
+                <option value="Ingles">Ingles</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput">*Seleccionar Pais:</label>
+            <select id="pais">
+                <option value="select">Seleccionar Moneda</option>
+                <option value="Lempira">Lempira (LPS)</option>
+                <option value="Quetzal">Quetzal (QZL)</option>
+                <option value="Dolar">US Dolar (USD)</option>
+                <option value="cordoba">Cordoba (CRA)</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput">*Licencia:</label>
+            <input type="text" class="form-control" id="empLicencia" placeholder="Licencia Empresa">
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput">*Cantidad de Usuarios:</label>
+            <input type="text" class="form-control" id="empCantidadUser" placeholder="Cantidad de Usuarios">
+        </div>
+
+        <button type="button" class="btn btn-success btn-lg btn-block" onclick="formcheck();">Crear Empresa</button>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        function formcheck() {
+            var isValid = true;
+            $('input[type="text"], input[type = "password"], input[type = "number"]').each(function () {
+                if ($.trim($(this).val()) == '') {
+                    isValid = false;
+                    $(this).css({
+                        "border": "1px solid red"
+                    });
+                }
+                else {
+                    $(this).css({
+                        "border": "",
+                        "background": ""
+                    });
+                }
+            });
+            if (isValid == false) {
+                e.preventDefault();
+            } else {
+                Crear();
+            }
+        }
+
+        function Crear() {
+            var fd = new FormData();
+            var abreviatura = $("#moAbreviatura").val();
+            var nombre = $("#moNombre").val();
+
+            fd.append("abreviatura", abreviatura);
+            fd.append("nombre", nombre);
+
+            $.ajax({
+                url: '@Url.Action("CrearMoneda", "tbMonedas")',
+                type: 'POST',
+                cache: false,
+                processData: false,
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+                data: fd,
+                success: function (data) {
+                    if (data == true) {
+                        location.href = '@Url.Action("Index", "tbMonedas")';
+                    } else if (data == false){
+                        alert("Error al ingresar moneda");
+                    }
+                },
+                error: function (jqXHR, textStatus, error) {
+                    var exception = JSON.parse(jqXHR.responseText);
+                    alert("error al enviar datos" + exception);
+                }
+            });
+        }
+    </script>
+}

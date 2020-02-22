@@ -1,0 +1,76 @@
+﻿@model LeadNew.Models.tbClientes
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+    <div style="padding-top: 5em;">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "tbClientes")">Listado de Clientes</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Detalles</li>
+            </ol>
+        </nav>
+        <h2>Detalles</h2>
+
+        <div>
+
+            <dl class="dl-horizontal">
+                <dt>
+                    Nombre
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.clNombre)
+                </dd>
+                <dt>
+                    Apellido
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.clApellido)
+                </dd>
+                <dt>
+                    Telefono
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.clTelefono)
+                </dd>
+                <dt>
+                    Identidad
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.clIdentidad)
+                </dd>
+                <dt>
+                    RTN
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.clRTN)
+                </dd>
+                <dt>
+                    Direccion
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.clDireccion)
+                </dd>
+                <dt>
+                    Creado por
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.clUsuarioCrea)
+                </dd>
+                <dt>
+                    Fecha de creación
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.clFechaCrea)
+                </dd>
+                <dt>
+                    Empresa
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.clIdEmpresa)
+                </dd>
+            </dl>
+        </div>
+    </div>

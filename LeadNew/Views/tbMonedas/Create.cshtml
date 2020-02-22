@@ -1,0 +1,89 @@
+﻿@model LeadNew.Models.tbMoneda
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div style="padding-top: 5em;">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "tbMonedas")">Listado de monedas</a></li>
+            <li class="breadcrumb-item active" aria-current="page">crear moneda</li>
+        </ol>
+    </nav>
+    <h2>Crear Moneda</h2>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="formGroupExampleInput">Moneda Abreviatura:</label>
+                <input type="text" class="form-control" id="moAbreviatura" placeholder="Moneda Abreviatura">
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput">Moneda Nombre:</label>
+                <input type="text" class="form-control" id="moNombre" placeholder="Moneda Nombre">
+            </div>
+            <button type="button" class="btn btn-success" onclick="formcheck();">Crear Moneda</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        function formcheck() {
+            var isValid = true;
+            $('input[type="text"], input[type = "password"], input[type = "number"]').each(function () {
+                if ($.trim($(this).val()) == '') {
+                    isValid = false;
+                    $(this).css({
+                        "border": "1px solid red"
+                    });
+                }
+                else {
+                    $(this).css({
+                        "border": "",
+                        "background": ""
+                    });
+                }
+            });
+            if (isValid == false) {
+                e.preventDefault();
+            } else {
+                Crear();
+            }
+        }
+
+        function Crear() {
+            var fd = new FormData();
+            var abreviatura = $("#moAbreviatura").val();
+            var nombre = $("#moNombre").val();
+
+            fd.append("abreviatura", abreviatura);
+            fd.append("nombre", nombre);
+
+            $.ajax({
+                url: '@Url.Action("CrearMoneda", "tbMonedas")',
+                type: 'POST',
+                cache: false,
+                processData: false,
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+                data: fd,
+                success: function (data) {
+                    if (data == true) {
+                        location.href = '@Url.Action("Index", "tbMonedas")';
+                    } else if (data == false){
+                        alert("Error al ingresar moneda");
+                    } 
+                },
+                error: function (jqXHR, textStatus, error) {
+                    var exception = JSON.parse(jqXHR.responseText);
+                    alert("error al enviar datos" + exception);
+                }
+            });
+        }
+    </script>
+}
