@@ -83,12 +83,12 @@
                     if (data == true) {
                         location.href = '@Url.Action("Index", "tbSucursales")';
                     } else if (data == false){
-                        alert("Error al ingresar Sucursal");
+                        alert("Error al Ingresar Sucursal");
                     }
                 },
                 error: function (jqXHR, textStatus, error) {
                     var exception = JSON.parse(jqXHR.responseText);
-                    alert("error al enviar datos" + exception);
+                    alert("Error al Enviar Datos" + exception);
                 }
             });
         }
