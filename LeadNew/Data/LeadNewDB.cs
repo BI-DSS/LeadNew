@@ -22,6 +22,7 @@ namespace LeadNew.Models
         public DbSet<LeadNew.Models.tbPaises> tbPaises { get; set; }
         public DbSet<LeadNew.Models.tbRegistroTrubutario> tbRegistroTrubutarios { get; set; }
         public DbSet<LeadNew.Models.tbVendedores> tbVendedores { get; set; }
+        public DbSet<LeadNew.Models.tbUsuarios> tbUsuarios { get; set; }
 
     }
 
