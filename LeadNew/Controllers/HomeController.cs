@@ -15,6 +15,26 @@ namespace LeadNew.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult Index(LoginViewModel loginDataModel)
+        {
+            if (ModelState.IsValid)
+            {
+                // AQUÍ EL CÓDIGO DE VALIDACIÓN DEL USUARIO
+                return RedirectToAction("LoginOk");
+            }
+            else
+            {
+                return View(loginDataModel);
+            }
+        }
+
+        public ActionResult LoginOK()
+        {
+            // LA VALIDACIÓN DEL USUARIO HA SIDO CORRECTA
+            return View();
+        }
+
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";

@@ -25,14 +25,6 @@ namespace LeadNew
             return View(await _context.tbUsuarios.ToListAsync());
         }
 
-        public ActionResult Validate(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-        }   
     }
 }
 
