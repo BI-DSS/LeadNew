@@ -25,32 +25,18 @@
             <input type="file" />
         </div>
         <div class="form-group">
-            <label for="formGroupExampleInput">*Seleccionar Pais:</label>
-            <select id="pais">
-                <option value="select">Seleccionar el Pais</option>
-                <option value="Honduras">Honduras</option>
-                <option value="Guatemala">Guatemala</option>
-                <option value="El Salavador">El Salavador</option>
-                <option value="Nicaragua">Nicaragua</option>
-            </select>
+            <label>*Seleccionar Pais:</label>
+            <div class="form-group">
+                <select class="form-control" id="empPais" name="empPais"></select>
+            </div>
         </div>
         <div class="form-group">
-            <label for="formGroupExampleInput">*Seleccionar Lenguaje:</label>
-            <select id="lenguaje">
-                <option value="select">Selecciona Lenguaje</option>
-                <option value="Español">Español</option>
-                <option value="Ingles">Ingles</option>
-            </select>
+            <label>*Seleccionar Moneda:</label>
+            <select class="form-control" id="empMoneda" name="empMoneda"></select>
         </div>
         <div class="form-group">
-            <label for="formGroupExampleInput">*Seleccionar Pais:</label>
-            <select id="pais">
-                <option value="select">Seleccionar Moneda</option>
-                <option value="Lempira">Lempira (LPS)</option>
-                <option value="Quetzal">Quetzal (QZL)</option>
-                <option value="Dolar">US Dolar (USD)</option>
-                <option value="cordoba">Cordoba (CRA)</option>
-            </select>
+            <label>*Seleccionar Lenguaje:</label>
+            <select class="form-control" id="empLenguaje" name="empLenguaje"></select>
         </div>
         <div class="form-group">
             <label for="formGroupExampleInput">*Licencia:</label>
@@ -93,14 +79,27 @@
 
         function Crear() {
             var fd = new FormData();
-            var abreviatura = $("#moAbreviatura").val();
-            var nombre = $("#moNombre").val();
+            var fd = new FormData();
+            var empNombre = $("#empNombre").val();
+            var empDireccion = $("#empDireccion").val();
+            var empTelefono = $("#empTelefono").val();
+            var empPais = $("#empPais").val();
+            var empMoneda = $("#empMoneda").val();
+            var empLenguaje = $("#empLenguaje").val();
+            var empLicencia = $("#empLicencia").val();
+            var empCantidadUser = $("#empCantidadUser").val();
 
-            fd.append("abreviatura", abreviatura);
-            fd.append("nombre", nombre);
+            fd.empNombre("empNombre", empNombre);
+            fd.empDireccion("empDireccion", empDireccion);
+            fd.empTelefono("empTelefono", empTelefono);
+            fd.empPais("empPais", empPais);
+            fd.empMoneda("empMoneda", empMoneda);
+            fd.empLenguaje("empLenguaje", empLenguaje);
+            fd.empLicencia("empLicencia", empLicencia);
+            fd.empCantidadUser("empCantidadUser", empCantidadUser);
 
             $.ajax({
-                url: '@Url.Action("CrearMoneda", "tbMonedas")',
+                url: '@Url.Action("CrearEmpresa", "tbEmpresa")',
                 type: 'POST',
                 cache: false,
                 processData: false,
@@ -110,9 +109,9 @@
                 data: fd,
                 success: function (data) {
                     if (data == true) {
-                        location.href = '@Url.Action("Index", "tbMonedas")';
+                        location.href = '@Url.Action("Index", "tbEmpresa")';
                     } else if (data == false){
-                        alert("Error al ingresar moneda");
+                        alert("Error al ingresar Empresa");
                     }
                 },
                 error: function (jqXHR, textStatus, error) {
@@ -122,4 +121,21 @@
             });
         }
     </script>
+
+<script type="text/javascript">
+    $('#lbl_cb2').hide();
+    $('#empId').hide();
+    $('#empPais').change(function () {
+        var empId = "";
+        empId = $('#empPais').val();
+        if (empId === "Seleccione....") {
+            $('#lbl_cb2').hide();
+            $('#empPais').hide();
+        } else {
+            var laURLDeLaVista = '@Url.Action("PaisesLista", "tbPaises")';
+            $.ajax
+        }
+
+    }
+</script>
 }
