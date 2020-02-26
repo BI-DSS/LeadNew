@@ -1,0 +1,72 @@
+﻿@model LeadNew.Models.tbUsuarios
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>tbUsuarios</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.usuNombreUsuario)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.usuNombreUsuario)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.usuPassword)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.usuPassword)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.usuNombres)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.usuNombres)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.usuApellidos)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.usuApellidos)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.usuCorreo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.usuCorreo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.usuEsActivo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.usuEsActivo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.usuRazonInactivo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.usuRazonInactivo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.usuIdEmpresa)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.usuIdEmpresa)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.usuIdSucursal)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.usuIdSucursal)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.usuId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
