@@ -1,0 +1,166 @@
+﻿@model LeadNew.Models.tbProducto
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+    <div style="padding-top: 5em;">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "tbProductoes")">Listado de productos</a></li>
+                <li class="breadcrumb-item active" aria-current="page">editar producto</li>
+            </ol>
+        </nav>
+        <h2>Editar producto</h2>
+        <div class="row">
+            <div class="col-md-12">
+                <input type="number" class="form-control" id="id" value="@Model.prId">
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Código de producto:</label>
+                    <input type="text" class="form-control" id="prIdInterno" placeholder="Código de producto" value="@Model.prIdInterno">
+                </div>
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Detalle de producto:</label>
+                    <textarea class="form-control" id="prDetalle" placeholder="Detalle de producto">@Model.prDetalle</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Cantidad de producto:</label>
+                    <input type="number" class="form-control" id="prCantidad" placeholder="Cantidad de producto" value="@Model.prCantidad">
+                </div>
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Precio de Costo:</label>
+                    <input type="number" class="form-control" id="prPrecioCosto" placeholder="Precio de Costo" value="@Model.prPrecioCosto">
+                </div>
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Precio de Venta:</label>
+                    <input type="number" class="form-control" id="prPrecioVenta" placeholder="Precio de Venta" value="@Model.prPrecioVenta">
+                </div>
+                <div class="form-group">
+                    <label>Moneda:</label>
+                    <div class="form-group">
+                        <select class="form-control" id="prMoneda" name="prMoneda"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Sucursal:</label>
+                    <div class="form-group">
+                        <select class="form-control" id="prIdSucursal" name="prIdSucursal"></select>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-success" onclick="formcheck();">Editar Producto</button>
+            </div>
+        </div>
+    </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var laURLVista = '@Url.Action("MonedaLista", "tbProductoes")';
+            $.ajax({
+                url: laURLVista,
+                type: 'POST',
+                cache: false,
+                success: function (data) {
+                    var items = '<option>Seleccione Moneda</option>';
+                    $.each(data, function (i, state) {
+                        items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
+                    });
+                    $('#prMoneda').html(items);
+                },
+                error: function (jqXHR, textStatus, error) {
+                    alert(error, textStatus);
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            var laURLVista = '@Url.Action("SucursalesLista", "tbProductoes")';
+            $.ajax({
+                url: laURLVista,
+                type: 'POST',
+                cache: false,
+                success: function (data) {
+                    var items = '<option>Seleccione Sucursal</option>';
+                    $.each(data, function (i, state) {
+                        items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
+                    });
+                    $('#prIdSucursal').html(items);
+                },
+                error: function (jqXHR, textStatus, error) {
+                    alert(error, textStatus);
+                }
+            });
+        });
+    </script>
+
+    <script>
+        function formcheck() {
+            var isValid = true;
+            $('input[type="text"], input[type = "password"], input[type = "number"]').each(function () {
+                if ($.trim($(this).val()) == '') {
+                    isValid = false;
+                    $(this).css({
+                        "border": "1px solid red"
+                    });
+                }
+                else {
+                    $(this).css({
+                        "border": "",
+                        "background": ""
+                    });
+                }
+            });
+            if (isValid == false) {
+                e.preventDefault();
+            } else {
+                Crear();
+            }
+        }
+
+        function Crear() {
+            var fd = new FormData();
+            var fd = new FormData();
+            var id = $("#id").val();
+            var prIdInterno = $("#prIdInterno").val();
+            var prDetalle = $("#prDetalle").val();
+            var prCantidad = $("#prCantidad").val();
+            var prPrecioCosto = $("#prPrecioCosto").val();
+            var prPrecioVenta = $("#prPrecioVenta").val();
+            var prMoneda = $("#prMoneda").val();
+            var prIdSucursal = $("#prIdSucursal").val();
+
+            fd.append("id", id);
+            fd.append("prIdInterno", prIdInterno);
+            fd.append("prDetalle", prDetalle);
+            fd.append("prCantidad", prCantidad);
+            fd.append("prPrecioCosto", prPrecioCosto);
+            fd.append("prPrecioVenta", prPrecioVenta);
+            fd.append("prMoneda", prMoneda);
+            fd.append("prIdSucursal", prIdSucursal);
+
+            $.ajax({
+                url: '@Url.Action("EditarProducto", "tbProductoes")',
+                type: 'POST',
+                cache: false,
+                processData: false,
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+                data: fd,
+                success: function (data) {
+                    if (data == true) {
+                        location.href = '@Url.Action("Index", "tbProductoes")';
+                    } else if (data == false){
+                        alert("Error al ingresar Producto");
+                    }
+                },
+                error: function (jqXHR, textStatus, error) {
+                    var exception = JSON.parse(jqXHR.responseText);
+                    alert("error al enviar datos" + exception);
+                }
+            });
+        }
+    </script>
+}

@@ -28,15 +28,16 @@
                     <li class="list-group-item"><img src="~/images/shopping_cart-24px.svg" class="img-fluid" alt="Responsive image">Facturación</li>
                     <li class="list-group-item"><img src="~/images/account_box-24px.svg" class="img-fluid" alt="Responsive image"><a href="@Url.Action("Index", "tbClientes")">Clientes</a></li>
                     <li class="list-group-item"><img src="~/images/list-24px.svg" class="img-fluid" alt="Responsive image">Inventarios</li>
-                    <li class="list-group-item"><img src="~/images/shopping_basket-24px.svg" class="img-fluid" alt="Responsive image">Productos</li>
+                    <li class="list-group-item"><img src="~/images/shopping_basket-24px.svg" class="img-fluid" alt="Responsive image"><a href="@Url.Action("Index", "tbProductoes")">Productos</a></li>
                     <li class="list-group-item"><img src="~/images/euro_symbol-24px.svg" class="img-fluid" alt="Responsive image"><a href="@Url.Action("Index", "tbTasaCambios")">Tasa de Cambios</a></li>
                     <li class="list-group-item"><img src="~/images/font_download-24px.svg" class="img-fluid" alt="Responsive image"><a href="@Url.Action("Index", "tbLenguajes")">Lenguajes</a></li>
                     <li class="list-group-item"><img src="~/images/euro_symbol-24px.svg" class="img-fluid" alt="Responsive image"><a href="@Url.Action("Index", "tbMonedas")">Monedas</a></li>
                     <li class="list-group-item"><img src="~/images/vpn_lock-24px.svg" class="img-fluid" alt="Responsive image"><a href="@Url.Action("Index", "tbPaises")">Paises</a></li>
                     <li class="list-group-item"><img src="~/images/business-24px.svg" class="img-fluid" alt="Responsive image"><a href="@Url.Action("Index", "tbEmpresa")">Empresas</a></li>
                     <li class="list-group-item"><img src="~/images/store-24px.svg" class="img-fluid" alt="Responsive image"><a href="@Url.Action("Index", "tbSucursales")">Sucursales</a></li>
-                    <li class="list-group-item"><img src="~/images/trending_up-24px.svg" class="img-fluid" alt="Responsive image">Reportes</li>
                     <li class="list-group-item"><img src="~/images/person-24px.svg" class="img-fluid" alt="Responsive image"><a href="@Url.Action("Index", "tbUsuarios")">Usuarios</a></li>
+                    <li class="list-group-item"><img src="~/images/trending_up-24px.svg" class="img-fluid" alt="Responsive image"><a href="@Url.Action("Index", "tbTipoLicencias")">Licencias</a></li>
+                    <li class="list-group-item"><img src="~/images/trending_up-24px.svg" class="img-fluid" alt="Responsive image">Reportes</li>
                     <li class="list-group-item"><img src="~/images/build-24px.svg" class="img-fluid" alt="Responsive image">Opciones</li>
                 </ul>
             </div>
@@ -62,7 +63,7 @@
             <div class="col-sm-6">
                 <div class="card" style="background-color: #f5f5f5; padding: 1em;">
                     <div class="card-body" align="center">
-                        <h3>Ventas por Productos</h3>
+                        <h3>Productos Vendidos</h3>
                         <div id="chartdiv"></div>
                     </div>
                 </div>
@@ -70,7 +71,7 @@
             <div class="col-sm-6">
                 <div class="card" style="background-color: #f5f5f5; padding: 1em;">
                     <div class="card-body" align="center">
-                        <h3>Panel de Información</h3>
+                        <h3>Empresas creadas por usuarios</h3>
                         <div id="chartdiv2"></div>
                     </div>
                 </div>
@@ -80,93 +81,27 @@
 </div>
 
 <script>
-    am4core.ready(function () {
 
-        // Themes begin
-        am4core.useTheme(am4themes_animated);
-        // Themes end
+    am4core.ready(function() {
 
-        // Create chart instance
-        var chart = am4core.create("chartdiv", am4charts.PieChart);
+    // Themes begin
+    am4core.useTheme(am4themes_animated);
+    // Themes end
 
-        // Set data
-        var selected;
-        var types = [{
-            type: "Fossil Energy",
-            percent: 70,
-            color: chart.colors.getIndex(0),
-            subs: [{
-                type: "Oil",
-                percent: 15
-            }, {
-                type: "Coal",
-                percent: 35
-            }, {
-                type: "Nuclear",
-                percent: 20
-            }]
-        }, {
-            type: "Green Energy",
-            percent: 30,
-            color: chart.colors.getIndex(1),
-            subs: [{
-                type: "Hydro",
-                percent: 15
-            }, {
-                type: "Wind",
-                percent: 10
-            }, {
-                type: "Other",
-                percent: 5
-            }]
-        }];
+    var chart = am4core.create("chartdiv", am4charts.PieChart3D);
+    chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 
-        // Add data
-        chart.data = generateChartData();
+    //chart.legend = new am4charts.Legend();
 
-        // Add and configure Series
-        var pieSeries = chart.series.push(new am4charts.PieSeries());
-        pieSeries.dataFields.value = "percent";
-        pieSeries.dataFields.category = "type";
-        pieSeries.slices.template.propertyFields.fill = "color";
-        pieSeries.slices.template.propertyFields.isActive = "pulled";
-        pieSeries.slices.template.strokeWidth = 0;
+    chart.data = @Html.Raw(ViewBag.Productos_usuarios);
 
-        function generateChartData() {
-            var chartData = [];
-            for (var i = 0; i < types.length; i++) {
-                if (i == selected) {
-                    for (var x = 0; x < types[i].subs.length; x++) {
-                        chartData.push({
-                            type: types[i].subs[x].type,
-                            percent: types[i].subs[x].percent,
-                            color: types[i].color,
-                            pulled: true
-                        });
-                    }
-                } else {
-                    chartData.push({
-                        type: types[i].type,
-                        percent: types[i].percent,
-                        color: types[i].color,
-                        id: i
-                    });
-                }
-            }
-            return chartData;
-        }
+    var series = chart.series.push(new am4charts.PieSeries3D());
+    series.dataFields.value = "conteo";
+    series.dataFields.category = "usu";
 
-        pieSeries.slices.template.events.on("hit", function (event) {
-            if (event.target.dataItem.dataContext.id != undefined) {
-                selected = event.target.dataItem.dataContext.id;
-            } else {
-                selected = undefined;
-            }
-            chart.data = generateChartData();
-        });
-
-    }); // end am4core.ready()
+    });
 </script>
+
 
 <script>
     am4core.ready(function () {
@@ -184,34 +119,12 @@
 
         chart.paddingBottom = 30;
 
-        chart.data = [{
-            "name": "Monica",
-            "steps": 45688,
-            "href": "https://www.amcharts.com/wp-content/uploads/2019/04/monica.jpg"
-        }, {
-            "name": "Joey",
-            "steps": 35781,
-            "href": "https://www.amcharts.com/wp-content/uploads/2019/04/joey.jpg"
-        }, {
-            "name": "Ross",
-            "steps": 25464,
-            "href": "https://www.amcharts.com/wp-content/uploads/2019/04/ross.jpg"
-        }, {
-            "name": "Phoebe",
-            "steps": 18788,
-            "href": "https://www.amcharts.com/wp-content/uploads/2019/04/phoebe.jpg"
-        }, {
-            "name": "Rachel",
-            "steps": 15465,
-            "href": "https://www.amcharts.com/wp-content/uploads/2019/04/rachel.jpg"
-        }, {
-            "name": "Chandler",
-            "steps": 11561,
-            "href": "https://www.amcharts.com/wp-content/uploads/2019/04/chandler.jpg"
-        }];
+        chart.data = @Html.Raw(ViewBag.usuarioXempresa);
+
+
 
         var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-        categoryAxis.dataFields.category = "name";
+        categoryAxis.dataFields.category = "nombre";
         categoryAxis.renderer.grid.template.strokeOpacity = 0;
         categoryAxis.renderer.minGridDistance = 10;
         categoryAxis.renderer.labels.template.dy = 35;
@@ -226,8 +139,8 @@
         valueAxis.renderer.baseGrid.strokeOpacity = 0;
 
         var series = chart.series.push(new am4charts.ColumnSeries);
-        series.dataFields.valueY = "steps";
-        series.dataFields.categoryX = "name";
+        series.dataFields.valueY = "conteo";
+        series.dataFields.categoryX = "nombre";
         series.tooltipText = "{valueY.value}";
         series.tooltip.pointerOrientation = "vertical";
         series.tooltip.dy = - 6;

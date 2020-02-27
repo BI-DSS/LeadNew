@@ -1,0 +1,80 @@
+﻿@model LeadNew.Models.tbProducto
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+    <div style="padding-top: 5em;">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "tbProductoes")">Listado de productos</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Detalle producto</li>
+            </ol>
+        </nav>
+        <h2>Detalles de Producto</h2>
+        <div>
+            <dl class="dl-horizontal">
+                <dt>
+                    Código de producto
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.prIdInterno)
+                </dd>
+                <dt>
+                    Detalle
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.prDetalle)
+                </dd>
+                <dt>
+                    Cantidad
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.prCantidad)
+                </dd>
+                <dt>
+                    Precio de costo
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.prPrecioCosto)
+                </dd>
+                <dt>
+                    Precio de venta
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.prPrecioVenta)
+                </dd>
+                <dt>
+                    Moneda
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.prMoneda)
+                </dd>
+                <dt>
+                    Estado
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.prEstado)
+                </dd>
+                <dt>
+                    Fecha de Ingreso
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.prFechaIngreso)
+                </dd>
+                <dt>
+                    Creado por
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.prUsuario)
+                </dd>
+                <dt>
+                    Agencia/Sucursal
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.prIdSucursal)
+                </dd>
+            </dl>
+        </div>
+    </div>
