@@ -3,7 +3,9 @@
 @{
     ViewData["Title"] = "Create";
 }
-
+<br />
+<br />
+<br />
 <h2>Crear Empresa</h2>
 <hr />
 <div class="row">
@@ -122,20 +124,66 @@
         }
     </script>
 
-<script type="text/javascript">
-    $('#lbl_cb2').hide();
-    $('#empId').hide();
-    $('#empPais').change(function () {
-        var empId = "";
-        empId = $('#empPais').val();
-        if (empId === "Seleccione....") {
-            $('#lbl_cb2').hide();
-            $('#empPais').hide();
-        } else {
-            var laURLDeLaVista = '@Url.Action("PaisesLista", "tbPaises")';
-            $.ajax
-        }
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var laURLVista = '@Url.Action("PaisLista", "tbPaises")';
+            $.ajax({
+                url: laURLVista,
+                type: 'POST',
+                cache: false,
+                success: function (data) {
+                    var items = '<option>Seleccione....</option>';
+                    $.each(data, function (i, state) {
+                        items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
+                    });
+                    $('#moId').html(items);
+                },
+                error: function (jqXHR, textStatus, error) {
+                    alert(error, textStatus);
+                }
+            });
+        });
+    </script>
 
-    }
-</script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var laURLVista = '@Url.Action("MonedaLista", "tbMoneda")';
+            $.ajax({
+                url: laURLVista,
+                type: 'POST',
+                cache: false,
+                success: function (data) {
+                    var items = '<option>Seleccione....</option>';
+                    $.each(data, function (i, state) {
+                        items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
+                    });
+                    $('#moId').html(items);
+                },
+                error: function (jqXHR, textStatus, error) {
+                    alert(error, textStatus);
+                }
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var laURLVista = '@Url.Action("LenguajeLista", "tbLenguajes")';
+            $.ajax({
+                url: laURLVista,
+                type: 'POST',
+                cache: false,
+                success: function (data) {
+                    var items = '<option>Seleccione....</option>';
+                    $.each(data, function (i, state) {
+                        items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
+                    });
+                    $('#lenId').html(items);
+                },
+                error: function (jqXHR, textStatus, error) {
+                    alert(error, textStatus);
+                }
+            });
+        });
+    </script>
 }
