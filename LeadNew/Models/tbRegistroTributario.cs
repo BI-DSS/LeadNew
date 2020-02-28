@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LeadNew.Models
 {
-    public class tbRegistroTrubutario
+    public class tbRegistroTributario
     {
         [Key]
         public int rtId { get; set; }

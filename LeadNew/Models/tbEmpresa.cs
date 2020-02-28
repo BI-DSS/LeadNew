@@ -11,15 +11,10 @@ namespace LeadNew.Models
     {
         [Key]
         public int empId { get; set; }
-        [StringLength(maximumLength:2000)]
         public string empNombre { get; set; }
-        [StringLength(50)]
         public string empDireccion { get; set; }
-        [StringLength(300)]
         public string empTelefono { get; set; }
-        [StringLength(15)]
         public string empLogo { get; set; }
-        [StringLength(500)]
         public int empPais { get; set; }
         public int empMoneda { get; set; }
         public int empLenguaje { get; set; }

@@ -21,7 +21,7 @@ namespace LeadNew
         //GET: tbRegistroTributario
         public async Task<IActionResult> Index()
         {
-            return View(await _context.tbRegistroTrubutarios.ToListAsync());
+            return View(await _context.tbRegistroTributarios.ToListAsync());
         }
 
         public ActionResult EmpresaLista()
@@ -38,7 +38,7 @@ namespace LeadNew
                 return NotFound();
             }
 
-            var tbResistroTributario = await _context.tbRegistroTrubutarios
+            var tbResistroTributario = await _context.tbRegistroTributarios
                 .FirstOrDefaultAsync(m => m.rtId == id);
             if (tbResistroTributario == null)
             {
@@ -59,15 +59,15 @@ namespace LeadNew
             {
                 if (ModelState.IsValid)
                 {
-                    tbRegistroTrubutario tbRegistroTrubutario = new tbRegistroTrubutario();
-                    tbRegistroTrubutario = new tbRegistroTrubutario();
+                    tbRegistroTributario tbRegistroTrubutario = new tbRegistroTributario();
+                    tbRegistroTrubutario = new tbRegistroTributario();
                     tbRegistroTrubutario.rtIdEmpresa = rtIdEmpresa;
                     tbRegistroTrubutario.rtCAI = rtCAI;
                     tbRegistroTrubutario.rtFechaCreacion = DateTime.Now;
                     tbRegistroTrubutario.rtFechainicio = DateTime.Now;
                     tbRegistroTrubutario.rtRangoAutoInicio = rtRangoAutoInicio;
                     tbRegistroTrubutario.rtRangoAutoFinal = rtRangoAutoFinal;
-                    _context.tbRegistroTrubutarios.Add(tbRegistroTrubutario);
+                    _context.tbRegistroTributarios.Add(tbRegistroTrubutario);
                     _context.SaveChanges();
                     return Json(true);
                 }
@@ -87,7 +87,7 @@ namespace LeadNew
                 return NotFound();
             }
 
-            var tbRegistroTributarios = await _context.tbRegistroTrubutarios.FindAsync(id);
+            var tbRegistroTributarios = await _context.tbRegistroTributarios.FindAsync(id);
             if (tbRegistroTributarios == null)
             {
                 return NotFound();
@@ -99,13 +99,13 @@ namespace LeadNew
         {
             try
             {
-                tbRegistroTrubutario tbRegistroTrubutario = _context.tbRegistroTrubutarios.Find(id);
-                if (tbRegistroTrubutario != null)
+                tbRegistroTributario tbRegistroTributario = _context.tbRegistroTributarios.Find(id);
+                if (tbRegistroTributario != null)
                 {
-                    tbRegistroTrubutario.rtCAI = rtCAI;
-                    tbRegistroTrubutario.rtRangoAutoInicio = rtRangoAutoInicio;
-                    tbRegistroTrubutario.rtRangoAutoFinal = rtRangoAutoFinal;
-                    _context.Entry(tbRegistroTrubutario).State = EntityState.Modified;
+                    tbRegistroTributario.rtCAI = rtCAI;
+                    tbRegistroTributario.rtRangoAutoInicio = rtRangoAutoInicio;
+                    tbRegistroTributario.rtRangoAutoFinal = rtRangoAutoFinal;
+                    _context.Entry(tbRegistroTributario).State = EntityState.Modified;
                     _context.SaveChanges();
                 }
                 return Json(true);
@@ -123,7 +123,7 @@ namespace LeadNew
                 return NotFound();
             }
 
-            var tbRegistroTributarios = await _context.tbRegistroTrubutarios.FindAsync(id);
+            var tbRegistroTributarios = await _context.tbRegistroTributarios.FindAsync(id);
             if (tbRegistroTributarios == null)
             {
                 return NotFound();
