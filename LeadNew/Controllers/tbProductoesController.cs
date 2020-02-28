@@ -27,13 +27,13 @@ namespace LeadNew
         public ActionResult MonedaLista()
         {
             var monedas = (from mon in _context.tbMoneda select new { Text = mon.moNombre, Value = mon.moId }).ToList().OrderBy(x => x.Text);
-            return Json(monedas, new Newtonsoft.Json.JsonSerializerSettings());
+            return Json(monedas);
         }
 
         public ActionResult SucursalesLista()
         {
             var sucursales = (from suc in _context.tbSucursales select new { Text = suc.sucNombre, Value = suc.sucId }).ToList().OrderBy(x => x.Text);
-            return Json(sucursales, new Newtonsoft.Json.JsonSerializerSettings());
+            return Json(sucursales);
         }
 
         // GET: tbProductoes/Details/5
@@ -66,6 +66,15 @@ namespace LeadNew
             {
                 if (ModelState.IsValid)
                 {
+                    var codigos = _context.tbProducto.Select(x => x.prIdInterno).ToArray();
+                    foreach (var c in codigos)
+                    {
+                        if (c == prIdInterno)
+                        {
+                            return Json("Existe");
+                        }
+                    }
+
                     tbProducto tbProducto = new tbProducto();
                     tbProducto = new tbProducto();
                     tbProducto.prIdInterno = prIdInterno;

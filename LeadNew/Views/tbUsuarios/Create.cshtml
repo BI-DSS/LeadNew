@@ -139,7 +139,7 @@
                     success: function (result) {
                         var items = '<option>Seleccione....</option>';
                         $.each(result, function (i, state) {
-                            items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
+                            items += "<option value='" + state.value + "'>" + state.text + "</option>";
                         });
                         $('#usuIdSucursal').html(items);
                         $('#lbl_cb2').show();
@@ -160,12 +160,15 @@
                 url: laURLVista,
                 type: 'POST',
                 cache: false,
+                data: "{}",
                 success: function (data) {
-                    var items = '<option>Seleccione....</option>';
-                    $.each(data, function (i, state) {
-                        items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
-                    });
-                    $('#usuIdEmpresa').html(items);
+                    //alert(JSON.stringify(data));
+                    
+                    var items = '<option>Seleccione</option>';  
+                    for (var i = 0; i < data.length; i++) {  
+                        items += '<option value="' + data[i].value + '">' + data[i].text + '</option>';  
+                    }  
+                    $("#usuIdEmpresa").html(items);                    
                 },
                 error: function (jqXHR, textStatus, error) {
                     alert(error, textStatus);

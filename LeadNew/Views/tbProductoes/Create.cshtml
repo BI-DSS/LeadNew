@@ -64,7 +64,7 @@
                 success: function (data) {
                     var items = '<option>Seleccione Moneda</option>';
                     $.each(data, function (i, state) {
-                        items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
+                        items += "<option value='" + state.value + "'>" + state.text + "</option>";
                     });
                     $('#prMoneda').html(items);
                 },
@@ -83,7 +83,7 @@
                 success: function (data) {
                     var items = '<option>Seleccione Sucursal</option>';
                     $.each(data, function (i, state) {
-                        items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
+                        items += "<option value='" + state.value + "'>" + state.text + "</option>";
                     });
                     $('#prIdSucursal').html(items);
                 },
@@ -149,8 +149,10 @@
                 success: function (data) {
                     if (data == true) {
                         location.href = '@Url.Action("Index", "tbProductoes")';
-                    } else if (data == false){
+                    } else if (data == false) {
                         alert("Error al ingresar Producto");
+                    } else if (data == "Existe") {
+                        alert("El código de producto ya existe");
                     }
                 },
                 error: function (jqXHR, textStatus, error) {

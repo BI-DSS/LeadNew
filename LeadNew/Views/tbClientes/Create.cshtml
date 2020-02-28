@@ -130,7 +130,7 @@
                 success: function (data) {
                     var items = '<option>Seleccione Empresa</option>';
                     $.each(data, function (i, state) {
-                        items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
+                        items += "<option value='" + state.value + "'>" + state.text + "</option>";
                     });
                     $('#clIdEmpresa').html(items);
                 },

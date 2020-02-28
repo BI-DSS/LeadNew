@@ -27,7 +27,7 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item"><img src="~/images/shopping_cart-24px.svg" class="img-fluid" alt="Responsive image">Facturación</li>
                     <li class="list-group-item"><img src="~/images/account_box-24px.svg" class="img-fluid" alt="Responsive image"><a href="@Url.Action("Index", "tbClientes")">Clientes</a></li>
-                    <li class="list-group-item"><img src="~/images/list-24px.svg" class="img-fluid" alt="Responsive image">Inventarios</li>
+                    @*<li class="list-group-item"><img src="~/images/list-24px.svg" class="img-fluid" alt="Responsive image">Inventarios</li>*@
                     <li class="list-group-item"><img src="~/images/shopping_basket-24px.svg" class="img-fluid" alt="Responsive image"><a href="@Url.Action("Index", "tbProductoes")">Productos</a></li>
                     <li class="list-group-item"><img src="~/images/euro_symbol-24px.svg" class="img-fluid" alt="Responsive image"><a href="@Url.Action("Index", "tbTasaCambios")">Tasa de Cambios</a></li>
                     <li class="list-group-item"><img src="~/images/font_download-24px.svg" class="img-fluid" alt="Responsive image"><a href="@Url.Action("Index", "tbLenguajes")">Lenguajes</a></li>
@@ -63,7 +63,7 @@
             <div class="col-sm-6">
                 <div class="card" style="background-color: #f5f5f5; padding: 1em;">
                     <div class="card-body" align="center">
-                        <h3>Productos Vendidos</h3>
+                        <h3>Productos Ingresados por Usuario</h3>
                         <div id="chartdiv"></div>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
             <div class="col-sm-6">
                 <div class="card" style="background-color: #f5f5f5; padding: 1em;">
                     <div class="card-body" align="center">
-                        <h3>Empresas creadas por usuarios</h3>
+                        <h3>Empresas Creadas por Usuarios</h3>
                         <div id="chartdiv2"></div>
                     </div>
                 </div>

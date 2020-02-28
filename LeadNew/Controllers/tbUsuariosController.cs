@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LeadNew.Models;
 using System.Text;
 using System.Security.Cryptography;
+using Newtonsoft.Json;
 
 namespace LeadNew
 {
@@ -52,14 +53,15 @@ namespace LeadNew
 
         public ActionResult EmpresaLista()
         {
-            var empresas = (from emp in _context.tbEmpresa select new { Text = emp.empNombre, Value = emp.empId }).ToList().OrderBy(x => x.Text);
-            return Json(empresas, new Newtonsoft.Json.JsonSerializerSettings());
+            //var sa = new JsonSerializerSettings();
+            var empresas = (from emp in _context.tbEmpresa select new { Text = emp.empNombre, Value = emp.empId }).ToList().OrderBy(x => x.Text);            
+            return Json(empresas);
         }
 
-        public ActionResult SucursalLista(int id)
+        public JsonResult SucursalLista(int id)
         {
             var sucursales = (from suc in _context.tbSucursales where suc.sucIdEmpresa == id select new { Text = suc.sucNombre, Value = suc.sucId }).ToList().OrderBy(x => x.Text);
-            return Json(sucursales, new Newtonsoft.Json.JsonSerializerSettings());
+            return Json(sucursales);
         }
 
         public ActionResult CrearUsuario(string usuNombreUsuario, string usuPassword, string usuNombres, string usuApellidos, string usuCorreo, int usuIdEmpresa, int usuIdSucursal)
