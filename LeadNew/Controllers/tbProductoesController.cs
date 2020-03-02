@@ -75,6 +75,7 @@ namespace LeadNew
                         }
                     }
 
+
                     tbProducto tbProducto = new tbProducto();
                     tbProducto = new tbProducto();
                     tbProducto.prIdInterno = prIdInterno;
