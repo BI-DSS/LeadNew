@@ -20,5 +20,7 @@ namespace LeadNew.Models
         public System.DateTime prFechaIngreso { get; set; }
         public string prUsuario { get; set; }
         public int prIdSucursal { get; set; }
+        public string img { get; set; }
+        public byte[] prImagen { get; set; }
     }
 }

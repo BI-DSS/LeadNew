@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LeadNew.Models;
+using Microsoft.AspNetCore.Http;
+using System.Net.Http.Headers;
+using System.IO;
 
 namespace LeadNew
 {
@@ -60,7 +63,7 @@ namespace LeadNew
             return View();
         }
 
-        public ActionResult CrearProducto(string prIdInterno, string prDetalle, int prCantidad, decimal prPrecioCosto, decimal prPrecioVenta, int prMoneda, int prIdSucursal)
+        public ActionResult CrearProducto(string prIdInterno, string prDetalle, int prCantidad, decimal prPrecioCosto, decimal prPrecioVenta, int prMoneda, int prIdSucursal, IFormFile img)
         {
             try
             {
@@ -75,6 +78,13 @@ namespace LeadNew
                         }
                     }
 
+                    byte[] p1 = null;
+                    using (var fs1 = img.OpenReadStream())
+                    using (var ms1 = new MemoryStream())
+                    {
+                        fs1.CopyTo(ms1);
+                        p1 = ms1.ToArray();
+                    }                    
 
                     tbProducto tbProducto = new tbProducto();
                     tbProducto = new tbProducto();
@@ -86,8 +96,9 @@ namespace LeadNew
                     tbProducto.prMoneda = prMoneda;
                     tbProducto.prIdSucursal = prIdSucursal;
                     tbProducto.prFechaIngreso = DateTime.Now;
-                    tbProducto.prUsuario = "7";
+                    tbProducto.prUsuario = "6";
                     tbProducto.prEstado = 1;
+                    tbProducto.prImagen = p1;
                     _context.tbProducto.Add(tbProducto);
                     _context.SaveChanges();
                     return Json(true);

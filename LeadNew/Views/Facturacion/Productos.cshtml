@@ -1,0 +1,59 @@
+﻿
+<div class="table-responsive">
+
+</div>
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Código de producto
+                </th>
+                <th>
+                    Detalle
+                </th>
+                <th>
+                    Cantidad
+                </th>
+                <th>
+                    Precio de Costo
+                </th>
+                <th>
+                    Precio de Venta
+                </th>
+                <th>
+                    Moneda
+                </th>
+                <th>
+                    Acciones
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewData["Productos"] as IEnumerable<LeadNew.Models.tbProducto>)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.prIdInterno)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.prDetalle)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.prCantidad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.prPrecioCosto)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.prPrecioVenta)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.prMoneda)
+                    </td> 
+                    <td>
+                        <a class="btn btn-success" asp-action="#"><img src="~/images/add-24px.svg" class="img-fluid" alt="Responsive image">Agregar Producto</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
