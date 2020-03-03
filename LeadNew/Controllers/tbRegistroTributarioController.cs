@@ -19,11 +19,15 @@ namespace LeadNew
         }
 
         //GET: tbRegistroTributario
-        public async Task<IActionResult> Index()
+        public ActionResult Index()
         {
-            return View(await _context.tbRegistroTributarios.ToListAsync());
-        }
+            IList<tbRegistroTributario> RegistrosList = new List<tbRegistroTributario>();
 
+            ViewData["RegistroList"] = RegistrosList;
+
+            return View();
+
+        }
         public ActionResult EmpresaLista()
         {
             var empresas = (from emp in _context.tbEmpresa select new { Text = emp.empNombre, Value = emp.empId }).ToList().OrderBy(x => x.Text);

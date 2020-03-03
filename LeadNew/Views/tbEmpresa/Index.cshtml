@@ -1,8 +1,4 @@
-﻿
-@{
-
-}
-<br />
+﻿<br />
 <br />
 <br />
 <ul class="nav nav-tabs" role="tablist">
@@ -23,8 +19,14 @@
         <partial name="~/Views/tbEmpresa/EmpresaDetalle.cshtml" ; />
     </div>
     <div id="menu1" class="container tab-pane fade">
-        <h3>Registro Tributario</h3>
-       
+        <ul>
+            @foreach (var std in ViewData["RegistroList"] as IList<tbRegistroTributario>)
+            {
+                <li>
+                    @std.rtCAI
+                </li>
+            }
+        </ul>
     </div>
     <div id="menu2" class="container tab-pane fade">
         <h3>Sucursales</h3>
