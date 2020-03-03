@@ -101,6 +101,7 @@ namespace LeadNew
                     tbProducto.prImagen = p1;
                     _context.tbProducto.Add(tbProducto);
                     _context.SaveChanges();
+
                     return Json(true);
                 }
                 return Json(false);
