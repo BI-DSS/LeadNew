@@ -22,18 +22,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="formGroupExampleInput">Telefóno:</label>
-                                    <input type="text" class="form-control" id="txt_telefono">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="formGroupExampleInput">Correo:</label>
-                                    <input type="text" class="form-control" id="txt_correo">
-                                </div>
-                            </div>
+                            <div id="target2"></div>
                         </div>
                     </div>
                 </div>
@@ -60,7 +49,7 @@
                     <div class="card-body" align="left">
                         <h3>Datos de Facturación</h3>
                         <div class="table-responsive">
-                            <table class="table table-bordered table-hover table-striped">
+                            <table class="table table-bordered table-hover table-striped" id="tbl_facturacion">
                                 <thead>
                                     <tr>
                                         <th>
@@ -90,25 +79,25 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            HN-0001
+                                            
                                         </td>
                                         <td>
-                                            Computadoras de escritorio
+                                            
                                         </td>
                                         <td>
-                                            5
+                                            
                                         </td>
                                         <td>
-                                            5%
+                                            
                                         </td>
                                         <td>
-                                            9000
+                                           
                                         </td>
                                         <td>
-                                            15%
+                                            
                                         </td>
                                         <td>
-                                            Lempiras
+                                            
                                         </td>
                                         <td>
                                             <a class="btn btn-danger" asp-action="Delete" asp-route-id="#"><img src="~/images/delete-24px.svg" class="img-fluid" alt="Responsive image">Eliminar</a>
@@ -147,13 +136,22 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
+   
     <script>
         $(document).ready(function () {
             $("#cb_sucursales").change(function () {
                 var suc = $("#cb_sucursales").val();
                 $.get('@Url.Action("Productos", "Facturacion")', { id: suc }, function (data) {
                     $("#target").html(data);
+                });
+            });
+        });
+
+        $(document).ready(function () {
+            $("#usuIdEmpresa").change(function () {
+                var emp = $("#usuIdEmpresa").val();
+                $.get('@Url.Action("Empresa", "Facturacion")', { id: emp }, function (data) {
+                    $("#target2").html(data);
                 });
             });
         });
