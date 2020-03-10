@@ -1,0 +1,50 @@
+﻿@model IEnumerable<LeadNew.Models.tbDescuentos>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div style="padding-top: 5em;">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Inicio</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Descuentos</li>
+        </ol>
+    </nav>
+    <h2>Listado de Descuentos</h2>
+    <p>
+        <a class="btn btn-success" asp-action="Create"><img src="~/images/add-24px.svg" class="img-fluid" alt="Responsive image">Crear Categoría</a>
+    </p>
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Nombre Campaña</th>
+                <th>Producto</th>
+                <th>Porcentaje de descuento</th>
+                <th>Fecha de Creación</th>
+                <th>Fecha de Inicio</th>
+                <th>Fecha Fin</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.desNombreCampaña)</td>
+                    <td>@Html.DisplayFor(modelItem => item.desIdProducto)</td>
+                    <td>@Html.DisplayFor(modelItem => item.desPorcentaje)</td>
+                    <td>@Html.DisplayFor(modelItem => item.desFechaCreacion)</td>
+                    <td>@Html.DisplayFor(modelItem => item.desFechaInicio)</td>
+                    <td>@Html.DisplayFor(modelItem => item.desFechaFinal)</td>
+                    <td>
+                        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.desId"><img src="~/images/create-24px.svg" class="img-fluid" alt="Responsive image">Editar</a>
+                        <a class="btn btn-info" asp-action="Details" asp-route-id="@item.desId"><img src="~/images/remove_red_eye-24px.svg" class="img-fluid" alt="Responsive image">Detalles</a>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.desId"><img src="~/images/delete-24px.svg" class="img-fluid" alt="Responsive image">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

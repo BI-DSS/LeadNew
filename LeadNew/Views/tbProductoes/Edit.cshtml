@@ -37,6 +37,12 @@
                     <input type="number" class="form-control" id="prPrecioVenta" placeholder="Precio de Venta" value="@Model.prPrecioVenta">
                 </div>
                 <div class="form-group">
+                    <label>Categoría:</label>
+                    <div class="form-group">
+                        <select class="form-control" id="prCategoria" name="prCategoria"></select>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label>Moneda:</label>
                     <div class="form-group">
                         <select class="form-control" id="prMoneda" name="prMoneda"></select>
@@ -56,6 +62,26 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script type="text/javascript">
+
+        $(document).ready(function () {
+            var laURLVista = '@Url.Action("CategoriaLista", "tbProductoes")';
+            $.ajax({
+                url: laURLVista,
+                type: 'POST',
+                cache: false,
+                success: function (data) {
+                    var items = '<option>Seleccione categoría</option>';
+                    $.each(data, function (i, state) {
+                        items += "<option value='" + state.value + "'>" + state.text + "</option>";
+                    });
+                    $('#prCategoria').html(items);
+                },
+                error: function (jqXHR, textStatus, error) {
+                    alert(error, textStatus);
+                }
+            });
+        });
+
         $(document).ready(function () {
             var laURLVista = '@Url.Action("MonedaLista", "tbProductoes")';
             $.ajax({

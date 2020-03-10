@@ -40,5 +40,12 @@ namespace LeadNew.Controllers
             ViewData["Productos"] = productos;
             return PartialView();                        
         }
+
+        public PartialViewResult Empresa(int id)
+        {
+            var empresa = _context.tbEmpresa.Where(x => x.empId == id).ToList();
+            ViewData["Empresa"] = empresa;
+            return PartialView();
+        }
     }
 }

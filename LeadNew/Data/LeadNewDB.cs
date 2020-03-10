@@ -26,8 +26,8 @@ namespace LeadNew.Models
         public DbSet<LeadNew.Models.tbVendedores> tbVendedores { get; set; }
         public DbSet<LeadNew.Models.tbRegistroTributario> tbRegistroTributarios { get; set; }
         public DbSet<LeadNew.Models.tbTipoLicencia> tbTipoLicencia { get; set; }
-        public DbSet<LeadNew.Models.tbAperturaCaja> tbAperturaCajas { get; set; }
-
+        public DbSet<LeadNew.Models.tbCategoriaProducto> tbCategoriaProducto { get; set; }
+        public DbSet<LeadNew.Models.tbDescuentos> tbDescuentos { get; set; }        
     }
 
 }

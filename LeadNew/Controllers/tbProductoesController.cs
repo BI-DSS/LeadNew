@@ -39,6 +39,12 @@ namespace LeadNew
             return Json(sucursales);
         }
 
+        public ActionResult CategoriaLista()
+        {
+            var categoria = (from suc in _context.tbCategoriaProducto select new { Text = suc.catNombre, Value = suc.catId }).ToList().OrderBy(x => x.Text);
+            return Json(categoria);
+        }
+
         // GET: tbProductoes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
