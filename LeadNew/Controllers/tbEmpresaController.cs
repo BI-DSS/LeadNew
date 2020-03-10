@@ -24,6 +24,24 @@ namespace LeadNew
             return View(await _context.tbEmpresa.ToListAsync());
         }
 
+        public ActionResult PaisLista()
+        {
+            var paises = (from pais in _context.tbPaises select new { Text = pais.paNombre, Value = pais.paId }).ToList().OrderBy(x => x.Text);
+            return Json(paises);
+        }
+
+        public ActionResult MonedaLista()
+        {
+            var monedas = (from mon in _context.tbMoneda select new { Text = mon.moNombre, Value = mon.moId }).ToList().OrderBy(x => x.Text);
+            return Json(monedas);
+        }
+
+        public ActionResult LenguajeLista()
+        {
+            var lenguajes = (from lengu in _context.tbLenguaje select new { Text = lengu.lenNombre, Value = lengu.lenId }).ToList().OrderBy(x => x.Text);
+            return Json(lenguajes);
+        }
+
         //GET: tbEmpresa/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -44,24 +62,6 @@ namespace LeadNew
         public IActionResult Create()
         {
             return View();
-        }
-
-        public ActionResult PaisLista()
-        {
-            var paises = (from pais in _context.tbPaises select new { Text = pais.paNombre, Value = pais.paId }).ToList().OrderBy(x => x.Text);
-            return Json(paises, new Newtonsoft.Json.JsonSerializerSettings());
-        }
-
-        public ActionResult MonedaLista()
-        {
-            var monedas = (from mon in _context.tbMoneda select new { Text = mon.moNombre, Value = mon.moId }).ToList().OrderBy(x => x.Text);
-            return Json(monedas, new Newtonsoft.Json.JsonSerializerSettings());
-        }
-
-        public ActionResult LenguajeLista()
-        {
-            var lenguajes = (from lengu in _context.tbLenguaje select new { Text = lengu.lenNombre, Value = lengu.lenId }).ToList().OrderBy(x => x.Text);
-            return Json(lenguajes, new Newtonsoft.Json.JsonSerializerSettings());
         }
 
         public ActionResult CrearEmpresa(string nombre, string direccion, string telefono, string logo, int pais, int moneda, int lenguaje, int licencia, int cantidaduser, int usuariocrea)

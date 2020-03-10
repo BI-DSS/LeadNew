@@ -9,13 +9,13 @@ namespace LeadNew.Models
 {
     public class LoginViewModel
     {
-        [Display(Name = "Correo electrónico")]
+        [Display(Name = "Usuario")]
         [Required(ErrorMessage = "Este campo es requerido.")]
         [RegularExpression(@"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*",
            ErrorMessage = "Dirección de Correo electrónico incorrecta.")]
         [StringLength(100, ErrorMessage = "Longitud máxima 100")]
         [DataType(DataType.EmailAddress)]
-        public string Email { get; set; }
+        public string Usuario { get; set; }
 
         [Display(Name = "Contraseña")]
         [Required(ErrorMessage = "Este campo es requerido.")]
@@ -26,5 +26,6 @@ namespace LeadNew.Models
 
         [Display(Name = "Recordarme")]
         public bool RememberMe { get; set; }
+        public string ReturnUrl { get; set; }
     }
 }
