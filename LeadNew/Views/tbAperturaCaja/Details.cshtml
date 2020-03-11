@@ -1,0 +1,51 @@
+﻿@model LeadNew.Models.tbAperturaCaja
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<div style="padding-top: 5em;">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "tbAperturaCajas")">Historico de Aperturas</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Detalle De Apertura</li>
+        </ol>
+    </nav>
+    <h2>Detalles de Apertura</h2>
+    <div>
+        <dl class="dl-horizontal">
+            <dt>
+                COdigo de Apertura
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.acId)
+            </dd>
+            <dt>
+                Valor Aperturado
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.acValorApertura)
+            </dd>
+            <dt>
+                Estado de Apertura
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.acEstado)
+            </dd>
+            <dt>
+                Usuario Aperturo
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.acIdUsuario)
+            </dd>
+            <dt>
+                Fecha de Apertura
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.acFechaApertura)
+            </dd>
+        </dl>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+﻿@model LeadNew.Models.tbAperturaCaja
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div style="padding-top: 5em;">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "tbAperturaCaja")">Historial de Aperturas</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Crear Apretura</li>
+        </ol>
+    </nav>
+    <h2>Crear Producto</h2>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="formGroupExampleInput">Valor para Aperturar:</label>
+                <input type="text" class="form-control" id="acValorApertura" placeholder="Valor Apertura">
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput">Estado de Apertura:</label>
+                <input type="text" class="form-control" id="acEstado" placeholder="Estado">
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput">Usuario Apertura:</label>
+                <input type="text" class="form-control" id="acIdUsuario" placeholder="Usuario">
+            </div>
+            <button type="button" class="btn btn-success" onclick="formcheck();">Crear Producto</button>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        function formcheck() {
+            var isValid = true;
+            $('input[type="text"], input[type = "password"], input[type = "number"]').each(function () {
+                if ($.trim($(this).val()) == '') {
+                    isValid = false;
+                    $(this).css({
+                        "border": "1px solid red"
+                    });
+                }
+                else {
+                    $(this).css({
+                        "border": "",
+                        "background": ""
+                    });
+                }
+            });
+            if (isValid == false) {
+                e.preventDefault();
+            } else {
+                Crear();
+            }
+        }
+
+        function Crear() {
+            var fd = new FormData();
+            var 
+        }
+</script>
+}
