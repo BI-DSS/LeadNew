@@ -16,5 +16,7 @@ namespace LeadNew.Models
         public System.DateTime desFechaInicio { get; set; }
         public System.DateTime desFechaFinal { get; set; }
         public int desIdProducto { get; set; }
+
+        //public virtual tbProducto tbProducto { get; set; }
     }
 }

@@ -22,5 +22,7 @@ namespace LeadNew.Models
         public int prIdSucursal { get; set; }
         public string img { get; set; }
         public byte[] prImagen { get; set; }
+
+        //public virtual tbSucursales tbSucursales { get; set; }
     }
 }

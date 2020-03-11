@@ -30,29 +30,60 @@
                 @foreach (var item in ViewData["Productos"] as IEnumerable<LeadNew.Models.tbProducto>)
                 {
                     <tr>
-                        <td>
+                        <td id="Cod_pr">
                             @Html.DisplayFor(modelItem => item.prIdInterno)
                         </td>
-                        <td>
+                        <td id="Det_pr">
                             @Html.DisplayFor(modelItem => item.prDetalle)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.prCantidad)
                         </td>
-                        <td>
+                        <td id="Pre_pr">
                             @Html.DisplayFor(modelItem => item.prPrecioVenta)
                         </td>
-                        <td>
+                        <td id="Mon_pr">
                             @Html.DisplayFor(modelItem => item.prMoneda)
                         </td>
                         <td>
-                            <a class="btn btn-success addBtn"><img src="~/images/add-24px.svg" class="img-fluid" alt="Responsive image">Agregar Producto</a>
+                            @*<a class="btn btn-success" id="addBtn"><img src="~/images/add-24px.svg" class="img-fluid" alt="Responsive image">Agregar Producto</a>*@
+                            <a id="add_row" onclick="AgregarPr('@item.prIdInterno', '@item.prDetalle', '@item.prPrecioVenta', '@item.prMoneda');" class="btn btn-default pull-left">Add Row</a>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
+
+    <script>
+        var i = 1;
+        function AgregarPr(codigo_pr, detalle_pr, venta_pr, moneda_pr) {
+            //var codigo_pr = $("#Cod_pr").text();
+            //alert(codigo_pr);
+            $('#addr' + i).html("<td>" + (i + 0) + " </td>" +                    
+                "<td><input name = 'codigo_pr" + i + "' type = 'text' value="+ codigo_pr + " class='form-control input-md' /> </td >" +
+                "<td><input name='detalle_pr" + i + "' type='text' value="+ detalle_pr + " class='form-control input-md'></td>" +
+                "<td><input name='cantidad" + i + "' type='number' placeholder='Cantidad' class='form-control input-md'></td>" +
+                "<td><input name='descuento" + i + "' type='number' placeholder='Descuento' class='form-control input-md'></td>" +
+                "<td><input name='precioventa" + i + "' type='number' value=" + venta_pr + " class='form-control input-md'></td>" +
+                "<td><input name='impuesto" + i + "' type='number' placeholder='Impuesto' class='form-control input-md'></td>" +
+                "<td><input name='moneda" + i + "' type='number' value=" + moneda_pr + " class='form-control input-md'></td>"
+            );
+
+            $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
+            i++;
+        }
+
+        $(document).ready(function () {
+            
+            $("#delete_row").click(function () {
+                if (i > 1) {
+                    $("#addr" + (i - 1)).html('');
+                    i--;
+                }
+            });
+        });
+    </script>
 
     <script>
         $(document).ready(function(){
@@ -70,10 +101,24 @@
 
         $(".addBtn").on("click", function () {
             var newTr = $(this).closest("tr").clone();
+            console.log(newTr);
             items.push(newTr);
+            console.log(items.push(newTr));
             newTr.appendTo($("#tbl_facturacion"));
-
         });
+    </script>
+
+    <script>
+        arr1 = [
+            { "Name": "Peter", "RollNo": 1234, },
+            { "Name": "John", "RollNo": 1234, },
+            { "Name": "Kevin", "RollNo": 1234, },
+        ];
+
+        $.each(arr1, function (i) {
+            var templateString = '<table class="table card"><thead> <tr><td><p>My name is: ' + arr1[i].Name + '</p><p>My RollNo is: ' + arr1[i].RollNo + '</p></td></tr></thead></table>';
+            $('#test').append(templateString);
+        })
     </script>
 
     
