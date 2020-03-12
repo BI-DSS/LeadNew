@@ -49,125 +49,66 @@
                     <div class="card-body" align="left">
                         <h3>Datos de Facturación</h3>
                         <div class="table-responsive">
-                            @*<table class="table table-bordered table-hover table-striped" id="tbl_facturacion">
+                            <table class="table table-bordered table-hover" id="tab_logic">
                                 <thead>
                                     <tr>
-                                        <th>
+                                        <th class="text-center">
+                                            #
+                                        </th>
+                                        <th class="text-center">
                                             Código de producto
                                         </th>
-                                        <th>
+                                        <th class="text-center">
                                             Detalle
                                         </th>
-                                        <th>
+                                        <th class="text-center">
                                             Cantidad
                                         </th>
-                                        <th>
+                                        <th class="text-center">
                                             Descuento
                                         </th>
-                                        <th>
+                                        <th class="text-center">
                                             Precio de Venta
+
                                         </th>
-                                        <th>
+                                        <th class="text-center">
                                             Impuesto
                                         </th>
-                                        <th>
+                                        <th class="text-center">
                                             Moneda
                                         </th>
-                                        <th>Acciones</th>
+                                        <th class="text-center">
+                                            Total
+                                        </th>
+                                        <th class="text-center">
+                                            Acciones
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                        </td>
-                                        <td>
-                                        </td>
-                                        <td>
-                                        </td>
-                                        <td>
-                                        </td>
-                                        <td>
-                                        </td>
-                                        <td>
-                                        </td>
-                                        <td>
-                                        </td>
-                                        <td>
-                                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="#"><img src="~/images/delete-24px.svg" class="img-fluid" alt="Responsive image">Eliminar</a>
-                                        </td>
-                                    </tr>
+                                    <tr id='addr1'></tr>
                                 </tbody>
                             </table>
-                            <table class="table table-bordered table-hover table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Impuesto</th>
-                                        <th>Descuento</th>
-                                        <th>Subtotal</th>
-                                        <th>Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>15%</td>
-                                        <td>5%</td>
-                                        <td>45,000.00</td>
-                                        <td>51,750.00</td>
-                                    </tr>
-                                </tbody>
-                            </table>*@
                         </div>
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-success">Facturar</button>
+                            <button type="button" class="btn btn-success" onclick="Facturar();">Facturar</button>
                             <button type="button" class="btn btn-danger">Cancelar</button>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <table class="table table-bordered table-hover" id="tab_logic">
-            <thead>
-                <tr>
-                    <th class="text-center">
-                        #
-                    </th>                    
-                    <th class="text-center">
-                        Código de producto
-                    </th>
-                    <th class="text-center">
-                        Detalle
-                    </th>
-                    <th class="text-center">
-                        Cantidad
-                    </th>
-                    <th class="text-center">
-                        Descuento
-                    </th>
-                    <th class="text-center">
-                        Precio de Venta
-
-                    </th>
-                    <th class="text-center">
-                        Impuesto
-                    </th>
-                    <th class="text-center">
-                        Moneda
-                    </th>
-                </tr>
-            </thead>
-            <tbody>                
-                <tr id='addr1'></tr>
-            </tbody>
-        </table>
-        <a id='delete_row' class="pull-right btn btn-default">Delete Row</a>
+        </div>                
     </div>
    
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-    
-   
+    <script>
+        function Facturar() {
+            var cantidad = $("#cantidad").val();       
+        }
+    </script>
+      
     <script>
         $(document).ready(function () {
             $("#cb_sucursales").change(function () {
@@ -265,7 +206,6 @@
                 data: "{}",
                 success: function (data) {
                     //alert(JSON.stringify(data));
-
                     var items = '<option>Seleccione</option>';
                     for (var i = 0; i < data.length; i++) {
                         items += '<option value="' + data[i].value + '">' + data[i].text + '</option>';
@@ -289,7 +229,6 @@
                 data: "{}",
                 success: function (data) {
                     //alert(JSON.stringify(data));
-
                     var items = '<option>Seleccione</option>';
                     for (var i = 0; i < data.length; i++) {
                         items += '<option value="' + data[i].value + '">' + data[i].text + '</option>';

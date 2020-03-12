@@ -35,9 +35,38 @@ namespace LeadNew.Controllers
         }
 
         public PartialViewResult Productos(int id)
-        {            
-            var productos = _context.tbProducto.Where(x => x.prIdSucursal == id).ToList();
-            ViewData["Productos"] = productos;
+        {
+            //var productos = _context.tbProducto.Where(x => x.prIdSucursal == id).ToList();
+            tbProductoFactura[] products = null;
+            var productos = (from p in _context.tbProducto
+                             join m in _context.tbMoneda
+                             on p.prMoneda equals m.moId
+                             join d in _context.tbDescuentos
+                             on p.prId equals d.desIdProducto 
+                             into left from d in left.DefaultIfEmpty()
+                             join imp in _context.tbImpuesto
+                             on p.prIdImpuesto equals imp.impId
+                             where p.prIdSucursal == id
+                             select new { 
+                                 prIdInterno = p.prIdInterno, prDetalle = p.prDetalle, prCantidad = p.prCantidad, prPrecioVenta = p.prPrecioVenta, moNombre = m.moNombre,
+                                 moId = m.moId, moAbreviatura = m.moAbreviatura,
+                                 desId = d.desId, desPorcentaje = d.desPorcentaje,
+                                 impId = imp.impId, impPorcentaje = imp.impPorcentaje
+                             }).ToList();
+            var list = new List<tbProductoFactura>();
+
+            foreach (var i in productos)
+            {
+                list.Add(new tbProductoFactura { 
+                    prIdInterno = i.prIdInterno, prDetalle = i.prDetalle, prCantidad = i.prCantidad, prPrecioVenta = i.prPrecioVenta, moNombre = i.moNombre,
+                    moId = i.moId, moAbreviatura = i.moAbreviatura,
+                    desId = i.desId, desPorcentaje = i.desPorcentaje,
+                    impId = i.impId, impPorcentaje = i.impPorcentaje
+                });
+            }
+            products = list.ToArray();
+
+            ViewData["Productos"] = products.ToList();
             return PartialView();                        
         }
 

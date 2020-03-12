@@ -27,7 +27,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in ViewData["Productos"] as IEnumerable<LeadNew.Models.tbProducto>)
+                @foreach (var item in ViewData["Productos"] as IEnumerable<LeadNew.Models.tbProductoFactura>)
                 {
                     <tr>
                         <td id="Cod_pr">
@@ -43,48 +43,63 @@
                             @Html.DisplayFor(modelItem => item.prPrecioVenta)
                         </td>
                         <td id="Mon_pr">
-                            @Html.DisplayFor(modelItem => item.prMoneda)
+                            @Html.DisplayFor(modelItem => item.moNombre)
                         </td>
                         <td>
                             @*<a class="btn btn-success" id="addBtn"><img src="~/images/add-24px.svg" class="img-fluid" alt="Responsive image">Agregar Producto</a>*@
-                            <a id="add_row" onclick="AgregarPr('@item.prIdInterno', '@item.prDetalle', '@item.prPrecioVenta', '@item.prMoneda');" class="btn btn-default pull-left">Add Row</a>
+                            <a id="add_row" onclick="AgregarPr('@item.prIdInterno', '@item.prDetalle', '@item.prPrecioVenta', '@item.moNombre', '@item.desPorcentaje', '@item.impPorcentaje', '@item.prCantidad');" class="btn btn-success pull-left"><img src="~/images/add-24px.svg" class="img-fluid" alt="Responsive image">Agregar</a>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
+        
     </div>
-
+    
     <script>
         var i = 1;
-        function AgregarPr(codigo_pr, detalle_pr, venta_pr, moneda_pr) {
+        function AgregarPr(codigo_pr, detalle_pr, venta_pr, moneda_pr, descuento_pr, impuesto_pr, cantidad_pr) {
             //var codigo_pr = $("#Cod_pr").text();
             //alert(codigo_pr);
-            $('#addr' + i).html("<td>" + (i + 0) + " </td>" +                    
-                "<td><input name = 'codigo_pr" + i + "' type = 'text' value="+ codigo_pr + " class='form-control input-md' /> </td >" +
-                "<td><input name='detalle_pr" + i + "' type='text' value="+ detalle_pr + " class='form-control input-md'></td>" +
-                "<td><input name='cantidad" + i + "' type='number' placeholder='Cantidad' class='form-control input-md'></td>" +
-                "<td><input name='descuento" + i + "' type='number' placeholder='Descuento' class='form-control input-md'></td>" +
-                "<td><input name='precioventa" + i + "' type='number' value=" + venta_pr + " class='form-control input-md'></td>" +
-                "<td><input name='impuesto" + i + "' type='number' placeholder='Impuesto' class='form-control input-md'></td>" +
-                "<td><input name='moneda" + i + "' type='number' value=" + moneda_pr + " class='form-control input-md'></td>"
+            var cant = 0;            
+            $('#addr' + i).html("<td>" + (i + 0) + " </td>" +
+                "<td><input name = 'codigo_pr" + i + "' type = 'text' value=" + codigo_pr + " class='form-control input-md' /> </td >" +
+                "<td><input name='detalle_pr" + i + "' type='text' value=" + detalle_pr + " class='form-control input-md'></td>" +
+                "<td><input onchange='myFunction(this, "+ venta_pr +", "+ i +", "+ descuento_pr +", "+ impuesto_pr +", "+ cantidad_pr +")' name='cantidad" + i + "' type='number' id='"+ i +"' value=" + cant + " placeholder='Cantidad' class='form-control input-md'></td>" +
+                "<td><input name='descuento" + i + "' type='number' value=" + descuento_pr + " class='form-control input-md'></td>" +
+                "<td><input id='precioventa "+ i +"' name='precioventa" + i + "' type='number' value=" + venta_pr + " class='form-control input-md'></td>" +
+                "<td><input name='impuesto" + i + "' type='number' value=" + impuesto_pr + " class='form-control input-md'></td>" +
+                "<td><input name='moneda" + i + "' type='text' value=" + moneda_pr + " class='form-control input-md'></td>" +
+                "<td><input id='total"+i+"' name='total" + i + "' value=" + (cant * venta_pr) + " type='number' class='form-control input-md'></td>" +
+                "<td><a id='delete_row' onclick='QuitarProducto(this)' class='pull-right btn btn-danger'><img src='~/images/delete-24px.svg' class='img-fluid' alt=''>Quitar producto</a></td>"
             );
 
-
-
             $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
-            i++;
+            i++;            
         }
 
-        $(document).ready(function () {
-            
-            $("#delete_row").click(function () {
-                if (i > 1) {
-                    $("#addr" + (i - 1)).html('');
-                    i--;
+        function myFunction(cant, precio, i, descuento, impuesto, cantidad) {              
+            if (parseInt(cant.value) > parseInt(cantidad)) {
+                alert("La cantidad de productos excede al de inventario");
+            } else {
+                if (descuento > 0) {
+                    var desc = (descuento / 100);
+                    var subtotal = ((cant.value * precio) * desc);
+                    var precioDesc = ((cant.value * precio) - subtotal);
+                    var impuesto_ = (impuesto / 100);                
+                    $("#total"+i).val(precioDesc);
+                } else {
+                    var total = (cant.value * precio);
+                    var impuesto_ = (impuesto / 100);
+                    $("#total"+i).val(total);
                 }
-            });
-        });
+            }                                
+        }
+            
+        function QuitarProducto(producto) {
+            var row = producto.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
     </script>
 
     <script>
