@@ -1,0 +1,97 @@
+﻿@model LeadNew.Models.tbCierreCaja
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div style="padding-top: 5em;">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "tbCierreCaja")">Listado de Cierres</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Crear Cierre</li>
+        </ol>
+    </nav>
+    <h2>Crear Cierre</h2>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="formGroupExampleInput">Total de Cierre:</label>
+                <input type="text" class="form-control" id="ccTotalCierre" placeholder="Total de Cierre">
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput">Empresa:</label>
+                <input type="text" class="form-control" id="ccIdEmpresa" placeholder="Empresa">
+            </div>
+            <div class="col-sm-6">
+                <div class="card" style="background-color: #f5f5f5; padding: 1em;">
+                    <div class="card-body" align="left">
+                        <div class="form-group">
+                            <label>Sucursal del usuario:</label>
+                            <div class="form-group">
+                                <select class="form-control" id="ccIdSucursal"></select>
+                            </div>
+                        </div>
+                        <div id="target"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput">Usuario:</label>
+                <input type="text" class="form-control" id="ccIdUsuario" placeholder="Usuario">
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput">Fecha de Cierre:</label>
+                <input type="text" class="form-control" id="ccFechaCierre" placeholder="Fecha de Cierre">
+            </div>
+            <button type="button" class="btn btn-success" onclick="formcheck();">Crear Cierre</button>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+    <script>
+                $(document).ready(function () {
+            $("#ccIdSucursal").change(function () {
+                var suc = $("#ccIdSucursal").val();
+                $.get('@Url.Action("Productos", "Facturacion")', { id: suc }, function (data) {
+                    $("#target").html(data);
+                });
+            });
+        });
+    </script>
+    <script>
+        function formcheck() {
+            var isValid = true;
+            $('input[type="text"], input[type = "password"], input[type = "number"]').each(function () {
+                if ($.trim($(this).val()) == '') {
+                    isValid = false;
+                    $(this).css({
+                        "border": "1px solid red"
+                    });
+                }
+                else {
+                    $(this).css({
+                        "border": "",
+                        "background": ""
+                    });
+                }
+            });
+            if (isValid == false) {
+                e.preventDefault();
+            } else {
+                Crear();
+            }
+        }
+
+        function Crear() {
+            var fd = new FormData();
+            var fd = new FormData();
+            var ccTotalCierre = $("ccTotalCierre").val();
+
+        }
+    </script>

@@ -1,0 +1,68 @@
+﻿@model IEnumerable<LeadNew.Models.tbCierreCaja>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div style="padding-top: 5em;">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Inicio</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Listado de Cierres</li>
+        </ol>
+    </nav>
+    <h2>Listado de Cierres </h2>
+
+    <p>
+        <a class="btn btn-success" asp-action="Create"><img src="~/images/add-24px.svg" class="img-fluid" alt="Responsive image">Crear Cierre</a>
+    </p>
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Total de Cierre
+                </th>
+                <th>
+                    Empresa
+                </th>
+                <th>
+                    Sucursal
+                </th>
+                <th>
+                    Usuario Cierre
+                </th>
+                <th>
+                   Fecha de Cierre
+                </th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ccTotalCierre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ccIdEmpresa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ccIdSucursal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ccIdUsuario)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ccFechaCierre)
+                </td>
+                <td>
+                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.ccId"><img src="~/images/create-24px.svg" class="img-fluid" alt="Responsive image">Editar</a>
+                    <a class="btn btn-info" asp-action="Details" asp-route-id="@item.ccId"><img src="~/images/remove_red_eye-24px.svg" class="img-fluid" alt="Responsive image">Detalles</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.ccId"><img src="~/images/delete-24px.svg" class="img-fluid" alt="Responsive image">Eliminar</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

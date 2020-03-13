@@ -91,41 +91,60 @@ namespace LeadNew
             return View(tbCierreCaja);
         }
 
-        public ActionResult EditarCierreCaja(int id, )
+        public ActionResult EditarCierreCaja(int id, decimal ccTotalCierre, int ccIdEmpresa, int ccIdSucursal, int ccIdUsuario)
         {
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
+                tbCierreCaja tbCierreCaja = _context.tbCierreCajas.Find(id);
+                if (tbCierreCaja != null)
+                {
+                    tbCierreCaja.ccTotalCierre = ccTotalCierre;
+                    tbCierreCaja.ccIdEmpresa = ccIdEmpresa;
+                    tbCierreCaja.ccIdSucursal = ccIdSucursal;
+                    tbCierreCaja.ccIdUsuario = ccIdUsuario;
+                    _context.Entry(tbCierreCaja).State = EntityState.Modified;
+                    _context.SaveChanges();
+                }
+                return Json(true);
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return Json(false);
             }
         }
 
         // GET: tbCierreCaja/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var tbCierreCaja = await _context.tbCategoriaProducto
+                .FirstOrDefaultAsync(m => m.catId == id);
+            if (tbCierreCaja == null)
+            {
+                return NotFound();
+            }
+
+            return View(tbCierreCaja);
         }
 
         // POST: tbCierreCaja/Delete/5
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> DeleteCOnfirmed(int id)
         {
-            try
-            {
-                // TODO: Add delete logic here
+            var tbCierreCaja = await _context.tbCierreCajas.FindAsync(id);
+            _context.tbCierreCajas.Remove(tbCierreCaja);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+        private bool tbCierreCajaExists(int id)
+        {
+            return _context.tbCierreCajas.Any(e => e.ccId == id);
         }
     }
 }
