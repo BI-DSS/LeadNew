@@ -58,7 +58,7 @@
                 $(document).ready(function () {
             $("#ccIdSucursal").change(function () {
                 var suc = $("#ccIdSucursal").val();
-                $.get('@Url.Action("Productos", "Facturacion")', { id: suc }, function (data) {
+                $.get('@Url.Action("tbCierreCaja")', { id: suc }, function (data) {
                     $("#target").html(data);
                 });
             });
@@ -92,6 +92,39 @@
             var fd = new FormData();
             var fd = new FormData();
             var ccTotalCierre = $("ccTotalCierre").val();
+            var ccIdEmpresa = $("ccIdEmpresa").val();
+            var ccIdSucursal = $("ccIdSucursal").val();
+            var ccIdUsuario = $("ccIdUsuario").val();
+            var ccFechaCierre = $("ccFechaCierre").val();
+
+            fd.append("ccTotalCierre", ccTotalCierre);
+            fd.append("ccIdEmpresa", ccIdEmpresa);
+            fd.append("ccIdSucursal", ccIdSucursal);
+            fd.append("ccIdUsuario", ccIdUsuario);
+            fd.append("ccFechaCierre", ccFechaCierre);
+
+            $.ajax({
+                url: '@Url.Action("CrearCierre", "tbCierreCaja")',
+                type: 'POST',
+                cache: false,
+                processData: false,
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+                data: fd,
+                success: function (data) {
+                    if (data == true) {
+                        location.href = '@Url.Action("CajaLista", "tbCierreCaja")',
+                    } else if (data == false) {
+                        alert("Error al Ingresar Cierre");
+                    }
+                },
+                error: function (jqXHR, textStatus, error) {
+                    var exception = JSON.parse(jqXHR.responseText);
+                    alert("Error al Enviar Datos" + exception);
+                }
+            });
 
         }
     </script>
+}

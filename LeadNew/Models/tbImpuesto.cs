@@ -13,8 +13,5 @@ namespace LeadNew.Models
         public int impIdEmpresa { get; set; }
         public int impPorcentaje { get; set; }
         public string impTipoImpuesto { get; set; }
-
-
-
     }
 }

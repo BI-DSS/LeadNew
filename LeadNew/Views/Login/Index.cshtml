@@ -1,11 +1,17 @@
 ﻿@model LoginViewModel
 
 @{
-    Layout = null;
+    ViewData["Title"] = "Index";
 }
-<div class="row">
+
+<div style="align-content:center" class="row">
+    <br />
+    <br />
     @using (Html.BeginForm("Index", "Home", FormMethod.Post))
     {
+        <div class="row">
+          <img src= "~/images\LEAD Logo_FINAL-01.jpg" width="400" height="341">
+        </div>
         <div class="col-md-3 form-horizontal">
             <br />
             @Html.LabelFor(x => x.Usuario, new { @class = "" })

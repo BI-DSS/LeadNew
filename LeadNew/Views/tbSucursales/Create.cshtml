@@ -17,11 +17,11 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label for="formGroupExampleInput">Sucursal Nombre:</label>
-                <input type="text" class="form-control" id="sucNombre" placeholder="Nombre Sucursal">
+                <input type="text" class="form-control" id="sucNombre" placeholder="Nombre de la Sucursal">
             </div>
             <div class="form-group">
                 <label for="formGroupExampleInput">Nombre Empresa:</label>
-                <input type="text" class="form-control" id="sucIdEmpresa" placeholder="Nombre de Empresa">
+                <input type="text" class="form-control" id="sucIdEmpresa" placeholder="Nombre de la Empresa">
             </div>
             <button type="button" class="btn btn-success" onclick="formcheck();">Crear Sucursal</button>
         </div>
@@ -30,6 +30,28 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+        $(document).ready(funtion () {
+            var laURLVista = '@Url.Action("EmpresaLista", "tbSucursales")';
+            $.ajax({
+                url: laURLVista,
+                type: 'POST',
+                cache: false,
+                data:"{}",
+                success: function (data) {
+                    var items = '<option>Seleccione Empresa</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        items += "<option value='" + data[i].value + "'>" + data[i].value + "</option>";
+                    }
+                    $('#sucIdEmpresa').html(items);
+                },
+                error: function (jqXHR, textStatus, error) {
+                    alert(error, textStatus);
+                }
+            });
+        });
+    </script>
 
     <script>
         function formcheck() {

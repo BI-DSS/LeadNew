@@ -10,9 +10,15 @@ namespace LeadNew.Models
     {
         [Key]
         public int sucId { get; set; }
+
+        [Required]
+        [StringLength(15, MinimumLength = 6)]
         public string sucNombre { get; set; }
+
         public int sucIdEmpresa { get; set; }
+
         public System.DateTime sucFechaCreacion { get; set; }
+
         public int sucEstado { get; set; }
     }
 }
