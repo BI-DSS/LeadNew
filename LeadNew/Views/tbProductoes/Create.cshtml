@@ -52,6 +52,18 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label>Proveedor:</label>
+                    <div class="form-group">
+                        <select class="form-control" id="prIdProveedor" name="prIdProveedor"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Impuesto:</label>
+                    <div class="form-group">
+                        <select class="form-control" id="prIdImpuesto" name="prIdImpuesto"></select>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label>Sucursal:</label>
                     <div class="form-group">
                         <select class="form-control" id="prIdSucursal" name="prIdSucursal"></select>
@@ -78,6 +90,44 @@
                         items += "<option value='" + state.value + "'>" + state.text + "</option>";
                     });
                     $('#prCategoria').html(items);
+                },
+                error: function (jqXHR, textStatus, error) {
+                    alert(error, textStatus);
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            var laURLVista = '@Url.Action("ImpuestoLista", "tbProductoes")';
+            $.ajax({
+                url: laURLVista,
+                type: 'POST',
+                cache: false,
+                success: function (data) {
+                    var items = '<option>Seleccione Impuesto</option>';
+                    $.each(data, function (i, state) {
+                        items += "<option value='" + state.value + "'>" + state.text + "</option>";
+                    });
+                    $('#prIdImpuesto').html(items);
+                },
+                error: function (jqXHR, textStatus, error) {
+                    alert(error, textStatus);
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            var laURLVista = '@Url.Action("ProveedorLista", "tbProductoes")';
+            $.ajax({
+                url: laURLVista,
+                type: 'POST',
+                cache: false,
+                success: function (data) {
+                    var items = '<option>Seleccione Proveedor</option>';
+                    $.each(data, function (i, state) {
+                        items += "<option value='" + state.value + "'>" + state.text + "</option>";
+                    });
+                    $('#prIdProveedor').html(items);
                 },
                 error: function (jqXHR, textStatus, error) {
                     alert(error, textStatus);
@@ -157,7 +207,10 @@
             var prPrecioCosto = $("#prPrecioCosto").val();
             var prPrecioVenta = $("#prPrecioVenta").val();
             var prMoneda = $("#prMoneda").val();
-            var prIdSucursal = $("#prIdSucursal").val();
+            var prIdSucursal = $("#prIdSucursal").val(); 
+            var prIdProveedor = $("#prIdProveedor").val();
+            var prIdImpuesto = $("#prIdImpuesto").val(); 
+            var prCategoria = $("#prCategoria").val();
 
             if (document.getElementById("img").files == "") {
                 var imagen = $("#img").get(0).files;
@@ -172,6 +225,9 @@
             fd.append("prPrecioVenta", prPrecioVenta);
             fd.append("prMoneda", prMoneda);
             fd.append("prIdSucursal", prIdSucursal);
+            fd.append("prIdProveedor", prIdProveedor);
+            fd.append("prIdImpuesto", prIdImpuesto);
+            fd.append("prCategoria", prCategoria);
 
             for (var i = 0; i < imagen.length; i++) {
                 fd.append("img", imagen[i]);

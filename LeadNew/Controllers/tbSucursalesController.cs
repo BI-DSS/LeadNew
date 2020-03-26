@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LeadNew.Models;
 
-namespace LeadNew.Controllers
+namespace LeadNew
 {
     public class tbSucursalesController : Controller
     {
@@ -21,7 +21,7 @@ namespace LeadNew.Controllers
         public ActionResult EmpresaLista()
         {
             var empresas = (from emp in _context.tbEmpresa select new { Text = emp.empNombre, Value = emp.empId }).ToList().OrderBy(x => x.Text);
-            return Json(empresas);
+            return Json(empresas, new Newtonsoft.Json.JsonSerializerSettings());
         }
 
         //GET: tbSucursales

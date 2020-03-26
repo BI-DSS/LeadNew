@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewData["Title"] = "ProductosStock";
+}
+
+    <div style="padding-top: 5em;">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Inicio</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Productos en Stock</li>
+            </ol>
+        </nav>
+
+        
+        <div class="row">
+            @foreach (var item in ViewData["Productos"] as IEnumerable<LeadNew.Models.tbProductoFactura>)
+            {
+            <div class="col-sm-6 col-md-4">                
+                <div class="thumbnail" style="height: 12em;">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <img class="img-fluid img-thumbnail imagen" src="data:image/jpeg;base64,@Convert.ToBase64String(item.prImagen)" alt="...">
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="caption">
+                                <dl class="dl-horizontal">
+                                    <dt>
+                                        Código de producto
+                                    </dt>
+                                    <dd>
+                                        @item.prIdInterno
+                                    </dd>
+                                    <dt>
+                                        Detalle
+                                    </dt>
+                                    <dd>
+                                        @item.prDetalle
+                                    </dd>
+                                    <dt>
+                                        Cantidad
+                                    </dt>
+                                    <dd>
+                                        @if (item.prCantidad >= 0 && item.prCantidad < 20)
+                                        {
+                                            <span class="label label-danger">@item.prCantidad</span>
+                                        }
+                                        else if (item.prCantidad >= 21 && item.prCantidad < 40)
+                                        {
+                                            <span class="label label-warning">@item.prCantidad</span>
+                                        }
+                                        else if (item.prCantidad >= 41 && item.prCantidad < 71)
+                                        {
+                                            <span class="label label-default">@item.prCantidad</span>
+                                        }
+                                    </dd>
+                                    <dt>
+                                        Precio de costo
+                                    </dt>
+                                    <dd>
+                                        @item.prPrecioCosto
+                                    </dd>
+                                    <dt>
+                                        Precio de venta
+                                    </dt>
+                                    <dd>
+                                        @item.prPrecioVenta
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+            </div>
+        
+    </div>
+

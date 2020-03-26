@@ -1,8 +1,14 @@
-﻿
-    <div class="table-responsive">
-        <div style="padding-bottom: 0.5em;">
-            <input class="form-control" type="text" onkeyup="myFunction()" id="txt_busq" placeholder="buscar producto" />
-        </div>
+﻿<style>
+    .scrollit {
+        overflow: scroll;
+        height: 18em;
+    }
+</style>
+<div class="table-responsive">
+    <div style="padding-bottom: 0.5em;">
+        <input class="form-control" type="text" onkeyup="myFunction()" id="txt_busq" placeholder="buscar producto" />
+    </div>
+    <div class="scrollit">
         <table id="tbl_productos" class="table table-bordered table-hover table-striped">
             <thead>
                 <tr>
@@ -53,89 +59,126 @@
                 }
             </tbody>
         </table>
-        
     </div>
-    
-    <script>
-        var i = 1;
-        function AgregarPr(codigo_pr, detalle_pr, venta_pr, moneda_pr, descuento_pr, impuesto_pr, cantidad_pr) {
-            //var codigo_pr = $("#Cod_pr").text();
-            //alert(codigo_pr);
-            var cant = 0;            
-            $('#addr' + i).html("<td>" + (i + 0) + " </td>" +
-                "<td><input name = 'codigo_pr" + i + "' type = 'text' value=" + codigo_pr + " class='form-control input-md' /> </td >" +
-                "<td><input name='detalle_pr" + i + "' type='text' value=" + detalle_pr + " class='form-control input-md'></td>" +
-                "<td><input onchange='myFunction(this, "+ venta_pr +", "+ i +", "+ descuento_pr +", "+ impuesto_pr +", "+ cantidad_pr +")' name='cantidad" + i + "' type='number' id='"+ i +"' value=" + cant + " placeholder='Cantidad' class='form-control input-md'></td>" +
-                "<td><input name='descuento" + i + "' type='number' value=" + descuento_pr + " class='form-control input-md'></td>" +
-                "<td><input id='precioventa "+ i +"' name='precioventa" + i + "' type='number' value=" + venta_pr + " class='form-control input-md'></td>" +
-                "<td><input name='impuesto" + i + "' type='number' value=" + impuesto_pr + " class='form-control input-md'></td>" +
-                "<td><input name='moneda" + i + "' type='text' value=" + moneda_pr + " class='form-control input-md'></td>" +
-                "<td><input id='total"+i+"' name='total" + i + "' value=" + (cant * venta_pr) + " type='number' class='form-control input-md'></td>" +
-                "<td><a id='delete_row' onclick='QuitarProducto(this)' class='pull-right btn btn-danger'><img src='~/images/delete-24px.svg' class='img-fluid' alt=''>Quitar producto</a></td>"
-            );
+</div>
 
-            $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
-            i++;            
-        }
+<script>
+    var i = 1;
+    function AgregarPr(codigo_pr, detalle_pr, venta_pr, moneda_pr, descuento_pr, impuesto_pr, cantidad_pr) {
+        //var codigo_pr = $("#Cod_pr").text();
+        //alert(codigo_pr);
+        var cant = 0;
+        $('#addr' + i).html("<td>" + (i + 0) + " </td>" +
+            "<td><input name = 'codigo_pr" + i + "' type = 'text' value=" + codigo_pr + " class='form-control input-md' /> </td >" +
+            "<td><input name='detalle_pr" + i + "' type='text' value=" + detalle_pr + " class='form-control input-md'></td>" +
+            "<td><input onchange='Calcular(this, " + venta_pr + ", " + i + ", " + descuento_pr + ", " + impuesto_pr + ", " + cantidad_pr + ")' name='cantidad" + i + "' type='number' id='" + i + "' value=" + cant + " placeholder='Cantidad' class='form-control input-md'></td>" +
+            "<td><input name='descuento" + i + "' type='number' value=" + descuento_pr + " class='form-control input-md count-me' id='descuento" + i + "'></td>" +
+            "<td><input id='precioventa " + i + "' name='precioventa" + i + "' type='number' value=" + venta_pr + " class='form-control input-md'></td>" +
+            "<td><input name='impuesto" + i + "' type='number' value=" + impuesto_pr + " class='form-control input-md'></td>" +
+            "<td><input name='moneda" + i + "' type='text' value=" + moneda_pr + " class='form-control input-md'></td>" +
+            "<td><input id='total_desc" + i + "' name='total" + i + "' value=" + (cant * venta_pr) + " type='number' class='form-control input-md'></td>" +
+            "<td><input id='Sub_total" + i + "' name='Sub_total" + i + "' type='number' class='form-control input-md'></td>" +
+            "<td><input id='total" + i + "' name='total" + i + "' type='number' class='form-control input-md'></td>" +
+            "<td><a id='delete_row' onclick='QuitarProducto(this, " + venta_pr + ", " + i + ", " + descuento_pr + ", " + impuesto_pr + ", " + cantidad_pr + ")' class='pull-right btn btn-danger'><img src='~/images/delete-24px.svg' class='img-fluid' alt=''>Quitar producto</a></td>" +
+            "<td id='desc" + i + "' style = 'display: none;'></td>" +
+            "<td id='subt" + i + "' style = 'display: none;'></td>" +
+            "<td id='impuesto15" + i + "' style = 'display: none;'></td>" +
+            "<td id='impuesto18" + i + "' style = 'display: none;'></td>" +
+            "<td id='totalPagar" + i + "' style = 'display: none;'></td>"
+        );
 
-        function myFunction(cant, precio, i, descuento, impuesto, cantidad) {              
-            if (parseInt(cant.value) > parseInt(cantidad)) {
-                alert("La cantidad de productos excede al de inventario");
-            } else {
-                if (descuento > 0) {
-                    var desc = (descuento / 100);
-                    var subtotal = ((cant.value * precio) * desc);
-                    var precioDesc = ((cant.value * precio) - subtotal);
-                    var impuesto_ = (impuesto / 100);                
-                    $("#total"+i).val(precioDesc);
-                } else {
-                    var total = (cant.value * precio);
-                    var impuesto_ = (impuesto / 100);
-                    $("#total"+i).val(total);
+        $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
+        i++;
+    }
+
+    function Calcular(cant, precio, i, descuento, impuesto, cantidad) {
+        if (parseInt(cant.value) > parseInt(cantidad)) {
+            alert("La cantidad de productos excede al de inventario");
+        } else {
+            if (descuento > 0) {
+                var precio_descuento = ((cant.value * precio) * (descuento / 100));   //((cant.value * precio) * ((descuento / 100) * (cant.value * precio)));
+                var subTotal = ((cant.value * precio) - precio_descuento);
+                var Total = (((subTotal * (impuesto / 100))) + subTotal);
+                $("#desc" + i).text(precio_descuento);
+                $("#total_desc" + i).val(precio_descuento);
+                $("#Sub_total" + i).val(subTotal);
+                $("#total" + i).val(Total);
+                $("#subt" + i).text(subTotal);
+                $("#totalPagar" + i).text(Total);
+
+                if (impuesto === 15) {
+                    $("#impuesto15" + i).text(subTotal);
+                } else if (impuesto === 18) {
+                    $("#impuesto18" + i).text(subTotal);
                 }
-            }                                
+
+                SumarDescuentos();
+            } else {
+                var total = (cant.value * precio);
+                var TotalFinal = (((total * (impuesto / 100))) + total);
+                $("#desc" + i).text(0);
+                $("#total" + i).val(total);
+                $("#Sub_total" + i).val(total);
+                $("#total" + i).val(TotalFinal);
+                $("#subt" + i).text(total);
+                $("#totalPagar" + i).text(TotalFinal);
+
+                if (impuesto === 15) {
+                    $("#impuesto15" + i).text(subTotal);
+                } else if (impuesto === 18) {
+                    $("#impuesto18" + i).text(total);
+                }
+
+                SumarDescuentos();
+            }
         }
-            
-        function QuitarProducto(producto) {
-            var row = producto.parentNode.parentNode;
-            row.parentNode.removeChild(row);
-        }
-    </script>
+    }
 
-    <script>
-        $(document).ready(function(){
-            $("#txt_busq").on("keyup", function() {
-                var value = $(this).val().toLowerCase();
-                $("#tbl_productos tr").filter(function() {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                });
-            });
-        });    
-    </script>
+    function SumarDescuentos() {
 
-    <script>
-        var items = [];
-
-        $(".addBtn").on("click", function () {
-            var newTr = $(this).closest("tr").clone();
-            console.log(newTr);
-            items.push(newTr);
-            console.log(items.push(newTr));
-            newTr.appendTo($("#tbl_facturacion"));
+        var descuentos = 0;
+        var subtotal = 0;
+        var impuesto15 = 0;
+        var impuesto18 = 0;
+        var TotalPagar = 0;
+        $("#tab_logic tr").not(':first').not(':last').each(function () {
+            descuentos += getnum($(this).find("td:eq(12)").text());
+            subtotal += getnum($(this).find("td:eq(13)").text());
+            impuesto15 += getnum($(this).find("td:eq(14)").text());
+            impuesto18 += getnum($(this).find("td:eq(15)").text());
+            TotalPagar += getnum($(this).find("td:eq(16)").text());
+            function getnum(t) {
+                if (isNumeric(t)) {
+                    return parseFloat(t, 10);
+                }
+                return 0;
+                function isNumeric(n) {
+                    return !isNaN(parseFloat(n)) && isFinite(n);
+                }
+            }
         });
-    </script>
 
-    <script>
-        arr1 = [
-            { "Name": "Peter", "RollNo": 1234, },
-            { "Name": "John", "RollNo": 1234, },
-            { "Name": "Kevin", "RollNo": 1234, },
-        ];
+        $("#txt_descuentos").val(descuentos);
+        $("#txt_subtotal").val(subtotal);
+        $("#txt_impuesto15").val(impuesto15);
+        $("#txt_impuesto18").val(impuesto18);
+        $("#txt_totalPagar").val(TotalPagar);
+    }
 
-        $.each(arr1, function (i) {
-            var templateString = '<table class="table card"><thead> <tr><td><p>My name is: ' + arr1[i].Name + '</p><p>My RollNo is: ' + arr1[i].RollNo + '</p></td></tr></thead></table>';
-            $('#test').append(templateString);
-        })
-    </script>
+    function QuitarProducto(producto, precio, i, descuento, impuesto, cantidad) {
+        //Calcular(cant, precio, i, descuento, impuesto, cantidad);
+        var row = producto.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+    }
+</script>
 
-    
+<script>
+    $(document).ready(function () {
+        $("#txt_busq").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#tbl_productos tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>    

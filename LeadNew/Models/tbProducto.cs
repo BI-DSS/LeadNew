@@ -20,10 +20,18 @@ namespace LeadNew.Models
         public System.DateTime prFechaIngreso { get; set; }
         public string prUsuario { get; set; }
         public int prIdSucursal { get; set; }
-        public string img { get; set; }
         public byte[] prImagen { get; set; }
         public int prIdImpuesto { get; set; }
-
+        public int prIdProveedor { get; set; }
+        public int prIdCategoria { get; set; }
         //public virtual tbSucursales tbSucursales { get; set; }
+
+        //tablas foraneas
+        public string moAbreviatura { get; set; }
+        public string moNombre { get; set; }
+        public string sucNombre { get; set; }
+        public string catNombre { get; set; }
+        public int impPorcentaje { get; set; }
+        public string pvNombre { get; set; }
     }
 }

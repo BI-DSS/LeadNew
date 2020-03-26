@@ -1,0 +1,57 @@
+﻿@model LeadNew.Models.tbProveedores
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>tbProveedores</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.pvNombre)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.pvNombre)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.pvTelefono)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.pvTelefono)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.pvCorreo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.pvCorreo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.pvDireccion)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.pvDireccion)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.pvDescripcion)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.pvDescripcion)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.pvFechaCreacion)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.pvFechaCreacion)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="pvId" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

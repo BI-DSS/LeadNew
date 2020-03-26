@@ -22,15 +22,97 @@ namespace LeadNew
         }
 
         // GET: tbProductoes
-        public async Task<IActionResult> Index()
+        public ActionResult Index()
         {
-            return View(await _context.tbProducto.ToListAsync());
+            tbProducto[] producto = null;
+            var product = (from p in _context.tbProducto
+                           join m in _context.tbMoneda
+                           on p.prMoneda equals m.moId
+                           join s in _context.tbSucursales
+                           on p.prIdSucursal equals s.sucId
+                           join c in _context.tbCategoriaProducto
+                           on p.prIdCategoria equals c.catId
+                           join i in _context.tbImpuesto
+                           on p.prIdImpuesto equals i.impId
+                           join pro in _context.tbProveedores
+                           on p.prIdProveedor equals pro.pvId
+                           select new
+                           {
+                               prId = p.prId,
+                               prIdInterno = p.prIdInterno,
+                               prDetalle = p.prDetalle,
+                               prCantidad = p.prCantidad,
+                               prPrecioCosto = p.prPrecioCosto,
+                               prPrecioVenta = p.prPrecioVenta,
+                               prMoneda = p.prMoneda,
+                               prEstado = p.prEstado,
+                               prFechaIngreso = p.prFechaIngreso,
+                               prUsuario = p.prUsuario,
+                               prIdSucursal = p.prIdSucursal,
+                               prImagen = p.prImagen,
+                               prIdImpuesto = p.prIdImpuesto,
+                               prIdProveedor = p.prIdProveedor,
+                               prIdCategoria = p.prIdCategoria,
+                               moAbreviatura = m.moAbreviatura,
+                               moNombre = m.moNombre,
+                               sucNombre = s.sucNombre,
+                               catNombre = c.catNombre,
+                               impPorcentaje = i.impPorcentaje,
+                               pvNombre = pro.pvNombre
+                           }).ToList();
+            var list = new List<tbProducto>();
+
+            foreach (var i in product)
+            {
+                list.Add(new tbProducto
+                {
+                    prId = i.prId,
+                    prIdInterno = i.prIdInterno,
+                    prDetalle = i.prDetalle,
+                    prCantidad = i.prCantidad,
+                    prPrecioCosto = i.prPrecioCosto,
+                    prPrecioVenta = i.prPrecioVenta,
+                    prMoneda = i.prMoneda,
+                    prEstado = i.prEstado,
+                    prFechaIngreso = i.prFechaIngreso,
+                    prUsuario = i.prUsuario,
+                    prIdSucursal = i.prIdSucursal,
+                    prImagen = i.prImagen,
+                    prIdImpuesto = i.prIdImpuesto,
+                    prIdProveedor = i.prIdProveedor,
+                    prIdCategoria = i.prIdCategoria,
+                    moAbreviatura = i.moAbreviatura,
+                    moNombre = i.moNombre,
+                    sucNombre = i.sucNombre,
+                    catNombre = i.catNombre,
+                    impPorcentaje = i.impPorcentaje,
+                    pvNombre = i.pvNombre
+                });
+            }
+
+            producto = list.ToArray();
+
+            ViewData["Productos"] = producto.ToList();
+
+            return View();
         }
 
         public ActionResult MonedaLista()
         {
             var monedas = (from mon in _context.tbMoneda select new { Text = mon.moNombre, Value = mon.moId }).ToList().OrderBy(x => x.Text);
             return Json(monedas);
+        }
+
+        public ActionResult ProveedorLista()
+        {
+            var proveedor = (from mon in _context.tbProveedores select new { Text = mon.pvNombre, Value = mon.pvId }).ToList().OrderBy(x => x.Text);
+            return Json(proveedor);
+        }
+
+        public ActionResult ImpuestoLista()
+        {
+            var impuesto = (from mon in _context.tbImpuesto select new { Text = mon.impPorcentaje, Value = mon.impId }).ToList().OrderBy(x => x.Text);
+            return Json(impuesto);
         }
 
         public ActionResult SucursalesLista()
@@ -69,7 +151,7 @@ namespace LeadNew
             return View();
         }
 
-        public ActionResult CrearProducto(string prIdInterno, string prDetalle, int prCantidad, decimal prPrecioCosto, decimal prPrecioVenta, int prMoneda, int prIdSucursal, IFormFile img)
+        public ActionResult CrearProducto(string prIdInterno, string prDetalle, int prCantidad, decimal prPrecioCosto, decimal prPrecioVenta, int prMoneda, int prIdSucursal, IFormFile img, int prIdProveedor, int prIdImpuesto, int prCategoria)
         {
             try
             {
@@ -105,6 +187,9 @@ namespace LeadNew
                     tbProducto.prUsuario = "6";
                     tbProducto.prEstado = 1;
                     tbProducto.prImagen = p1;
+                    tbProducto.prIdProveedor = prIdProveedor;
+                    tbProducto.prIdImpuesto = prIdImpuesto;
+                    tbProducto.prIdCategoria = prCategoria;
                     _context.tbProducto.Add(tbProducto);
                     _context.SaveChanges();
 
@@ -134,7 +219,7 @@ namespace LeadNew
             return View(tbProducto);
         }
 
-        public ActionResult EditarProducto(int id, string prIdInterno, string prDetalle, int prCantidad, decimal prPrecioCosto, decimal prPrecioVenta, int prMoneda, int prIdSucursal)
+        public ActionResult EditarProducto(int id, string prIdInterno, string prDetalle, int prCantidad, decimal prPrecioCosto, decimal prPrecioVenta, int prMoneda, int prIdSucursal, int prIdProveedor, int prIdImpuesto)
         {
             try
             {
@@ -148,6 +233,8 @@ namespace LeadNew
                     tbProducto.prPrecioVenta = prPrecioVenta;
                     tbProducto.prMoneda = prMoneda;
                     tbProducto.prIdSucursal = prIdSucursal;
+                    tbProducto.prIdProveedor = prIdProveedor;
+                    tbProducto.prIdImpuesto = prIdImpuesto;
                     _context.Entry(tbProducto).State = EntityState.Modified;
                     _context.SaveChanges();
                 }

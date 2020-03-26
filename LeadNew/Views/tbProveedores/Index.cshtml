@@ -1,0 +1,74 @@
+﻿@*@model IEnumerable<LeadNew.Models.tbProveedores>*@
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+    <div style="padding-top: 5em;">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Inicio</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Listado de Proveedores</li>
+            </ol>
+        </nav>
+        <h2>Listado de Proveedores</h2>
+        <p>
+            <a class="btn btn-success" asp-action="Create"><img src="~/images/add-24px.svg" class="img-fluid" alt="Responsive image">Crear proveedor</a>
+        </p>
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Nombre Proveedor
+                    </th>
+                    <th>
+                        Teléfono
+                    </th>
+                    <th>
+                        Correo
+                    </th>
+                    <th>
+                        Dirección
+                    </th>
+                    <th>
+                        Descripción
+                    </th>
+                    <th>
+                        Fecha de Creación
+                    </th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewData["tbProveedores"] as IEnumerable<LeadNew.Models.tbProveedores>)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.pvNombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.pvTelefono)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.pvCorreo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.pvDireccion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.pvDescripcion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.pvFechaCreacion)
+                        </td>
+                        <td>
+
+                            @*<a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@item.pvId"><img src="~/images/create-24px.svg" class="img-fluid" alt="Responsive image">Editar</a>*@
+                            <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.pvId"><img src="~/images/remove_red_eye-24px.svg" class="img-fluid" alt="Responsive image">Detalles</a>
+                            @*<a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.pvId"><img src="~/images/delete-24px.svg" class="img-fluid" alt="Responsive image">Eliminar</a>*@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>

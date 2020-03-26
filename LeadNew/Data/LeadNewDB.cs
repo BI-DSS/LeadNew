@@ -29,8 +29,18 @@ namespace LeadNew.Models
         public DbSet<LeadNew.Models.tbCategoriaProducto> tbCategoriaProducto { get; set; }
         public DbSet<LeadNew.Models.tbDescuentos> tbDescuentos { get; set; } 
         public DbSet<LeadNew.Models.tbAperturaCaja> tbAperturaCajas { get; set; }
-        public DbSet<LeadNew.Models.tbCierreCaja> tbCierreCajas { get; set; } 
-        public DbSet<LeadNew.Models.tbImpuesto> tbImpuesto { get; set; } 
+
+        public DbSet<LeadNew.Models.tbProductoFactura> tbProductoFactura { get; set; }
+        public DbSet<LeadNew.Models.tbImpuesto> tbImpuesto { get; set; }        
+
+        public DbSet<LeadNew.Models.tbCierreCaja> tbCierreCajas { get; set; }
+        public DbSet<LeadNew.Models.tbRegistroTributario> tbRegistroTributario { get; set; }
+        public DbSet<LeadNew.Models.RegistroTributarioNotificaciones> RegistroTributarioNotificaciones { get; set; }
+        public DbSet<LeadNew.Models.tbProveedores> tbProveedores { get; set; }
+        public DbSet<LeadNew.Models.tbTipoProveedores> tbTipoProveedores { get; set; }
+        public DbSet<LeadNew.Models.tbContactosProveedores> tbContactosProveedores { get; set; }
+        public DbSet<LeadNew.Models.tbNotasProveedores> tbNotasProveedores { get; set; }
+
     }
 
 }

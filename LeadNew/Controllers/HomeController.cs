@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LeadNew.Models;
 using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
 
 namespace LeadNew.Controllers
 {
@@ -34,6 +35,109 @@ namespace LeadNew.Controllers
                                      group p by new { cantidad = p.prId, usuario = u.usuNombreUsuario } into g
                                      select new { conteo = 3, usu = g.Key.usuario };
             ViewBag.Productos_usuarios = JsonConvert.SerializeObject(Productos_usuarios);
+
+            var ProductosStock = (from e in _context.tbProducto
+                                  where e.prIdSucursal == 5 && e.prCantidad < 70
+                                  select e.prId).Count();
+            ViewData["ProductosStock"] = ProductosStock;
+
+            var DbF = Microsoft.EntityFrameworkCore.EF.Functions;
+            var now = DateTime.Now;
+            var RgTributario = (from rt in _context.tbRegistroTributario
+                                where DbF.DateDiffDay(now, rt.rtFechafinal) <= 40
+                                select rt.rtId).Count();
+            ViewData["RgTributario"] = RgTributario;
+
+            return View();
+        }
+
+        public ActionResult RegistroTributario()
+        {
+            var DbF = Microsoft.EntityFrameworkCore.EF.Functions;
+            var now = DateTime.Now;
+            RegistroTributarioNotificaciones[] tributario = null;
+            var registro = (from rt in _context.tbRegistroTributario
+                            join e in _context.tbEmpresa
+                            on rt.rtIdEmpresa equals e.empId
+                            where (DbF.DateDiffDay(now, rt.rtFechafinal) <= 40)
+                            select new
+                            {
+                                rtCAI = rt.rtCAI,
+                                rtFechafinal = rt.rtFechafinal,
+                                rtRangoAutoInicio = rt.rtRangoAutoInicio,
+                                rtRangoAutoFinal = rt.rtRangoAutoFinal,
+                                empNombre = e.empNombre
+                            }).ToList();
+
+            var list = new List<RegistroTributarioNotificaciones>();
+
+            foreach (var i in registro)
+            {
+                list.Add(new RegistroTributarioNotificaciones
+                {
+                    rtCAI = i.rtCAI,
+                    rtFechafinal = i.rtFechafinal,
+                    rtRangoAutoInicio = i.rtRangoAutoInicio,
+                    rtRangoAutoFinal = i.rtRangoAutoFinal,
+                    empNombre = i.empNombre
+                });
+            }
+            tributario = list.ToArray();
+            ViewData["tributario"] = tributario.ToList();
+
+            return View();
+        }
+
+        public ActionResult ProductosStock()
+        {
+            tbProductoFactura[] products = null;
+            var productos = (from p in _context.tbProducto
+                             join m in _context.tbMoneda
+                             on p.prMoneda equals m.moId
+                             join d in _context.tbDescuentos
+                             on p.prId equals d.desIdProducto
+                             into left
+                             from d in left.DefaultIfEmpty()
+                             join imp in _context.tbImpuesto
+                             on p.prIdImpuesto equals imp.impId
+                             where p.prIdSucursal == 5 && p.prCantidad < 70
+                             select new
+                             {
+                                 prIdInterno = p.prIdInterno,
+                                 prDetalle = p.prDetalle,
+                                 prCantidad = p.prCantidad,
+                                 prPrecioVenta = p.prPrecioVenta,
+                                 moNombre = m.moNombre,
+                                 moId = m.moId,
+                                 moAbreviatura = m.moAbreviatura,
+                                 desId = d.desId,
+                                 desPorcentaje = d.desPorcentaje,
+                                 impId = imp.impId,
+                                 impPorcentaje = imp.impPorcentaje,
+                                 prImagen = p.prImagen
+                             }).ToList();
+            var list = new List<tbProductoFactura>();
+
+            foreach (var i in productos)
+            {
+                list.Add(new tbProductoFactura
+                {
+                    prIdInterno = i.prIdInterno,
+                    prDetalle = i.prDetalle,
+                    prCantidad = i.prCantidad,
+                    prPrecioVenta = i.prPrecioVenta,
+                    moNombre = i.moNombre,
+                    moId = i.moId,
+                    moAbreviatura = i.moAbreviatura,
+                    desId = i.desId,
+                    desPorcentaje = i.desPorcentaje,
+                    impId = i.impId,
+                    impPorcentaje = i.impPorcentaje,
+                    prImagen = i.prImagen
+                });
+            }
+            products = list.ToArray();
+            ViewData["Productos"] = products.ToList();
 
             return View();
         }

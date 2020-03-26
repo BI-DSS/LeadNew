@@ -28,6 +28,7 @@
                     <li class="list-group-item"><img src="~/images/shopping_cart-24px.svg" class="img-fluid" alt="Responsive image"><a href="@Url.Action("Index", "Facturacion")">Facturación</a></li>
                     <li class="list-group-item"><img src="~/images/account_box-24px.svg" class="img-fluid" alt="Responsive image"><a href="@Url.Action("Index", "tbClientes")">Clientes</a></li>
                     @*<li class="list-group-item"><img src="~/images/list-24px.svg" class="img-fluid" alt="Responsive image">Inventarios</li>*@
+                    <li class="list-group-item"><img src="~/images/shopping_basket-24px.svg" class="img-fluid" alt="Responsive image"><a href="@Url.Action("Index", "tbProveedores")">Proveedores</a></li>
                     <li class="list-group-item"><img src="~/images/shopping_basket-24px.svg" class="img-fluid" alt="Responsive image"><a href="@Url.Action("Index", "tbCategoriaProducto")">Categoria de Productos</a></li>
                     <li class="list-group-item"><img src="~/images/shopping_basket-24px.svg" class="img-fluid" alt="Responsive image"><a href="@Url.Action("Index", "tbProductoes")">Productos</a></li>
                     <li class="list-group-item"><img src="~/images/shopping_basket-24px.svg" class="img-fluid" alt="Responsive image"><a href="@Url.Action("Index", "tbDescuentos")">Descuentos</a></li>
@@ -45,7 +46,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-10">
+    <div class="col-sm-7">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active" aria-current="page">Inicio</li>
@@ -62,15 +63,18 @@
         </div>
         <br />
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
                 <div class="card" style="background-color: #f5f5f5; padding: 1em;">
                     <div class="card-body" align="center">
                         <h3>Productos Ingresados por Usuario</h3>
                         <div id="chartdiv"></div>
                     </div>
                 </div>
-            </div>
-            <div class="col-sm-6">
+            </div>            
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-sm-12">
                 <div class="card" style="background-color: #f5f5f5; padding: 1em;">
                     <div class="card-body" align="center">
                         <h3>Empresas Creadas por Usuarios</h3>
@@ -79,6 +83,31 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="card" style="background-color: #f5f5f5; padding: 1em;">
+            <div class="card-body">
+                <h3>Notificaciones</h3>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="@Url.Action("RegistroTributario", "Home")">
+                            Registro Tributario
+                            <span class="badge badge-primary badge-pill">@ViewData["RgTributario"]</span>
+                        </a>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="@Url.Action("ProductosStock", "Home")">
+                            Productos en Stock
+                            <span class="badge badge-primary badge-pill">@ViewData["ProductosStock"]</span>
+                        </a>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Otros
+                        <span class="badge badge-primary badge-pill">1</span>
+                    </li>
+                </ul>
+            </div>
+        </div>        
     </div>
 </div>
 
