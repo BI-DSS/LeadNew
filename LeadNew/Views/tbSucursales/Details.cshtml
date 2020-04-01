@@ -1,0 +1,50 @@
+﻿@model LeadNew.Models.tbSucursales
+
+@{
+    ViewData["Title"] = "Detalles";
+}
+
+<div style="padding-top: 5em;">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "tbSucursales")">Listado de Sucursales</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Detalle De Sucursal</li>
+        </ol>
+    </nav>
+    <h2>Detalles de Sucursal</h2>
+    <div>
+        <dl class="dl-horizontal">
+            <dt>
+                Id Sucursal
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.sucId)
+            </dd>
+            <dt>
+                Nombre de Sucural
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.sucNombre)
+            </dd>
+            <dt>
+                Empresa
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.sucIdEmpresa)
+            </dd>
+            <dt>
+                Fecha de Creacion
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.sucFechaCreacion)
+            </dd>
+            <dt>
+                Estado
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.sucEstado)
+            </dd>
+        </dl>
+    </div>
+</div>

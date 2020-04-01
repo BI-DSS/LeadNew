@@ -1,7 +1,7 @@
 ﻿@model LeadNew.Models.tbSucursales
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Sucursales" + " ";
 }
 
 <div style="padding-top: 5em;">
@@ -16,12 +16,15 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                <label for="formGroupExampleInput">Sucursal Nombre:</label>
-                <input type="text" class="form-control" id="sucNombre" placeholder="Nombre Sucursal">
+                @Html.Label("Sucursal","")
+                <label for="formGroupExampleInput">*Sucursal Nombre:</label>
+                <input type="text" class="form-control" id="sucNombre" placeholder="Nombre Sucursal" maxlength="100">
             </div>
             <div class="form-group">
-                <label for="formGroupExampleInput">Nombre Empresa:</label>
-                <input type="text" class="form-control" id="sucIdEmpresa" placeholder="Nombre de Empresa">
+                <label>*Empresa:</label>
+                <div class="form-group">
+                    <select class="form-control" id="sucIdEmpresa" name="sucIdEmpresa"></select>
+                </div>
             </div>
             <button type="button" class="btn btn-success" onclick="formcheck();">Crear Sucursal</button>
         </div>
@@ -30,7 +33,6 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
 
 
     <script>
@@ -58,6 +60,7 @@
         }
 
         function Crear() {
+            $("CrearSucursal").attr('disable', 'disable')
             var fd = new FormData();
             var nombresucursal = $("#sucnombre").val();
             var nombreempresa = $("#sucIdEmpresa").val();
@@ -79,13 +82,34 @@
                         location.href = '@Url.Action("Index", "tbSucursales")';
                     } else if (data == false){
                         alert("Error al ingresar Sucursal");
+                        $("#CrearSucursal").prop('disable', false);
                     }
                 },
                 error: function (jqXHR, textStatus, error) {
                     var exception = JSON.parse(jqXHR.responseText);
                     alert("error al enviar datos" + exception);
+                    $("#CrearSucursal").prop('disable', false);
                 }
             });
         }
+
+        $(document).ready(function () {
+            var laURLVista = '@Url.Action("EmpresaLista", "tbSucursales")';
+            $.ajax({
+                url: laURLVista,
+                type: 'POST',
+                cache: false,
+                success: function (data) {
+                    var items = '<option>Seleccione Empresa</option>';
+                    $.each(data, function (i, state) {
+                        items += "<option value='" + state.value + "'>" + state.text + "</option>";
+                    });
+                    $('#sucIdEmpresa').html(items);
+                },  
+                error: function (jqXHR, textStatus, error) {
+                    alert(error, textStatus);
+                }
+            });
+        });
     </script>
 }

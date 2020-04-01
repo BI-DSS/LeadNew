@@ -1,7 +1,7 @@
 ﻿@model LeadNew.Models.tbSucursales
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Sucursales";
 }
 
 
@@ -18,10 +18,10 @@
         <hr />
         <div class="row">
             <div class="col-md-12">
-                <input type="number" class="form-control" id="sucId" value="@Model.sucId" disabled="disabled">
+                <input type="number" class="form-control" id="sucId" value="@Model.sucId" disabled="disabled" readonly>
                 <div class="form-group">
                     <label for="formGroupExampleInput">Nombre Sucursal:</label>
-                    <input type="text" class="form-control" id="sucNombre" placeholder="Nombre Sucursal" value="@Model.sucNombre">
+                    <input type="text" class="form-control" id="sucNombre" placeholder="Nombre Sucursal" value="@Model.sucNombre" maxlength="100">
                 </div>
                 <div class="form-group">
                     <label for="formGroupExampleInput">Nombre Empresa:</label>

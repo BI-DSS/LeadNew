@@ -21,30 +21,55 @@ namespace LeadNew
         public ActionResult EmpresaLista()
         {
             var empresas = (from emp in _context.tbEmpresa select new { Text = emp.empNombre, Value = emp.empId }).ToList().OrderBy(x => x.Text);
-            return Json(empresas, new Newtonsoft.Json.JsonSerializerSettings());
+            return Json(empresas);
         }
 
         //GET: tbSucursales
-        public async Task<IActionResult> Index()
+        public ActionResult Index()
         {
-            return View(await _context.tbSucursales.ToListAsync());
+            List<tbSucursales> sucursales = _context.tbSucursales.ToList();
+            return View(sucursales);
         }
 
         //GET: tbSucursales/Detail/5
-        public async Task<IActionResult> Details(int? id)
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var tbSucursales = await _context.tbSucursales
-                .FirstOrDefaultAsync(m => m.sucId == id);
-            if (tbSucursales == null)
+            tbSucursales[] tbSucursales = null;
+            var sucursal = ( from suc in _context.tbSucursales
+                          join m in _context.tbEmpresa
+                          on suc.sucId equals m.empId
+                          select new
+                          {
+                              sucId = suc.sucId,
+                              sucNombre = suc.sucNombre,
+                              sucIdEmpresa = suc.sucIdEmpresa,
+                              sucFechaCreacion = suc.sucFechaCreacion,
+                              sucEstado = suc.sucEstado
+                          }).ToList();
+        var list = new List<tbSucursales>();
+
+        foreach (var i in sucursal)
             {
-                return NotFound();
+                list.Add(new tbSucursales
+                {
+                    sucId = i.sucId,
+                    sucNombre = i.sucNombre,
+                    sucIdEmpresa = i.sucIdEmpresa,
+                    sucFechaCreacion = i.sucFechaCreacion,
+                    sucEstado = i.sucEstado
+                });    
             }
-            return View(tbSucursales);
+            tbSucursales = list.ToArray();
+
+            ViewData["Sucursales"] = tbSucursales.ToList();
+
+            return View();
+
         }
 
         //GET: tbSucursales/Create
@@ -59,6 +84,16 @@ namespace LeadNew
             {
                 if (ModelState.IsValid)
                 {
+                    var nombresucursales = _context.tbSucursales.Select(x => x.sucNombre).ToList();
+
+                    foreach(var a in nombresucursales)
+                    {
+                        if (a.ToUpper() == nombresucursal.ToUpper())
+                        {
+                            return Json("Existe");
+                        }
+                    }
+
                     tbSucursales tbSucursales = new tbSucursales();
                     tbSucursales = new tbSucursales();
                     tbSucursales.sucNombre = nombresucursal;
@@ -78,18 +113,42 @@ namespace LeadNew
         }
 
         //GET: tbSucursales/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public ActionResult Edit(int? id)
         { 
         if (id == null)
             {
                 return NotFound();
             }
-            var tbSucursales = await _context.tbSucursales.FindAsync(id);
-            if (tbSucursales == null)
+             SucursalesView[] sucursales = null;
+            var sucursal = ( from suc in _context.tbSucursales
+                          join m in _context.tbEmpresa
+                          on suc.sucId equals m.empId
+                          select new
+                          {
+                              sucId = suc.sucId,
+                              sucNombre = suc.sucNombre,
+                              sucIdEmpresa = suc.sucIdEmpresa,
+                              sucFechaCreacion = suc.sucFechaCreacion,
+                              sucEstado = suc.sucEstado
+                          }).ToList();
+        var list = new List<SucursalesView>();
+
+        foreach (var i in sucursal)
             {
-                return NotFound();
+                list.Add(new SucursalesView
+                {
+                    sucId = i.sucId,
+                    sucNombre = i.sucNombre,
+                    sucIdEmpresa = i.sucIdEmpresa,
+                    sucFechaCreacion = i.sucFechaCreacion,
+                    sucEstado = i.sucEstado
+                });    
             }
-            return View(tbSucursales);
+            sucursales = list.ToArray();
+
+            ViewData["Sucursales"] = sucursales.ToList();
+
+            return View();
         }
 
         public ActionResult EditarSucursal(int id, string nombresucursal, int empresa)
@@ -119,6 +178,7 @@ namespace LeadNew
             {
                 return NotFound();
             }
+
             var tbSucursales = await _context.tbSucursales
                 .FirstOrDefaultAsync(m => m.sucId == id);
             if (tbSucursales == null)
@@ -126,7 +186,7 @@ namespace LeadNew
                 return NotFound();
             }
 
-            return View(tbSucursales);
+            return View();
         }
 
         //POST: tbSucursales/Delete/5
