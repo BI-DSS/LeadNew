@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LeadNew.Models;
+using Microsoft.AspNetCore.Http;
+using System.Net.Http.Headers;
+using System.IO;
 
 namespace LeadNew
 {
@@ -16,12 +19,6 @@ namespace LeadNew
         public tbEmpresaController(LeadNewDB context)
         {
             _context = context;
-        }
-
-        //GET: tbEmpresa
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.tbEmpresa.ToListAsync());
         }
 
         public ActionResult PaisLista()
@@ -38,8 +35,56 @@ namespace LeadNew
 
         public ActionResult LenguajeLista()
         {
-            var lenguajes = (from lengu in _context.tbLenguaje select new { Text = lengu.lenNombre, Value = lengu.lenId }).ToList().OrderBy(x => x.Text);
-            return Json(lenguajes);
+            var lenguaje = (from leng in _context.tbLenguaje select new { Text = leng.lenNombre, Value = leng.lenId }).ToList().OrderBy(x => x.Text);
+            return Json(lenguaje);
+        }
+
+        //GET: tbEmpresa
+        public ActionResult Index()
+        {
+            List<tbEmpresa> empresas = _context.tbEmpresa.ToList();
+            return View(empresas);
+        }
+
+        //GET: tbEmpresa/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        public ActionResult CrearEmpresa(string empNombre, string empDireccion, string empTelefono, int empPais, int empMoneda, int empLenguaje, int empLicencia, int empCantidaduser)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                { 
+              
+                    tbEmpresa tbEmpresa = new tbEmpresa();
+                    tbEmpresa = new tbEmpresa();
+                    tbEmpresa.empNombre = empNombre;
+                    tbEmpresa.empDireccion = empDireccion;
+                    tbEmpresa.empTelefono = empTelefono;
+                    tbEmpresa.empPais = empPais;
+                    tbEmpresa.empMoneda = empMoneda;
+                    tbEmpresa.empLenguaje = empLenguaje;
+                    tbEmpresa.empLicencia = empLicencia;
+                    tbEmpresa.empCantidadUser = empCantidaduser;
+                    tbEmpresa.empUsuarioCrea = 8;
+                    tbEmpresa.empFechaCrea = DateTime.Now;
+                    tbEmpresa.empFechaModifica = DateTime.Now;
+                    tbEmpresa.empUsuarioModifica = 8;
+                    tbEmpresa.empVenId = 1;
+                    tbEmpresa.emptuId = 1;
+                    _context.tbEmpresa.Add(tbEmpresa);
+                    _context.SaveChanges();
+                    return Json(true);
+                }
+                return Json(false);
+            }
+            catch (Exception ex)
+            {
+                return Json(false);
+            }
         }
 
         //GET: tbEmpresa/Details/5
@@ -58,42 +103,7 @@ namespace LeadNew
             return View(tbEmpresa);
         }
 
-        //GET: tbEmpresa/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
 
-        public ActionResult CrearEmpresa(string nombre, string direccion, string telefono, string logo, int pais, int moneda, int lenguaje, int licencia, int cantidaduser, int usuariocrea)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    tbEmpresa tbEmpresa = new tbEmpresa();
-                    tbEmpresa = new tbEmpresa();
-                    tbEmpresa.empNombre = nombre;
-                    tbEmpresa.empDireccion = direccion;
-                    tbEmpresa.empTelefono = telefono;
-                    tbEmpresa.empLogo = logo;
-                    tbEmpresa.empPais = pais;
-                    tbEmpresa.empMoneda = moneda;
-                    tbEmpresa.empLenguaje = lenguaje;
-                    tbEmpresa.empLicencia = licencia;
-                    tbEmpresa.empCantidadUser = cantidaduser;
-                    tbEmpresa.empUsuarioCrea = usuariocrea;
-                    tbEmpresa.empFechaCrea = DateTime.Now;
-                    _context.tbEmpresa.Add(tbEmpresa);
-                    _context.SaveChanges();
-                    return Json(true);
-                }
-                return Json(false);
-            }
-            catch (Exception ex)
-            {
-                return Json(false);
-            }
-        }
 
         //GET: tbEmpresa/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -110,23 +120,22 @@ namespace LeadNew
             return View(tbEmpresa);
         }
 
-        public ActionResult EditarEmpresa(int id, string nombre, string direccion, string telefono, string logo, int pais, int moneda, int lenguaje, int licencia, int cantidaduser, int usermod)
+        public ActionResult EditarEmpresa(int id, string empNombre, string empDireccion, string empTelefono, int empPais, int empMoneda, int empLenguaje, int empLicencia, int empCantidaduser, int empUsuariocrea)
         {
             try
             {
                 tbEmpresa tbEmpresa = _context.tbEmpresa.Find(id);
                 if (tbEmpresa != null)
                 {
-                    tbEmpresa.empNombre = nombre;
-                    tbEmpresa.empDireccion = direccion;
-                    tbEmpresa.empTelefono = telefono;
-                    tbEmpresa.empLogo = logo;
-                    tbEmpresa.empPais = pais;
-                    tbEmpresa.empMoneda = moneda;
-                    tbEmpresa.empLenguaje = lenguaje;
-                    tbEmpresa.empLicencia = licencia;
-                    tbEmpresa.empCantidadUser = cantidaduser;
-                    tbEmpresa.empUsuarioModifica = usermod;
+                    tbEmpresa.empNombre = empNombre;
+                    tbEmpresa.empDireccion = empDireccion;
+                    tbEmpresa.empTelefono = empTelefono;
+                    tbEmpresa.empPais = empPais;
+                    tbEmpresa.empMoneda = empMoneda;
+                    tbEmpresa.empLenguaje = empLenguaje;
+                    tbEmpresa.empLicencia = empLicencia;
+                    tbEmpresa.empCantidadUser = empCantidaduser;
+                    tbEmpresa.empUsuarioModifica = empUsuariocrea;
                     tbEmpresa.empFechaModifica = DateTime.Now;
                     _context.Entry(tbEmpresa).State = EntityState.Modified;
                     _context.SaveChanges();

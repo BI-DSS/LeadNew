@@ -9,25 +9,26 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Inicio</a></li>
-            <li class="breadcrumb-item"><a href="@Url.Action("Index", "tbMonedas")">Listado de Sucursales</a></li>
-            <li class="breadcrumb-item active" aria-current="page">editar Sucursales</li>
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "tbSucursales")">Listado de Sucursales</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Editar Sucursales</li>
         </ol>
     </nav>
-    <h2>Editar</h2>
+    <h2>Editar Sucursal</h2>
     <div class="row">
-        <hr />
         <div class="row">
             <div class="col-md-12">
-                <input type="number" class="form-control" id="sucId" value="@Model.sucId" disabled="disabled" readonly>
+                <input type="hidden" class="form-control" id="sucId" value="@Model.sucId"/>
                 <div class="form-group">
                     <label for="formGroupExampleInput">Nombre Sucursal:</label>
-                    <input type="text" class="form-control" id="sucNombre" placeholder="Nombre Sucursal" value="@Model.sucNombre" maxlength="100">
+                    <input type="text" class="form-control" id="sucNombre" placeholder="Nombre Sucursal" maxlength="100" value="@Model.sucNombre">
                 </div>
                 <div class="form-group">
-                    <label for="formGroupExampleInput">Nombre Empresa:</label>
-                    <input type="text" class="form-control" id="sucIdEmpresa" placeholder="Nombre Empresa" value="@Model.sucIdEmpresa">
+                    <label>*Empresa:</label>
+                    <div class="form-group">
+                        <select class="form-control" id="sucIdEmpresa" name="sucIdEmpresa"></select>
+                    </div>
                 </div>
-                <button type="button" class="btn btn-success" onclick="formcheck();">Editar Moneda</button>
+                <button type="button" class="btn btn-success" onclick="formcheck();">Editar Sucursal</button>
             </div>
         </div>
     </div>
@@ -62,13 +63,14 @@
 
         function Editar() {
             var fd = new FormData();
-            var id = $("#sucId").val();
-            var idempresa = $("#sucIdEmpresa").val();
-            var nombresucursal = $("#sucNombre").val();
+            var fd = new FormData();
+            var sucId = $("#sucId").val();
+            var sucNombre = $("#sucNombre").val();
+            var sucIdEmpresa = $("#sucIdEmpresa").val();
 
-            fd.append("id", id);
-            fd.append("nombreempresa", idempresa);
-            fd.append("nombre", nombresucursal);
+            fd.append("id", sucId);
+            fd.append("sucNombre", sucNombre);
+            fd.append("sucIdEmpresa", sucIdEmpresa);
 
             $.ajax({
                 url: '@Url.Action("EditarSucursal", "tbSucursales")',
@@ -92,6 +94,25 @@
                 }
             });
         }
+
+                $(document).ready(function () {
+            var laURLVista = '@Url.Action("EmpresaLista", "tbSucursales")';
+            $.ajax({
+                url: laURLVista,
+                type: 'POST',
+                cache: false,
+                success: function (data) {
+                    var items = '<option>Seleccione Empresa</option>';
+                    $.each(data, function (i, state) {
+                        items += "<option value='" + state.value + "'>" + state.text + "</option>";
+                    });
+                    $('#sucIdEmpresa').html(items);
+                },  
+                error: function (jqXHR, textStatus, error) {
+                    alert(error, textStatus);
+                }
+            });
+        });
     </script>
 
 }

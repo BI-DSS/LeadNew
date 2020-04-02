@@ -13,7 +13,7 @@ namespace LeadNew.Models
         public string empNombre { get; set; }
         public string empDireccion { get; set; }
         public string empTelefono { get; set; }
-        public string empLogo { get; set; }
+        public byte[] empLogo { get; set; }
         public int empPais { get; set; }
         public int empMoneda { get; set; }
         public int empLenguaje { get; set; }
@@ -23,5 +23,7 @@ namespace LeadNew.Models
         public DateTime empFechaCrea { get; set; }
         public int empUsuarioModifica { get; set; }
         public DateTime empFechaModifica { get; set; }
+        public int empVenId { get; set; }
+        public int emptuId { get; set; }
     }
 }

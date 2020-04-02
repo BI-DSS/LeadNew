@@ -3,59 +3,64 @@
 @{
     ViewData["Title"] = "Create";
 }
-<br />
-<br />
-<br />
-<h2>Crear Empresa</h2>
-<hr />
-<div class="row">
-    <div class="col-md-12">
-        <div class="form-group">
-            <label for="formGroupExampleInput">*Nombre de la Empresa:</label>
-            <input type="text" class="form-control" id="empNombre" placeholder="Nombre Empresa">
-        </div>
-        <div class="form-group">
-            <label for="formGroupExampleInput">*Direccion Empresa:</label>
-            <input type="text" class="form-control" id="empDireccion" placeholder="Direccion Empresa">
-        </div>
-        <div class="form-group">
-            <label for="formGroupExampleInput">*Telefono Empresa:</label>
-            <input type="text" class="form-control" id="empTelefono" placeholder="Telefono Empresa">
-        </div>
-        <div class="form-group">
-            <label for="formGroupExampleInput">Subir Logo Empresa:</label>
-            <input type="file" />
-        </div>
-        <div class="form-group">
-            <label>*Seleccionar Pais:</label>
-            <div class="form-group">
-                <select class="form-control" id="empPais" name="empPais"></select>
+    <div style="padding-top: 5em;">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "tbEmpresa")">Listado de Empresas</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Crear Empresa</li>
+            </ol>
+        </nav>
+        <h2>Crear Empresa</h2>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="formGroupExampleInput">*Nombre de la Empresa:</label>
+                    <input type="text" class="form-control" id="empNombre" placeholder="Nombre Empresa">
+                </div>
+                <div class="form-group">
+                    <label for="formGroupExampleInput">*Direccion Empresa:</label>
+                    <input type="text" class="form-control" id="empDireccion" placeholder="Direccion Empresa">
+                </div>
+                <div class="form-group">
+                    <label for="formGroupExampleInput">*Telefono Empresa:</label>
+                    <input type="text" class="form-control" id="empTelefono" placeholder="Telefono Empresa">
+                </div>
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Subir Logo Empresa:</label>
+                    <input type="file" class="form-control" id="img_2">
+                </div>
+                <div class="form-group">
+                    <label>*Seleccionar Pais:</label>
+                    <div class="form-group">
+                        <select class="form-control" id="empPais" name="empPais"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>*Seleccionar Moneda:</label>
+                    <select class="form-control" id="empMoneda" name="empMoneda"></select>
+                </div>
+                <div class="form-group">
+                    <label>*Seleccionar Lenguaje:</label>
+                    <select class="form-control" id="empLenguaje" name="empLenguaje"></select>
+                </div>
+                <div class="form-group">
+                    <label for="formGroupExampleInput">*Licencia:</label>
+                    <input type="text" class="form-control" id="empLicencia" placeholder="Licencia Empresa">
+                </div>
+                <div class="form-group">
+                    <label for="formGroupExampleInput">*Cantidad de Usuarios:</label>
+                    <input type="text" class="form-control" id="empCantidadUser" placeholder="Cantidad de Usuarios">
+                </div>
+
+                <button type="button" class="btn btn-success btn-lg btn-block" onclick="formcheck();">Crear Empresa</button>
             </div>
         </div>
-        <div class="form-group">
-            <label>*Seleccionar Moneda:</label>
-            <select class="form-control" id="empMoneda" name="empMoneda"></select>
-        </div>
-        <div class="form-group">
-            <label>*Seleccionar Lenguaje:</label>
-            <select class="form-control" id="empLenguaje" name="empLenguaje"></select>
-        </div>
-        <div class="form-group">
-            <label for="formGroupExampleInput">*Licencia:</label>
-            <input type="text" class="form-control" id="empLicencia" placeholder="Licencia Empresa">
-        </div>
-        <div class="form-group">
-            <label for="formGroupExampleInput">*Cantidad de Usuarios:</label>
-            <input type="text" class="form-control" id="empCantidadUser" placeholder="Cantidad de Usuarios">
-        </div>
-
-        <button type="button" class="btn btn-success btn-lg btn-block" onclick="formcheck();">Crear Empresa</button>
     </div>
-</div>
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-    <script>
+        <script>
         function formcheck() {
             var isValid = true;
             $('input[type="text"], input[type = "password"], input[type = "number"]').each(function () {
@@ -91,14 +96,16 @@
             var empLicencia = $("#empLicencia").val();
             var empCantidadUser = $("#empCantidadUser").val();
 
-            fd.empNombre("empNombre", empNombre);
-            fd.empDireccion("empDireccion", empDireccion);
-            fd.empTelefono("empTelefono", empTelefono);
-            fd.empPais("empPais", empPais);
-            fd.empMoneda("empMoneda", empMoneda);
-            fd.empLenguaje("empLenguaje", empLenguaje);
-            fd.empLicencia("empLicencia", empLicencia);
-            fd.empCantidadUser("empCantidadUser", empCantidadUser);
+
+
+            fd.append("empNombre", empNombre);
+            fd.append("empDireccion", empDireccion);
+            fd.append("empTelefono", empTelefono);
+            fd.append("empPais", empPais);
+            fd.append("empMoneda", empMoneda);
+            fd.append("empLenguaje", empLenguaje);
+            fd.append("empLicencia", empLicencia);
+            fd.append("empCantidadUser", empCantidadUser);
 
             $.ajax({
                 url: '@Url.Action("CrearEmpresa", "tbEmpresa")',
@@ -122,11 +129,11 @@
                 }
             });
         }
-    </script>
+        </script>
 
-    <script type="text/javascript">
+        <script type="text/javascript">
         $(document).ready(function () {
-            var laURLVista = '@Url.Action("PaisLista", "tbPaises")';
+            var laURLVista = '@Url.Action("PaisLista", "tbEmpresa")';
             $.ajax({
                 url: laURLVista,
                 type: 'POST',
@@ -136,18 +143,18 @@
                     $.each(data, function (i, state) {
                         items += "<option value='" + state.value + "'>" + state.text + "</option>";
                     });
-                    $('#moId').html(items);
+                    $('#empPais').html(items);
                 },
                 error: function (jqXHR, textStatus, error) {
                     alert(error, textStatus);
                 }
             });
         });
-    </script>
+        </script>
 
-    <script type="text/javascript">
+        <script type="text/javascript">
         $(document).ready(function () {
-            var laURLVista = '@Url.Action("MonedaLista", "tbMoneda")';
+            var laURLVista = '@Url.Action("MonedaLista", "tbEmpresa")';
             $.ajax({
                 url: laURLVista,
                 type: 'POST',
@@ -157,18 +164,18 @@
                     $.each(data, function (i, state) {
                         items += "<option value='" + state.value + "'>" + state.text + "</option>";
                     });
-                    $('#moId').html(items);
+                    $('#empMoneda').html(items);
                 },
                 error: function (jqXHR, textStatus, error) {
                     alert(error, textStatus);
                 }
             });
         });
-    </script>
+        </script>
 
-    <script type="text/javascript">
+        <script type="text/javascript">
         $(document).ready(function () {
-            var laURLVista = '@Url.Action("LenguajeLista", "tbLenguajes")';
+            var laURLVista = '@Url.Action("LenguajeLista", "tbEmpresa")';
             $.ajax({
                 url: laURLVista,
                 type: 'POST',
@@ -176,14 +183,14 @@
                 success: function (data) {
                     var items = '<option>Seleccione....</option>';
                     $.each(data, function (i, state) {
-                        items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
+                        items += "<option value='" + state.value + "'>" + state.text + "</option>";
                     });
-                    $('#lenId').html(items);
+                    $('#empLenguaje').html(items);
                 },
                 error: function (jqXHR, textStatus, error) {
                     alert(error, textStatus);
                 }
             });
         });
-    </script>
-}
+        </script>
+    }

@@ -60,13 +60,13 @@
         }
 
         function Crear() {
-            $("CrearSucursal").attr('disable', 'disable')
             var fd = new FormData();
-            var nombresucursal = $("#sucnombre").val();
-            var nombreempresa = $("#sucIdEmpresa").val();
+            var fd = new FormData();
+            var sucNombre = $("#sucNombre").val();
+            var sucIdEmpresa = $("#sucIdEmpresa").val();
 
-            fd.append("nombresucursal", nombresucursal);
-            fd.append("nombreempresa", nombreempresa);
+            fd.append("sucNombre", sucNombre);
+            fd.append("sucIdEmpresa", sucIdEmpresa);
 
             $.ajax({
                 url: '@Url.Action("CrearSucursal", "tbSucursales")',
@@ -82,13 +82,11 @@
                         location.href = '@Url.Action("Index", "tbSucursales")';
                     } else if (data == false){
                         alert("Error al ingresar Sucursal");
-                        $("#CrearSucursal").prop('disable', false);
                     }
                 },
                 error: function (jqXHR, textStatus, error) {
                     var exception = JSON.parse(jqXHR.responseText);
                     alert("error al enviar datos" + exception);
-                    $("#CrearSucursal").prop('disable', false);
                 }
             });
         }
