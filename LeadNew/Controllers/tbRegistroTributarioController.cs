@@ -21,24 +21,14 @@ namespace LeadNew
         public ActionResult EmpresaLista()
         {
             var empresas = (from emp in _context.tbEmpresa select new { Text = emp.empNombre, Value = emp.empId }).ToList().OrderBy(x => x.Text);
-            return Json(empresas, new Newtonsoft.Json.JsonSerializerSettings());
+            return Json(empresas);
         }
 
-        //GET: tbResgistroTribitarios/Detail/5
-        public async Task<IActionResult> Details(int? id)
+        //GET: tbResgitroTributario
+        public ActionResult Index()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var tbResistroTributario = await _context.tbRegistroTributarios
-                .FirstOrDefaultAsync(m => m.rtId == id);
-            if (tbResistroTributario == null)
-            {
-                return NotFound();
-            }
-            return View(tbResistroTributario);
+            List<tbRegistroTributario> registro = _context.tbRegistroTributario.ToList();
+            return View(registro);
         }
 
         //GET: tbResgistroTributario/Create
@@ -47,7 +37,7 @@ namespace LeadNew
             return View();
         }
 
-        public ActionResult CrearRegistro(int rtIdEmpresa, string rtCAI, string rtRangoAutoInicio, string rtRangoAutoFinal)
+        public ActionResult CrearRegistro(int rtIdEmpresa, string rtCAI, string rtRangoAutoInicio, string rtRangoAutoFinal, string rtRTN)
         {
             try
             {
@@ -61,7 +51,8 @@ namespace LeadNew
                     tbRegistroTrubutario.rtFechainicio = DateTime.Now;
                     tbRegistroTrubutario.rtRangoAutoInicio = rtRangoAutoInicio;
                     tbRegistroTrubutario.rtRangoAutoFinal = rtRangoAutoFinal;
-                    _context.tbRegistroTributarios.Add(tbRegistroTrubutario);
+                    tbRegistroTrubutario.rtRTN = rtRTN;
+                    _context.tbRegistroTributario.Add(tbRegistroTrubutario);
                     _context.SaveChanges();
                     return Json(true);
                 }
@@ -73,6 +64,25 @@ namespace LeadNew
                 return Json(false);
             }
         }
+
+
+        //GET: tbResgistroTribitarios/Detail/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var tbResistroTributario = await _context.tbRegistroTributario
+                .FirstOrDefaultAsync(m => m.rtId == id);
+            if (tbResistroTributario == null)
+            {
+                return NotFound();
+            }
+            return View(tbResistroTributario);
+        }
+
         // GET: tbRegistroTributarios/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -81,7 +91,7 @@ namespace LeadNew
                 return NotFound();
             }
 
-            var tbRegistroTributarios = await _context.tbRegistroTributarios.FindAsync(id);
+            var tbRegistroTributarios = await _context.tbRegistroTributario.FindAsync(id);
             if (tbRegistroTributarios == null)
             {
                 return NotFound();
@@ -93,7 +103,7 @@ namespace LeadNew
         {
             try
             {
-                tbRegistroTributario tbRegistroTributario = _context.tbRegistroTributarios.Find(id);
+                tbRegistroTributario tbRegistroTributario = _context.tbRegistroTributario.Find(id);
                 if (tbRegistroTributario != null)
                 {
                     tbRegistroTributario.rtCAI = rtCAI;
@@ -117,7 +127,7 @@ namespace LeadNew
                 return NotFound();
             }
 
-            var tbRegistroTributarios = await _context.tbRegistroTributarios.FindAsync(id);
+            var tbRegistroTributarios = await _context.tbRegistroTributario.FindAsync(id);
             if (tbRegistroTributarios == null)
             {
                 return NotFound();
