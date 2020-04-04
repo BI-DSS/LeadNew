@@ -1,36 +1,38 @@
-﻿@model LeadNew.Models.tbMoneda
+﻿@model LeadNew.Models.tbPaises
 
 @{
-    ViewData["Title"] = "Crear "  + " ";
+    ViewData["Title"] = "Paises";
 }
 
 <div style="padding-top: 5em;">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Inicio</a></li>
-            <li class="breadcrumb-item"><a href="@Url.Action("Index", "tbMonedas")">Listado de monedas</a></li>
-            <li class="breadcrumb-item active" aria-current="page">crear moneda</li>
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "tbPaises")">Listado de Paises</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Crear Pais</li>
         </ol>
     </nav>
-    <h2>Crear Moneda</h2>
+    <h2>Crear Pais</h2>
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                <label for="formGroupExampleInput">*Moneda Abreviatura:</label>
-                <input type="text" class="form-control" id="moAbreviatura" placeholder="Moneda Abreviatura" maxlength="20">
+                <label for="formGroupExampleInput">*Nombre de Pais:</label>
+                <input type="text" class="form-control" id="paNombre" placeholder="Nombre de Pais" maxlength="100">
             </div>
             <div class="form-group">
-                <label for="formGroupExampleInput">*Moneda Nombre:</label>
-                <input type="text" class="form-control" id="moNombre" placeholder="Moneda Nombre" maxlength="20">
+                <label for="formGroupExampleInput">*Codigo Postal:</label>
+                <input type="text" class="form-control" id="paCodPostal" placeholder="Codigo Postal" maxlength="100">
             </div>
-            <button id="CrearMoneda" type="button" class="btn btn-success" onclick="formcheck();">Crear Moneda</button>
+            <div class="form-group">
+                <label for="formGroupExampleInput">*Abreviatura:</label>
+                <input type="text" class="form-control" id="paAbreviatura" placeholder="Abreviatura" maxlength="100">
+            </div>
+            <button type="button" class="btn btn-success" onclick="formcheck();">Crear Pais</button>
         </div>
     </div>
 </div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
     <script>
         function formcheck() {
             var isValid = true;
@@ -56,16 +58,18 @@
         }
 
         function Crear() {
-            $("#CrearMoneda").attr('disabled','disabled');
             var fd = new FormData();
-            var abreviatura = $("#moAbreviatura").val();
-            var nombre = $("#moNombre").val();
+            var fd = new FormData();
+            var paNombre = $("#paNombre").val();
+            var paCodPostal = $("#paCodPostal").val();
+            var paAbreviatura = $("#paAbreviatura").val();
 
-            fd.append("abreviatura", abreviatura);
-            fd.append("nombre", nombre);
+            fd.append("paNombre", paNombre);
+            fd.append("paCodPostal", paCodPostal);
+            fd.append("paAbreviatura", paAbreviatura);
 
             $.ajax({
-                url: '@Url.Action("CrearMoneda", "tbMonedas")',
+                url: '@Url.Action("CrearPais", "tbPaises")',
                 type: 'POST',
                 cache: false,
                 processData: false,
@@ -75,13 +79,9 @@
                 data: fd,
                 success: function (data) {
                     if (data == true) {
-                        location.href = '@Url.Action("Index", "tbMonedas")';
-                    } else if (data == false) {
-                        alert("Error al ingresar moneda");
-                        $("#CrearMoneda").prop('disabled', false);
-                    } else if (data == "Existe") {
-                        alert("Moneda ya existe");
-                        $("#CrearMoneda").prop('disabled', false);
+                        location.href = '@Url.Action("Index", "tbPaises")';
+                    } else if (data == false){
+                        alert("Error al ingresar Sucursal");
                     }
                 },
                 error: function (jqXHR, textStatus, error) {

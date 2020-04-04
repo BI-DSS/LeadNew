@@ -1,7 +1,7 @@
-﻿@model IEnumerable<LeadNew.Models.tbTasaCambio>
+﻿@*@model IEnumerable<LeadNew.Models.tbTasaCambio>*@
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Index " + " ";
 }
 
 <div style="padding-top: 5em;">
@@ -27,7 +27,7 @@
                     Fecha de Ingreso
                 </th>
                 <th>
-                    Estado
+                    Moneda
                 </th>
                 <th>
                     Valor
@@ -36,7 +36,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in ViewData["TasaCambios"] as IEnumerable<LeadNew.Models.TasaCambioVista>)
             {
                 <tr>
                     <td>
@@ -46,7 +46,7 @@
                         @Html.DisplayFor(modelItem => item.tcFechaIngreso)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.tcEstado)
+                        @Html.DisplayFor(modelItem => item.moNombre)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.tcValor)

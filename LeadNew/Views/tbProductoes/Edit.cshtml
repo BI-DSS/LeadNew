@@ -1,7 +1,7 @@
 ﻿@model LeadNew.Models.tbProducto
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar " + " ";
 }
 
     <div style="padding-top: 5em;">
@@ -15,161 +15,113 @@
         <h2>Editar producto</h2>
         <div class="row">
             <div class="col-md-12">
-                <input type="number" class="form-control" id="id" value="@Model.prId" hidden="hidden">
+                <input type="hidden" class="form-control" id="id" value="@Model.prId" hidden="hidden">
                 <div class="form-group">
-                    <label for="formGroupExampleInput">Código de producto:</label>
-                    <input type="text" class="form-control" id="prIdInterno" placeholder="Código de producto" value="@Model.prIdInterno">
+                    <label for="formGroupExampleInput">*Código de producto:</label>
+                    <input type="text" class="form-control" id="prIdInterno" placeholder="Código de producto" value="@Model.prIdInterno" maxlength="20">
                 </div>
                 <div class="form-group">
-                    <label for="formGroupExampleInput">Detalle de producto:</label>
-                    <textarea class="form-control" id="prDetalle" placeholder="Detalle de producto">@Model.prDetalle</textarea>
+                    <label for="formGroupExampleInput">*Detalle de producto:</label>
+                    <textarea class="form-control" id="prDetalle" placeholder="Detalle de producto" maxlength="250">@Model.prDetalle</textarea>
                 </div>
                 <div class="form-group">
-                    <label for="formGroupExampleInput">Cantidad de producto:</label>
-                    <input type="number" class="form-control" id="prCantidad" placeholder="Cantidad de producto" value="@Model.prCantidad">
+                    <label for="formGroupExampleInput">*Cantidad de producto:</label>
+                    <input type="number" class="form-control" id="prCantidad" placeholder="Cantidad de producto" value="@Model.prCantidad" min="1" step="1" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==20) return false;">
                 </div>
                 <div class="form-group">
-                    <label for="formGroupExampleInput">Precio de Costo:</label>
-                    <input type="number" class="form-control" id="prPrecioCosto" placeholder="Precio de Costo" value="@Model.prPrecioCosto">
+                    <label for="formGroupExampleInput">*Precio de Costo:</label>
+                    <input type="number" class="form-control" id="prPrecioCosto" placeholder="Precio de Costo" value="@Model.prPrecioCosto" min="1" step="1" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==20) return false;">
                 </div>
                 <div class="form-group">
-                    <label for="formGroupExampleInput">Precio de Venta:</label>
-                    <input type="number" class="form-control" id="prPrecioVenta" placeholder="Precio de Venta" value="@Model.prPrecioVenta">
+                    <label for="formGroupExampleInput">*Precio de Venta:</label>
+                    <input type="number" class="form-control" id="prPrecioVenta" placeholder="Precio de Venta" value="@Model.prPrecioVenta" min="1" step="1" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==20) return false;">
                 </div>
                 <div class="form-group">
-                    <label>Categoría:</label>
+                    <label for="formGroupExampleInput">Imagen del producto:</label>
+                    <input type="file" value="@Model.prImagen" class="form-control" id="img">
+                </div>
+                <div class="form-group">
+                    <label>*Categoría:</label>
                     <div class="form-group">
-                        <select class="form-control" id="prCategoria" name="prCategoria"></select>
+                        <select class="form-control" id="prCategoria" name="prCategoria">
+                            @foreach (var items in (IEnumerable<LeadNew.Models.tbCategoriaProducto>)ViewData["SelectCategoria"])
+                            {
+                                <option value="@items.catId" selected>@items.catNombre</option>
+                            }
+                            @foreach (var items in (IEnumerable<LeadNew.Models.tbCategoriaProducto>)ViewData["AllCategoria"])
+                            {
+                                <option value="@items.catId">@items.catNombre</option>
+                            }
+                        </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Moneda:</label>
+                    <label>*Moneda:</label>
                     <div class="form-group">
-                        <select class="form-control" id="prMoneda" name="prMoneda"></select>
+                        <select class="form-control" id="prMoneda" name="prMoneda">
+                            @foreach (var items in (IEnumerable<LeadNew.Models.tbMoneda>)ViewData["SelectMoneda"])
+                            {
+                                <option value="@items.moId" selected>@items.moNombre</option>
+                            }
+                            @foreach (var items in (IEnumerable<LeadNew.Models.tbMoneda>)ViewData["AllMoneda"])
+                            {
+                                <option value="@items.moId">@items.moNombre</option>
+                            }
+                        </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Proveedor:</label>
+                    <label>*Proveedor:</label>
                     <div class="form-group">
-                        <select class="form-control" id="prIdProveedor" name="prIdProveedor"></select>
+                        <select class="form-control" id="prIdProveedor" name="prIdProveedor">
+                            @foreach (var items in (IEnumerable<LeadNew.Models.tbProveedores>)ViewData["SelectProveedor"])
+                            {
+                                <option value="@items.pvId" selected>@items.pvNombre</option>
+                            }
+                            @foreach (var items in (IEnumerable<LeadNew.Models.tbProveedores>)ViewData["AllProveedor"])
+                            {
+                                <option value="@items.pvId">@items.pvNombre</option>
+                            }
+                        </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Impuesto:</label>
+                    <label>*Impuesto:</label>
                     <div class="form-group">
-                        <select class="form-control" id="prIdImpuesto" name="prIdImpuesto"></select>
+                        <select class="form-control" id="prIdImpuesto" name="prIdImpuesto">
+                            @foreach (var items in (IEnumerable<LeadNew.Models.tbImpuesto>)ViewData["SelectImpuesto"])
+                            {
+                                <option value="@items.impId" selected>@items.impPorcentaje</option>
+                            }
+                            @foreach (var items in (IEnumerable<LeadNew.Models.tbImpuesto>)ViewData["AllImpuesto"])
+                            {
+                                <option value="@items.impId">@items.impPorcentaje</option>
+                            }
+                        </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Sucursal:</label>
+                    <label>*Sucursal:</label>
                     <div class="form-group">
-                        <select class="form-control" id="prIdSucursal" name="prIdSucursal"></select>
+                        <select class="form-control" id="prIdSucursal" name="prIdSucursal">
+                            @foreach (var items in (IEnumerable<LeadNew.Models.tbSucursales>)ViewData["SelectSucursal"])
+                            {
+                                <option value="@items.sucId" selected>@items.sucNombre</option>
+                            }
+                            @foreach (var items in (IEnumerable<LeadNew.Models.tbSucursales>)ViewData["AllSucursal"])
+                            {
+                                <option value="@items.sucId">@items.sucNombre</option>
+                            }
+                        </select>
                     </div>
                 </div>
-                <button type="button" class="btn btn-success" onclick="formcheck();">Editar Producto</button>
+                <button id="EditarProducto" type="button" class="btn btn-success" onclick="formcheck();">Editar Producto</button>
             </div>
         </div>
     </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script type="text/javascript">
-
-        $(document).ready(function () {
-            var laURLVista = '@Url.Action("CategoriaLista", "tbProductoes")';
-            $.ajax({
-                url: laURLVista,
-                type: 'POST',
-                cache: false,
-                success: function (data) {
-                    var items = '<option>Seleccione categoría</option>';
-                    $.each(data, function (i, state) {
-                        items += "<option value='" + state.value + "'>" + state.text + "</option>";
-                    });
-                    $('#prCategoria').html(items);
-                },
-                error: function (jqXHR, textStatus, error) {
-                    alert(error, textStatus);
-                }
-            });
-        });
-
-        $(document).ready(function () {
-            var laURLVista = '@Url.Action("ImpuestoLista", "tbProductoes")';
-            $.ajax({
-                url: laURLVista,
-                type: 'POST',
-                cache: false,
-                success: function (data) {
-                    var items = '<option>Seleccione Impuesto</option>';
-                    $.each(data, function (i, state) {
-                        items += "<option value='" + state.value + "'>" + state.text + "</option>";
-                    });
-                    $('#prIdImpuesto').html(items);
-                },
-                error: function (jqXHR, textStatus, error) {
-                    alert(error, textStatus);
-                }
-            });
-        });
-
-        $(document).ready(function () {
-            var laURLVista = '@Url.Action("ProveedorLista", "tbProductoes")';
-            $.ajax({
-                url: laURLVista,
-                type: 'POST',
-                cache: false,
-                success: function (data) {
-                    var items = '<option>Seleccione Proveedor</option>';
-                    $.each(data, function (i, state) {
-                        items += "<option value='" + state.value + "'>" + state.text + "</option>";
-                    });
-                    $('#prIdProveedor').html(items);
-                },
-                error: function (jqXHR, textStatus, error) {
-                    alert(error, textStatus);
-                }
-            });
-        });
-
-        $(document).ready(function () {
-            var laURLVista = '@Url.Action("MonedaLista", "tbProductoes")';
-            $.ajax({
-                url: laURLVista,
-                type: 'POST',
-                cache: false,
-                success: function (data) {
-                    var items = '<option>Seleccione Moneda</option>';
-                    $.each(data, function (i, state) {
-                        items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
-                    });
-                    $('#prMoneda').html(items);
-                },
-                error: function (jqXHR, textStatus, error) {
-                    alert(error, textStatus);
-                }
-            });
-        });
-
-        $(document).ready(function () {
-            var laURLVista = '@Url.Action("SucursalesLista", "tbProductoes")';
-            $.ajax({
-                url: laURLVista,
-                type: 'POST',
-                cache: false,
-                success: function (data) {
-                    var items = '<option>Seleccione Sucursal</option>';
-                    $.each(data, function (i, state) {
-                        items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
-                    });
-                    $('#prIdSucursal').html(items);
-                },
-                error: function (jqXHR, textStatus, error) {
-                    alert(error, textStatus);
-                }
-            });
-        });
-    </script>
 
     <script>
         function formcheck() {
@@ -196,7 +148,7 @@
         }
 
         function Crear() {
-            var fd = new FormData();
+            $("#EditarProducto").prop("disabled",true);
             var fd = new FormData();
             var id = $("#id").val();
             var prIdInterno = $("#prIdInterno").val();
@@ -220,27 +172,40 @@
             fd.append("prIdProveedor", prIdProveedor);
             fd.append("prIdImpuesto", prIdImpuesto);
 
-            $.ajax({
-                url: '@Url.Action("EditarProducto", "tbProductoes")',
-                type: 'POST',
-                cache: false,
-                processData: false,
-                contentType: false,
-                processData: false,
-                dataType: 'json',
-                data: fd,
-                success: function (data) {
-                    if (data == true) {
-                        location.href = '@Url.Action("Index", "tbProductoes")';
-                    } else if (data == false){
-                        alert("Error al ingresar Producto");
+            if (prCantidad < 1) {
+                alert("Ingresar cantidad mayor a 0");
+                $("#EditarProducto").prop("disabled",false);
+            } else if (prPrecioCosto < 1) {
+                alert("Ingresar precio de costo mayor a 0");
+                $("#EditarProducto").prop("disabled",false);
+            } else if (prPrecioVenta < 1) {
+                alert("Ingresar precio de venta a 0");
+                $("#EditarProducto").prop("disabled",false);
+            } else {
+                $.ajax({
+                    url: '@Url.Action("EditarProducto", "tbProductoes")',
+                    type: 'POST',
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    processData: false,
+                    dataType: 'json',
+                    data: fd,
+                    success: function (data) {
+                        if (data == true) {
+                            location.href = '@Url.Action("Index", "tbProductoes")';
+                        } else if (data == false){
+                            alert("Error al ingresar Producto");
+                            $("#EditarProducto").prop("disabled",false);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, error) {
+                        var exception = JSON.parse(jqXHR.responseText);
+                        alert("error al enviar datos" + exception);
+                        $("#EditarProducto").prop("disabled",false);
                     }
-                },
-                error: function (jqXHR, textStatus, error) {
-                    var exception = JSON.parse(jqXHR.responseText);
-                    alert("error al enviar datos" + exception);
-                }
-            });
+                });
+            }            
         }
     </script>
 }

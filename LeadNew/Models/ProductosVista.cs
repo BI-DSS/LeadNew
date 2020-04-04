@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LeadNew.Models
 {
-    public class tbProducto
+    public class ProductosVista
     {
         [Key]
         public int prId { get; set; }
@@ -24,5 +24,14 @@ namespace LeadNew.Models
         public int prIdImpuesto { get; set; }
         public int prIdProveedor { get; set; }
         public int prIdCategoria { get; set; }
+        //public virtual tbSucursales tbSucursales { get; set; }
+
+        //tablas foraneas
+        public string moAbreviatura { get; set; }
+        public string moNombre { get; set; }
+        public string sucNombre { get; set; }
+        public string catNombre { get; set; }
+        public int impPorcentaje { get; set; }
+        public string pvNombre { get; set; }
     }
 }

@@ -1,7 +1,7 @@
-﻿@model List<LeadNew.Models.tbRegistroTributario>
+﻿@model IEnumerable<LeadNew.Models.tbRegistroTributario>
 
 @{
-     ViewData["Title"] = "Index";
+     ViewData["Title"] = "Registro Tributario";
 }
     <div style="padding-top: 5em;">
         <nav aria-label="breadcrum">
@@ -11,7 +11,6 @@
             </ol>
         </nav>
         <h2>Resgistros Tributarios</h2>
-
         <p>
             <a class="btn btn-success" asp-action="Create"><img src="~/images/add-24px.svg" class="img-fluid" alt="Responsive image">Crear Resgistro</a>
         </p>
@@ -20,6 +19,9 @@
                 <tr>
                     <th>
                         Empresa
+                    </th>
+                    <th>
+                        RTN
                     </th>
                     <th>
                         CAI
@@ -45,6 +47,9 @@
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.rtIdEmpresa)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.rtRTN)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.rtCAI)

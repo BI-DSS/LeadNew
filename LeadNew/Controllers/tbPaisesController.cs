@@ -47,7 +47,7 @@ namespace LeadNew
             return View();
         }
 
-        public ActionResult CrearPais(string paNombre, int paCodPostal, string paAbreviatura, int paUsuarioCrea)
+        public ActionResult CrearPais(string paNombre, int paCodPostal, string paAbreviatura)
         {
             try
             {
@@ -87,7 +87,7 @@ namespace LeadNew
             return View(tbPaises);
         }
 
-        public ActionResult EditarPais(int id, string paNombre, int paCodPostal, string paAbreviatura, int paUsuarioCrea)
+        public ActionResult EditarPais(int id, string paNombre, int paCodPostal, string paAbreviatura)
         {
             try
             {

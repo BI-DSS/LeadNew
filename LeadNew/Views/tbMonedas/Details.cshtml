@@ -1,7 +1,7 @@
-﻿@model LeadNew.Models.tbMoneda
+﻿@*@model LeadNew.Models.tbMoneda*@
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles" + " ";
 }
 
     <div style="padding-top: 5em;">
@@ -15,43 +15,46 @@
         <h2>Detalles</h2>
 
         <div>
-            <dl class="dl-horizontal">
-                <dt>
-                    Abreviatura:
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.moAbreviatura)
-                </dd>
-                <dt>
-                    Nombre:
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.moNombre)
-                </dd>
-                <dt>
-                    Creado por:
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.moUsuarioCrea)
-                </dd>
-                <dt>
-                    Fecha de modificación
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.moFechaCrea)
-                </dd>
-                <dt>
-                    Modificado por:
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.moUsuarioModifica)
-                </dd>
-                <dt>
-                    Fecha de modificación
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.moFechaModifica)
-                </dd>
-            </dl>
+            @foreach (var item in ViewData["monedas"] as IEnumerable<LeadNew.Models.MonedaVista>)
+            {
+                <dl class="dl-horizontal">
+                    <dt>
+                        Abreviatura:
+                    </dt>
+                    <dd>
+                        @item.moAbreviatura
+                    </dd>
+                    <dt>
+                        Nombre:
+                    </dt>
+                    <dd>
+                        @item.moNombre
+                    </dd>
+                    <dt>
+                        Creado por:
+                    </dt>
+                    <dd>
+                        @item.usuNombres @item.usuApellidos
+                    </dd>
+                    <dt>
+                        Fecha de modificación
+                    </dt>
+                    <dd>
+                        @item.moFechaCrea
+                    </dd>
+                    <dt>
+                        Modificado por:
+                    </dt>
+                    <dd>
+                        @item.usuNombresMod @item.usuApellidosMod
+                    </dd>
+                    <dt>
+                        Fecha de modificación
+                    </dt>
+                    <dd>
+                        @item.moFechaModifica
+                    </dd>
+                </dl>
+            }
         </div>
     </div>

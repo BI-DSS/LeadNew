@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace LeadNew.Models
 {
-    public class tbProveedores
+    public class ProveedoresVista
     {
         [Key]
         public int pvId { get; set; }
-
         public string pvNombre { get; set; }
-
         public string pvTelefono { get; set; }
         public string pvCorreo { get; set; }
         public string pvDireccion { get; set; }
@@ -21,6 +19,6 @@ namespace LeadNew.Models
         public int pvIdTipo { get; set; }
         public string pvSitioWeb { get; set; }
         public byte[] pvImg { get; set; }
-        //public string tpDescripcion { get; set; }
+        public string tpDescripcion { get; set; }
     }
 }

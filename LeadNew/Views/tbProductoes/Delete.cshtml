@@ -1,81 +1,21 @@
 ﻿@model LeadNew.Models.tbProducto
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Eliminar " + " ";
 }
 
-<h2>Delete</h2>
-
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>tbProducto</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.prIdInterno)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.prIdInterno)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.prDetalle)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.prDetalle)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.prCantidad)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.prCantidad)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.prPrecioCosto)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.prPrecioCosto)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.prPrecioVenta)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.prPrecioVenta)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.prMoneda)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.prMoneda)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.prEstado)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.prEstado)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.prFechaIngreso)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.prFechaIngreso)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.prUsuario)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.prUsuario)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.prIdSucursal)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.prIdSucursal)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="prId" />
-        <input type="submit" value="Delete" class="btn btn-default" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
-</div>
+    <div style="padding-top: 5em;">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "tbProductoes")">Listado de productos</a></li>
+                <li class="breadcrumb-item active" aria-current="page">eliminar productos</li>
+            </ol>
+        </nav>
+        <h2>Eliminar</h2>
+        <form asp-action="Delete">
+            <h3>¿Estás seguro de eliminar el siguiente producto @Model.prDetalle?</h3>
+            <input type="hidden" asp-for="prId" />
+            <input type="submit" value="Eliminar" class="btn btn-danger" />
+        </form>
+    </div>

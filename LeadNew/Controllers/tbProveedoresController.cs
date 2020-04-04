@@ -21,7 +21,7 @@ namespace LeadNew.Controllers
         // GET: tbProveedores
         public ActionResult Index()
         {
-            tbProveedores[] tbProveedores = null;
+            ProveedoresVista[] ProveedoresVista = null;
             var pvdrs = (from p in _context.tbProveedores
                          join tp in _context.tbTipoProveedores
                          on p.pvIdTipo equals tp.tpId
@@ -41,11 +41,11 @@ namespace LeadNew.Controllers
                              tpDescripcion = tp.tpDescripcion
                          }).ToList();
 
-            var list = new List<tbProveedores>();
+            var list = new List<ProveedoresVista>();
 
             foreach (var i in pvdrs)
             {
-                list.Add(new tbProveedores
+                list.Add(new ProveedoresVista
                 {
                     pvId = i.pvId,
                     pvNombre = i.pvNombre,
@@ -61,9 +61,9 @@ namespace LeadNew.Controllers
                 });
             }
 
-            tbProveedores = list.ToArray();
+            ProveedoresVista = list.ToArray();
 
-            ViewData["tbProveedores"] = tbProveedores.ToList();
+            ViewData["tbProveedores"] = ProveedoresVista.ToList();
             return View();
         }
 
@@ -77,7 +77,7 @@ namespace LeadNew.Controllers
 
             //var tbProveedores = _context.tbProveedores.FirstOrDefault(m => m.pvId == id);
 
-            tbProveedores[] tbProveedores = null;
+            ProveedoresVista[] ProveedoresVista = null;
             var pvdrs = (from p in _context.tbProveedores
                          join tp in _context.tbTipoProveedores
                          on p.pvIdTipo equals tp.tpId
@@ -97,11 +97,11 @@ namespace LeadNew.Controllers
                              tpDescripcion = tp.tpDescripcion
                          }).ToList();
 
-            var list = new List<tbProveedores>();
+            var list = new List<ProveedoresVista>();
 
             foreach (var i in pvdrs)
             {
-                list.Add(new tbProveedores
+                list.Add(new ProveedoresVista
                 {
                     pvId = i.pvId,
                     pvNombre = i.pvNombre,
@@ -117,21 +117,21 @@ namespace LeadNew.Controllers
                 });
             }
 
-            tbProveedores = list.ToArray();
+            ProveedoresVista = list.ToArray();
 
-            ViewData["tbProveedores"] = tbProveedores.ToList();
+            ViewData["tbProveedores"] = ProveedoresVista.ToList();
 
             var contactos = (from c in _context.tbContactosProveedores
                              where c.cpIdproveedor == id
-                             select c).ToList();
+                             select c).OrderByDescending(z => z.cpFechaCreacion).ToList();
             ViewData["contactos"] = contactos;
             ViewData["idproveedor"] = id;
 
             var notas = (from n in _context.tbNotasProveedores
                          where n.npIdproveedor == id
-                         select n).ToList();
+                         select n).OrderByDescending(z => z.npFechaCreacion).ToList();
             ViewData["notas"] = notas;
-            if (tbProveedores == null)
+            if (ProveedoresVista == null)
             {
                 return NotFound();
             }
@@ -257,6 +257,47 @@ namespace LeadNew.Controllers
                     tbProveedores.pvDireccion = pvDireccion;
                     tbProveedores.pvDescripcion = pvDescripcion;
                     _context.Entry(tbProveedores).State = EntityState.Modified;
+                    _context.SaveChanges();
+                }
+                return Json(true);
+            }
+            catch (Exception ex)
+            {
+                return Json(false);
+            }
+        }
+
+        public ActionResult EditarNota(int id, string Nota)
+        {
+            try
+            {
+                tbNotasProveedores tbNotasProveedores = _context.tbNotasProveedores.Find(id);
+                if (tbNotasProveedores != null)
+                {
+                    tbNotasProveedores.npNota = Nota;
+                    _context.Entry(tbNotasProveedores).State = EntityState.Modified;
+                    _context.SaveChanges();
+                }
+                return Json(true);
+            }
+            catch (Exception ex)
+            {
+                return Json(false);
+            }
+        }
+
+        public ActionResult EditarContacto(int id, string nombre, string telefono, string correo, string puesto)
+        {
+            try
+            {
+                tbContactosProveedores tbContactosProveedores = _context.tbContactosProveedores.Find(id);
+                if (tbContactosProveedores != null)
+                {
+                    tbContactosProveedores.cpNombre = nombre;
+                    tbContactosProveedores.cpTelefono = telefono;
+                    tbContactosProveedores.cpCorreo = correo;
+                    tbContactosProveedores.cpPuesto = puesto;
+                    _context.Entry(tbContactosProveedores).State = EntityState.Modified;
                     _context.SaveChanges();
                 }
                 return Json(true);

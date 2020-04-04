@@ -40,7 +40,10 @@ namespace LeadNew.Models
         public DbSet<LeadNew.Models.tbTipoProveedores> tbTipoProveedores { get; set; }
         public DbSet<LeadNew.Models.tbContactosProveedores> tbContactosProveedores { get; set; }
         public DbSet<LeadNew.Models.tbNotasProveedores> tbNotasProveedores { get; set; }
-
+        public DbSet<LeadNew.Models.MonedaVista> MonedaVista { get; set; }
+        public DbSet<LeadNew.Models.DescuentosVista> DescuentosVista { get; set; }
+        public DbSet<LeadNew.Models.ProductosVista> ProductosVista { get; set; }
+        public DbSet<LeadNew.Models.ProveedoresVista> ProveedoresVista { get; set; }        
     }
 
 }

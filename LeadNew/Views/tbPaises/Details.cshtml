@@ -1,0 +1,45 @@
+﻿@model LeadNew.Models.tbPaises
+
+@{
+    ViewData["Title"] = "Paises";
+}
+
+<div style="padding-top: 5em;">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "tbPaises")">Listado de Paises</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Detalles</li>
+        </ol>
+    </nav>
+    <h2>Detalles</h2>
+
+    <div>
+        <dl class="dl-horizontal">
+            <dt>
+                Nombre:
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.paNombre)
+            </dd>
+            <dt>
+                Codigo Postal:
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.paCodPostal)
+            </dd>
+            <dt>
+                Abreviatura:
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.paAbreviatura)
+            </dd>
+            <dt>
+                Fecha Creacion:
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.paFechaCrea)
+            </dd>
+        </dl>
+    </div>
+</div>

@@ -1,50 +1,50 @@
-﻿@model LeadNew.Models.tbSucursales
+﻿@model LeadNew.Models.tbPaises
 
 @{
-    ViewData["Title"] = "Sucursales";
+    ViewData["Title"] = "Paises";
 }
 
 <h2>Eliminar</h2>
 
 <h3>Desea Eliminar este Registro?</h3>
 <div>
-    <h4>Sucursales</h4>
+    <h4>Pais</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
             ID:
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.sucId)
+            @Html.DisplayFor(model => model.paId)
         </dd>
         <dt>
-            Sucursal Nombre:
+            Nombre:
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.sucNombre)
+            @Html.DisplayFor(model => model.paNombre)
         </dd>
         <dt>
-            Empresa:
+            Codigo Postal:
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.sucIdEmpresa)
+            @Html.DisplayFor(model => model.paCodPostal)
         </dd>
         <dt>
-            Fecha de Creacion:
+            Abreviatura:
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.sucFechaCreacion)
+            @Html.DisplayFor(model => model.paAbreviatura)
         </dd>
         <dt>
-            Estado:
+            Fecha Creacion:
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.sucEstado)
+            @Html.DisplayFor(model => model.paFechaCrea)
         </dd>
     </dl>
 
     <form asp-action="Delete">
-        <input type="hidden" asp-for="sucId" />
+        <input type="hidden" asp-for="paId" />
         <input type="submit" value="Eliminar" class="btn btn-danger" /> |
         <a asp-action="Index">Regreso a Lista</a>
     </form>

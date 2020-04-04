@@ -1,7 +1,7 @@
 ﻿@*@model LeadNew.Models.tbProveedores*@
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles " + " ";
 }
 
 <div style="padding-top: 5em;">
@@ -31,7 +31,7 @@
             <div>
                 <h2>Detalles</h2>
                 <dl class="dl-horizontal">
-                    @foreach (var item in ViewData["tbProveedores"] as IEnumerable<LeadNew.Models.tbProveedores>)
+                    @foreach (var item in ViewData["tbProveedores"] as IEnumerable<LeadNew.Models.ProveedoresVista>)
                     {
                         <dt>
                             Nombre
@@ -110,22 +110,22 @@
                     {
                         <tr>
                             <td>
-                                <input type="text" class="form-control" id="cpNombre" + @item.cpId placeholder="Nombre" value="@item.cpNombre">
+                                <input type="text" class="form-control" id="cpNombre @item.cpId" placeholder="Nombre" value="@item.cpNombre" maxlength="60">
                             </td>
                             <td>
-                                <input type="text" class="form-control" id="cpTelefono" placeholder="Teléfono" value="@item.cpTelefono">
+                                <input type="text" class="form-control" id="cpTelefono @item.cpId" placeholder="Teléfono" value="@item.cpTelefono" maxlength="10">
                             </td>
                             <td>
-                                <input type="text" class="form-control" id="cpCorreo" placeholder="Correo" value="@item.cpCorreo">
+                                <input type="text" class="form-control" id="cpCorreo @item.cpId" placeholder="Correo" value="@item.cpCorreo" maxlength="20">
                             </td>
                             <td>
-                                <input type="text" class="form-control" id="cpPuesto" placeholder="Puesto" value="@item.cpPuesto">
+                                <input type="text" class="form-control" id="cpPuesto @item.cpId" placeholder="Puesto" value="@item.cpPuesto" maxlength="60">
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.cpFechaCreacion)
                             </td>
                             <td>
-                                <a class="btn btn-primary btn-sm" onclick="EditarContacto('@item.cpId');"><img src="~/images/create-24px.svg" class="img-fluid" alt="Responsive image">Editar</a>
+                                <a class="btn btn-primary btn-sm" onclick="EditarContacto('@item.cpId', document.getElementById('cpNombre @item.cpId').value, document.getElementById('cpTelefono @item.cpId').value, document.getElementById('cpCorreo @item.cpId').value, document.getElementById('cpPuesto @item.cpId').value);"><img src="~/images/create-24px.svg" class="img-fluid" alt="Responsive image">Editar</a>
                                 @*<a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.pvId"><img src="~/images/delete-24px.svg" class="img-fluid" alt="Responsive image">Eliminar</a>*@
                             </td>
                         </tr>
@@ -151,13 +151,13 @@
                     {
                         <tr>
                             <td>
-                                <input type="text" class="form-control" id="npNota" placeholder="Puesto" value="@item.npNota">
+                                <input type="text" class="form-control" id="npNota @item.npId" placeholder="Puesto" value="@item.npNota" maxlength="150">
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.npFechaCreacion)
                             </td>
                             <td>
-                                <a class="btn btn-primary btn-sm" onclick="EditarNota('@item.npId');"><img src="~/images/create-24px.svg" class="img-fluid" alt="Responsive image">Editar</a>
+                                <a class="btn btn-primary btn-sm" onclick="EditarNota('@item.npId', document.getElementById('npNota @item.npId').value );"><img src="~/images/create-24px.svg" class="img-fluid" alt="Responsive image">Editar</a>
                                 @*<a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.pvId"><img src="~/images/delete-24px.svg" class="img-fluid" alt="Responsive image">Eliminar</a>*@
                             </td>
                         </tr>
@@ -179,26 +179,26 @@
                 </button>
             </div>
             <div class="modal-body">
-                <input type="number" class="form-control" id="id" value="@ViewData["idproveedor"]" hidden="hidden">
+                <input type="hidden" class="form-control" id="id" value="@ViewData["idproveedor"]" hidden="hidden">
                 <div class="form-group">
                     <label for="formGroupExampleInput">Nombre:</label>
-                    <input type="text" class="form-control" id="nombre" placeholder="Nombre">
+                    <input type="text" class="form-control" id="nombre" placeholder="Nombre" maxlength="25">
                 </div>
                 <div class="form-group">
                     <label for="formGroupExampleInput">correo:</label>
-                    <input type="text" class="form-control" id="correo" placeholder="correo">
+                    <input type="email" class="form-control" id="correo" placeholder="correo"  maxlength="35">
                 </div>
                 <div class="form-group">
                     <label for="formGroupExampleInput">Teléfono:</label>
-                    <input type="text" class="form-control" id="telefono" placeholder="Teléfono">
+                    <input type="number" class="form-control" id="telefono" placeholder="Teléfono"  pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==8) return false;">
                 </div>
                 <div class="form-group">
                     <label for="formGroupExampleInput">Puesto:</label>
-                    <input type="text" class="form-control" id="puesto" placeholder="Puesto">
+                    <input type="text" class="form-control" id="puesto" placeholder="Puesto" maxlength="60">
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" onclick="formcheck();">Guardar</button>
+                <button id="CrearContacto" type="button" class="btn btn-success" onclick="formcheck();">Guardar</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
             </div>
         </div>
@@ -216,14 +216,14 @@
                 </button>
             </div>
             <div class="modal-body">
-                <input type="number" class="form-control" id="idp" value="@ViewData["idproveedor"]" hidden="hidden">
+                <input type="hidden" class="form-control" id="idp" value="@ViewData["idproveedor"]" hidden="hidden">
                 <div class="form-group">
                     <label for="formGroupExampleInput">Nota:</label>
-                    <textarea type="text" class="form-control" id="nota" placeholder="Nota"></textarea>
+                    <textarea type="text" class="form-control" id="nota" placeholder="Nota" maxlength="250"></textarea>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" onclick="CrearNotaProveedor();">Guardar</button>
+                <button id="CrearNota" type="button" class="btn btn-success" onclick="CrearNotaProveedor();">Guardar</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
             </div>
         </div>
@@ -239,9 +239,65 @@
             $('#ModalCrearNota').modal('show');
         }
 
-        function EditarContacto(id) {
-            var cpNombre = $("#cpNombre" + id).val();
-            alert(cpNombre);
+        function EditarNota(id, Nota) {
+            var fd = new FormData();
+
+            fd.append("Nota", Nota);
+            fd.append("id", id);
+
+            $.ajax({
+                url: '@Url.Action("EditarNota", "tbProveedores")',
+                type: 'POST',
+                cache: false,
+                processData: false,
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+                data: fd,
+                success: function (data) {
+                    if (data == true) {
+                        location.reload();
+                    } else if (data == false){
+                        alert("Error al editar nota");
+                    }
+                },
+                error: function (jqXHR, textStatus, error) {
+                    var exception = JSON.parse(jqXHR.responseText);
+                    alert("error al enviar datos" + exception);
+                }
+            });
+        }
+   
+        function EditarContacto(id, nombre, telefono, correo, puesto) {
+            var fd = new FormData();
+
+            fd.append("id", id);
+            fd.append("nombre", nombre);
+            fd.append("telefono", telefono);
+            fd.append("correo", correo);
+            fd.append("puesto", puesto);
+
+            $.ajax({
+                url: '@Url.Action("EditarContacto", "tbProveedores")',
+                type: 'POST',
+                cache: false,
+                processData: false,
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+                data: fd,
+                success: function (data) {
+                    if (data == true) {
+                        location.reload();
+                    } else if (data == false){
+                        alert("Error al editar nota");
+                    }
+                },
+                error: function (jqXHR, textStatus, error) {
+                    var exception = JSON.parse(jqXHR.responseText);
+                    alert("error al enviar datos" + exception);
+                }
+            });
         }
 
         function CrearContacto() {
@@ -249,6 +305,7 @@
         }
 
         function CrearNotaProveedor() {
+            $("#CrearNota").prop('disabled', true);
             var fd = new FormData();
             var nota = $("#nota").val();
             var id = $("#idp").val();
@@ -270,11 +327,13 @@
                         location.reload();
                     } else if (data == false){
                         alert("Error al ingresar nota");
+                        $("#CrearNota").prop('disabled', false);
                     }
                 },
                 error: function (jqXHR, textStatus, error) {
                     var exception = JSON.parse(jqXHR.responseText);
                     alert("error al enviar datos" + exception);
+                    $("#CrearNota").prop('disabled', false);
                 }
             });
         }
@@ -303,6 +362,7 @@
         }
 
         function Crear() {
+            $("#CrearContacto").prop('disabled', true);
             var fd = new FormData();
             var nombre = $("#nombre").val();
             var correo = $("#correo").val();
@@ -316,27 +376,35 @@
             fd.append("puesto", puesto);
             fd.append("id", id);
 
-            $.ajax({
-                url: '@Url.Action("CrearContacto", "tbProveedores")',
-                type: 'POST',
-                cache: false,
-                processData: false,
-                contentType: false,
-                processData: false,
-                dataType: 'json',
-                data: fd,
-                success: function (data) {
-                    if (data == true) {
-                        location.reload();
-                    } else if (data == false){
-                        alert("Error al ingresar contacto");
+            var expr = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+            if (!expr.test(correo)) {
+                alert("Correo invalido");
+                $("#CrearContacto").prop('disabled', false);
+            } else {
+                $.ajax({
+                    url: '@Url.Action("CrearContacto", "tbProveedores")',
+                    type: 'POST',
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    processData: false,
+                    dataType: 'json',
+                    data: fd,
+                    success: function (data) {
+                        if (data == true) {
+                            location.reload();
+                        } else if (data == false){
+                            alert("Error al ingresar contacto");
+                            $("#CrearContacto").prop('disabled', false);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, error) {
+                        var exception = JSON.parse(jqXHR.responseText);
+                        alert("error al enviar datos" + exception);
+                        $("#CrearContacto").prop('disabled', false);
                     }
-                },
-                error: function (jqXHR, textStatus, error) {
-                    var exception = JSON.parse(jqXHR.responseText);
-                    alert("error al enviar datos" + exception);
-                }
-            });
+                });
+            }            
         }
     </script>
 }

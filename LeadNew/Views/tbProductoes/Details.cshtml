@@ -1,8 +1,15 @@
-﻿@model LeadNew.Models.tbProducto
+﻿@*@model LeadNew.Models.tbProducto*@
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles " + " ";
 }
+
+    <style>
+        .imagen {
+            width: 10em;
+            height: 10em;
+        }
+    </style>
 
     <div style="padding-top: 5em;">
         <nav aria-label="breadcrumb">
@@ -15,66 +22,64 @@
         <h2>Detalles de Producto</h2>
         <div>
             <dl class="dl-horizontal">
-                <dt>
-                    Código de producto
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.prIdInterno)
-                </dd>
-                <dt>
-                    Detalle
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.prDetalle)
-                </dd>
-                <dt>
-                    Cantidad
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.prCantidad)
-                </dd>
-                <dt>
-                    Precio de costo
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.prPrecioCosto)
-                </dd>
-                <dt>
-                    Precio de venta
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.prPrecioVenta)
-                </dd>
-                <dt>
-                    Moneda
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.prMoneda)
-                </dd>
-                <dt>
-                    Estado
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.prEstado)
-                </dd>
-                <dt>
-                    Fecha de Ingreso
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.prFechaIngreso)
-                </dd>
-                <dt>
-                    Creado por
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.prUsuario)
-                </dd>
-                <dt>
-                    Agencia/Sucursal
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.prIdSucursal)
-                </dd>
+                @foreach (var item in ViewData["Productos"] as IEnumerable<LeadNew.Models.ProductosVista>)
+                {
+                    <dt>
+                        Imagen
+                    </dt>
+                    <dd>
+                        <img class="img-fluid img-thumbnail imagen" src="data:image/jpeg;base64,@Convert.ToBase64String(item.prImagen)" />
+                    </dd>                    
+                    <dt>
+                        Código de producto
+                    </dt>
+                    <dd>
+                        @item.prIdInterno
+                    </dd>
+                    <dt>
+                        Detalle
+                    </dt>
+                    <dd>
+                        @item.prDetalle
+                    </dd>
+                    <dt>
+                        Cantidad
+                    </dt>
+                    <dd>
+                        @item.prCantidad
+                    </dd>
+                    <dt>
+                        Precio de costo
+                    </dt>
+                    <dd>
+                        @item.prPrecioCosto
+                    </dd>
+                    <dt>
+                        Precio de venta
+                    </dt>
+                    <dd>
+                        @item.prPrecioVenta
+                    </dd>
+                    <dt>
+                        Moneda
+                    </dt>
+                    <dd>
+                        @item.moNombre
+                    </dd>
+                    <dt>
+                        Fecha de Ingreso
+                    </dt>
+                    <dd>
+                        @item.prFechaIngreso
+                    </dd>
+
+                    <dt>
+                        Agencia/Sucursal
+                    </dt>
+                    <dd>
+                        @item.sucNombre
+                    </dd>
+                }
             </dl>
         </div>
     </div>

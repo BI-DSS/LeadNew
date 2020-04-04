@@ -24,7 +24,7 @@ namespace LeadNew
         // GET: tbProductoes
         public ActionResult Index()
         {
-            tbProducto[] producto = null;
+            ProductosVista[] producto = null;
             var product = (from p in _context.tbProducto
                            join m in _context.tbMoneda
                            on p.prMoneda equals m.moId
@@ -60,11 +60,11 @@ namespace LeadNew
                                impPorcentaje = i.impPorcentaje,
                                pvNombre = pro.pvNombre
                            }).ToList();
-            var list = new List<tbProducto>();
+            var list = new List<ProductosVista>();
 
             foreach (var i in product)
             {
-                list.Add(new tbProducto
+                list.Add(new ProductosVista
                 {
                     prId = i.prId,
                     prIdInterno = i.prIdInterno,
@@ -128,21 +128,85 @@ namespace LeadNew
         }
 
         // GET: tbProductoes/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var tbProducto = await _context.tbProducto
-                .FirstOrDefaultAsync(m => m.prId == id);
-            if (tbProducto == null)
+            ProductosVista[] producto = null;
+            var product = (from p in _context.tbProducto
+                           join m in _context.tbMoneda
+                           on p.prMoneda equals m.moId
+                           join s in _context.tbSucursales
+                           on p.prIdSucursal equals s.sucId
+                           join c in _context.tbCategoriaProducto
+                           on p.prIdCategoria equals c.catId
+                           join i in _context.tbImpuesto
+                           on p.prIdImpuesto equals i.impId
+                           join pro in _context.tbProveedores
+                           on p.prIdProveedor equals pro.pvId
+                           where p.prId == id
+                           select new
+                           {
+                               prId = p.prId,
+                               prIdInterno = p.prIdInterno,
+                               prDetalle = p.prDetalle,
+                               prCantidad = p.prCantidad,
+                               prPrecioCosto = p.prPrecioCosto,
+                               prPrecioVenta = p.prPrecioVenta,
+                               prMoneda = p.prMoneda,
+                               prEstado = p.prEstado,
+                               prFechaIngreso = p.prFechaIngreso,
+                               prUsuario = p.prUsuario,
+                               prIdSucursal = p.prIdSucursal,
+                               prImagen = p.prImagen,
+                               prIdImpuesto = p.prIdImpuesto,
+                               prIdProveedor = p.prIdProveedor,
+                               prIdCategoria = p.prIdCategoria,
+                               moAbreviatura = m.moAbreviatura,
+                               moNombre = m.moNombre,
+                               sucNombre = s.sucNombre,
+                               catNombre = c.catNombre,
+                               impPorcentaje = i.impPorcentaje,
+                               pvNombre = pro.pvNombre
+                           }).ToList();
+            var list = new List<ProductosVista>();
+
+            foreach (var i in product)
             {
-                return NotFound();
+                list.Add(new ProductosVista
+                {
+                    prId = i.prId,
+                    prIdInterno = i.prIdInterno,
+                    prDetalle = i.prDetalle,
+                    prCantidad = i.prCantidad,
+                    prPrecioCosto = i.prPrecioCosto,
+                    prPrecioVenta = i.prPrecioVenta,
+                    prMoneda = i.prMoneda,
+                    prEstado = i.prEstado,
+                    prFechaIngreso = i.prFechaIngreso,
+                    prUsuario = i.prUsuario,
+                    prIdSucursal = i.prIdSucursal,
+                    prImagen = i.prImagen,
+                    prIdImpuesto = i.prIdImpuesto,
+                    prIdProveedor = i.prIdProveedor,
+                    prIdCategoria = i.prIdCategoria,
+                    moAbreviatura = i.moAbreviatura,
+                    moNombre = i.moNombre,
+                    sucNombre = i.sucNombre,
+                    catNombre = i.catNombre,
+                    impPorcentaje = i.impPorcentaje,
+                    pvNombre = i.pvNombre
+                });
             }
 
-            return View(tbProducto);
+            producto = list.ToArray();
+
+            ViewData["Productos"] = producto.ToList();
+
+            return View();
         }
 
         // GET: tbProductoes/Create
@@ -212,6 +276,42 @@ namespace LeadNew
             }
 
             var tbProducto = await _context.tbProducto.FindAsync(id);
+
+            //categorias
+            var idcategoria = _context.tbProducto.Where(x => x.prId == id).Select(x => x.prIdCategoria).Single();
+            var SelectCategoria = _context.tbCategoriaProducto.Where(x => x.catId == idcategoria).ToList();
+            ViewData["SelectCategoria"] = SelectCategoria;
+            var AllCategoria = _context.tbCategoriaProducto.Where(x => x.catId != idcategoria).ToList();
+            ViewData["AllCategoria"] = AllCategoria;
+
+            //monedas
+            var idmoneda = _context.tbProducto.Where(x => x.prId == id).Select(x => x.prMoneda).Single();
+            var SelectMoneda = _context.tbMoneda.Where(x => x.moId == idmoneda).ToList();
+            ViewData["SelectMoneda"] = SelectMoneda;
+            var AllMoneda = _context.tbMoneda.Where(x => x.moId != idmoneda).ToList();
+            ViewData["AllMoneda"] = AllMoneda;
+
+            //proveedor
+            var idproveedor = _context.tbProducto.Where(x => x.prId == id).Select(x => x.prIdProveedor).Single();
+            var SelectProveedor = _context.tbProveedores.Where(x => x.pvId == idproveedor).ToList();
+            ViewData["SelectProveedor"] = SelectProveedor;
+            var AllProveedor = _context.tbProveedores.Where(x => x.pvId != idproveedor).ToList();
+            ViewData["AllProveedor"] = AllProveedor;
+
+            //impuestos
+            var idimpuestos = _context.tbProducto.Where(x => x.prId == id).Select(x => x.prIdImpuesto).Single();
+            var SelectImpuesto = _context.tbImpuesto.Where(x => x.impId == idimpuestos).ToList();
+            ViewData["SelectImpuesto"] = SelectImpuesto;
+            var AllImpuesto = _context.tbImpuesto.Where(x => x.impId != idimpuestos).ToList();
+            ViewData["AllImpuesto"] = AllImpuesto;
+
+            //sucursales
+            var idsucursal = _context.tbProducto.Where(x => x.prId == id).Select(x => x.prIdSucursal).Single();
+            var SelectSucursal = _context.tbSucursales.Where(x => x.sucId == idsucursal).ToList();
+            ViewData["SelectSucursal"] = SelectSucursal;
+            var AllSucursal = _context.tbSucursales.Where(x => x.sucId != idsucursal).ToList();
+            ViewData["AllSucursal"] = AllSucursal;
+
             if (tbProducto == null)
             {
                 return NotFound();

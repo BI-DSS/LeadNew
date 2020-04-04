@@ -19,8 +19,45 @@ namespace LeadNew.Controllers
 
         public ActionResult Index()
         {
-            var descuentos = _context.tbDescuentos.ToList();
-            return View(descuentos);
+            DescuentosVista[] DescuentosVista = null;
+            var descuentos = (from d in _context.tbDescuentos
+                          join p in _context.tbProducto
+                          on d.desIdProducto equals p.prId
+                          select new
+                          {
+                              desId = d.desId,
+                              desNombreCampaña = d.desNombreCampaña,
+                              desPorcentaje = d.desPorcentaje,
+                              desFechaCreacion = d.desFechaCreacion,
+                              desFechaInicio = d.desFechaInicio,
+                              desFechaFinal = d.desFechaFinal,
+                              desIdProducto = d.desIdProducto,
+                              prIdInterno = p.prIdInterno,
+                              prDetalle = p.prDetalle
+                          }).ToList();
+            var list = new List<DescuentosVista>();
+
+            foreach (var i in descuentos)
+            {
+                list.Add(new DescuentosVista
+                {
+                    desId = i.desId,
+                    desNombreCampaña = i.desNombreCampaña,
+                    desPorcentaje = i.desPorcentaje,
+                    desFechaCreacion = i.desFechaCreacion,
+                    desFechaInicio = i.desFechaInicio,
+                    desFechaFinal = i.desFechaFinal,
+                    desIdProducto = i.desIdProducto,
+                    prIdInterno = i.prIdInterno,
+                    prDetalle = i.prDetalle
+                });
+            }
+            DescuentosVista = list.ToArray();
+
+            ViewData["DescuentosVista"] = DescuentosVista.ToList();
+
+
+            return View();
         }
 
         public ActionResult Create()
@@ -97,6 +134,32 @@ namespace LeadNew.Controllers
             {
                 return Json(false);
             }
+        }
+
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var tbDescuentos = _context.tbDescuentos.FirstOrDefault(m => m.desId == id);
+            if (tbDescuentos == null)
+            {
+                return NotFound();
+            }
+
+            return View(tbDescuentos);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var tbDescuentos = await _context.tbDescuentos.FindAsync(id);
+            _context.tbDescuentos.Remove(tbDescuentos);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index", "tbDescuentos");
         }
     }
 }

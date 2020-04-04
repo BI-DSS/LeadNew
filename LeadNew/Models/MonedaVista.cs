@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LeadNew.Models
 {
-    public class tbMoneda
+    public class MonedaVista
     {
         [Key]
         public int moId { get; set; }
@@ -17,5 +17,10 @@ namespace LeadNew.Models
         public Nullable<int> moUsuarioModifica { get; set; }
         public Nullable<System.DateTime> moFechaModifica { get; set; }
 
+        //usuarios
+        public string usuNombres { get; set; }
+        public string usuApellidos { get; set; }
+        public string usuNombresMod { get; set; }
+        public string usuApellidosMod { get; set; }
     }
 }

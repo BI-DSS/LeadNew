@@ -1,7 +1,7 @@
 ﻿@*@model IEnumerable<LeadNew.Models.tbProducto>*@
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Productos " + " ";
 }
 
 <style>
@@ -50,7 +50,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in ViewData["Productos"] as IEnumerable<LeadNew.Models.tbProducto>)
+            @foreach (var item in ViewData["Productos"] as IEnumerable<LeadNew.Models.ProductosVista>)
             {
                 <tr>
                     <td>

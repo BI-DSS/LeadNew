@@ -1,0 +1,44 @@
+﻿@model LeadNew.Models.tbEmpresa
+
+@{
+    ViewData["Title"] = "Eliminar Empresa";
+}
+
+<h2>Eliminar</h2>
+
+<h3>Desea Eliminar este Registro?</h3>
+<div>
+    <h4>Sucursales</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Id Empresa:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.empId)
+        </dd>
+        <dt>
+            Nombre Empresa:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.empNombre)
+        </dd>
+        <dt>
+            Telefono Empresa:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.empTelefono)
+        </dd>
+        <dt>
+            Pais Empresa
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.empPais)
+        </dd>
+    </dl>
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="empId" />
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+        <a asp-action="Index">Regreso a Lista</a>
+    </form>
+</div>

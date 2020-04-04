@@ -17,5 +17,6 @@ namespace LeadNew.Models
         public DateTime rtFechafinal { get; set; }
         public string rtRangoAutoInicio { get; set; }
         public string rtRangoAutoFinal { get; set; }
+        public string rtRTN { get; set; }
     }
 }
